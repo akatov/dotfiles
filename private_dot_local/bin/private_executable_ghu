@@ -1,0 +1,50 @@
+#!/bin/bash -e
+
+# @src https://github.com/twe4ked/dotfiles/blob/master/bin/ghu
+
+function ghu() {
+  local URL="https://$(git config remote.origin.url | sed 's/\.git//' | sed 's/https:\/\///' | sed 's/git:\/\///' | sed 's/git@//' | tr ':' '/')"
+
+  case "$1" in
+    "")
+      URL="$URL"
+      ;;
+    i|issues|-i|--issues)
+      URL="$URL/issues"
+      _append_id "$@"
+      ;;
+    p|pulls|-p|--pulls)
+      URL="$URL/pulls"
+      _append_id "$@"
+      ;;
+    w|wiki|-w|--wiki)
+      URL="$URL/wiki"
+      ;;
+    *)
+      cat <<EOF
+usage: ghu [<command>] [<number>]
+
+The following commands are performed on the current project.
+
+Available commands:
+
+    -i --issues [<number>] Open issues, optionally pass a number to open a specific issue
+    -p --pulls [<number>]  Open pull requests, optionally pass a number to open a specific pull request
+    -w --wiki              Open wiki
+
+When no argument is supplied the main project page will be opened.
+EOF
+      exit 1
+      ;;
+  esac
+
+  open "$URL"
+}
+
+_append_id() {
+  if [[ -n $2 ]]; then
+    URL="$URL/$2"
+  fi
+}
+
+ghu "$@"
