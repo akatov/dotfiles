@@ -1,0 +1,19 @@
+!URxvt*transparent: false
+!URxvt*tintColor: White
+!URxvt*shading: 40
+
+!URxvt*saveLines: 12000
+
+URxvt*foreground: White
+URxvt*background: Black
+
+URxvt*font:     xft:terminus:pixelsize=14
+URxvt*boldFont: xft:terminus:bold:pixelsize=14
+
+!urxvt*font:    -*-fixed-medium-r-normal-*-14-*-*-*-*-*-*
+!urxvt*boldFont:-*-fixed-bold-r-normal-*-14-*-*-*-*-*-*
+
+URxvt*color4:  RoyalBlue
+URxvt*color12: RoyalBlue
+
+URxvt*scrollBar: false
