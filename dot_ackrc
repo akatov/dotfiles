@@ -1,0 +1,11 @@
+--type-add=ruby=.haml,.rake,.slim
+--type-set=ruby-templates=.haml,.erb,.rhtml,.slim
+--type-set=haml=.haml
+--type-set=erb=.erb,.rhtml
+--type-set=slim=.slim
+--type-set=sass=.sass,.scss
+--type-set=coffee=.coffee,Cakefile
+--ignore-dir=.idea
+--ignore-dir=public/stylesheets
+--ignore-dir=public/javascripts
+--ignore-dir=tmp
