@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# TODO check evm exists first, fall back to /usr/local/bin and /usr/bin
+
+"$(dirname $(evm bin))/bin/emacsclient" $@
