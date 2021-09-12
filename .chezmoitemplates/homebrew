@@ -1,0 +1,9 @@
+export HOMEBREW_GITHUB_API_TOKEN='{{- range (onepassword "Homebrew Github API Token").details.sections -}}
+  {{- if eq .name "" -}}
+    {{- range .fields -}}
+      {{- if eq .n "credential" -}}
+        {{ .v }}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}'
