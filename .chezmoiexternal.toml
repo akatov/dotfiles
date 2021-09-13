@@ -1,0 +1,5 @@
+[".fresh/build/shell2"]
+  type = "archive"
+  url = "https://gist.github.com/jacksonp/9c2f547434b7d78d1b62/archive/master.tar.gz"
+  # exact = true
+  stripComponents = 1
