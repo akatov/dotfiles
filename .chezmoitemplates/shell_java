@@ -1,0 +1,8 @@
+if [[ $OS == Linux ]]; then
+  JAVA_HOME=/usr/lib/jvm/java-7-oracle
+  [[ -d $JAVA_HOME ]] && export JAVA_HOME
+fi
+
+if [[ $OS == Darwin ]]; then
+  /usr/libexec/java_home &>/dev/null && export JAVA_HOME="$(/usr/libexec/java_home)"
+fi

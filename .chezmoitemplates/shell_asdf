@@ -1,0 +1,2 @@
+[ -r ~/.asdf/asdf.sh ] && source ~/.asdf/asdf.sh
+[ -r ~/.asdf/completions/asdf.bash ] && source ~/.asdf/completions/asdf.bash

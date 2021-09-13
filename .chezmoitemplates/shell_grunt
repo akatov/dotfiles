@@ -1,0 +1,5 @@
+if which grunt>/dev/null; then
+  shell=$(basename $SHELL)
+  [ shell = 'bash' ] && eval "$(grunt --completion=bash)"
+  [ shell = 'zsh' ] && eval "$(grunt --completion=zsh)"
+fi
