@@ -1,0 +1,14 @@
+{
+  "apiKey": "{{- range (onepassword "Exercism API Key").details.sections -}}
+  {{- if eq .name "" -}}
+    {{- range .fields -}}
+      {{- if eq .t "credential" -}}
+        {{ .v }}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}",
+  "dir": "/Users/akatov/src/exercism",
+  "api":"http://exercism.io",
+  "xapi":"http://x.exercism.io"
+}
