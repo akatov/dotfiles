@@ -1,0 +1,25 @@
+{
+  "auth": {
+    "floobits.com": {
+      "username": "akatov",
+      "api_key": "{{- range (onepassword "Floobits API Key").details.sections -}}
+  {{- if eq .name "" -}}
+    {{- range .fields -}}
+      {{- if eq .t "credential" -}}
+        {{ .v }}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}",
+      "secret": "{{- range (onepassword "Floobits API Key").details.sections -}}
+  {{- if eq .name "" -}}
+    {{- range .fields -}}
+      {{- if eq .t "secret" -}}
+        {{ .v }}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}"
+    }
+  }
+}
