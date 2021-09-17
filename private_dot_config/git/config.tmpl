@@ -1,0 +1,107 @@
+[core]
+  excludesfile = ~/.gitignore_global
+
+[user]
+  name  = Dmitri Akatov
+  email = dmitri@tallarium.com
+  signingkey = BED15037B457A0FBCD132E313A260F70297C91C8
+
+[alias]
+  a   = add
+  b   = branch
+  bl  = blame
+  c   = commit -v
+  ca  = commit -v -a
+  cl  = clone
+  cm  = checkout master
+  cd  = checkout develop
+  co  = checkout
+  cp  = cherry-pick
+  d   = diff --color
+  dc  = diff --color --cached
+  f   = fetch
+  g   = grep
+  h   = help
+  i   = init
+  l   = pull
+  lg  = log --stat --max-count=5
+  lgg = log --graph --max-count=5
+  lll = log --pretty=format:'%h %s (%cn)%n' --decorate --stat --graph --color
+  m   = merge
+  n   = notes
+  p   = push
+  pom = push origin master
+  rh  = reset HEAD
+  rhh = reset HEAD --hard
+  sh  = show --color
+  ss  = status -s
+  st  = status
+  up  = pull --rebase
+  bb  = repo bb
+  hub = repo hub
+  lab = repo lab
+
+[push]
+  default = simple
+
+[credential]
+  helper = osxkeychain
+
+[github]
+  user  = akatov
+  token = {{ range (onepassword "Git Tokens").details.sections -}}
+  {{- if eq .title "Tokens" -}}
+    {{- range .fields -}}
+      {{- if eq .t "GITHUB" -}}
+        {{ .v }}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end }}
+
+[ghi]
+  token = {{ range (onepassword "Git Tokens").details.sections -}}
+  {{- if eq .title "Tokens" -}}
+    {{- range .fields -}}
+      {{- if eq .t "GHI" -}}
+        {{ .v }}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end }}
+
+[gitrepo "bitbucket"]
+  token = {{ range (onepassword "Git Tokens").details.sections -}}
+  {{- if eq .title "Tokens" -}}
+    {{- range .fields -}}
+      {{- if eq .t "GITREPO BITBUCKET" -}}
+        {{ .v }}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end }}
+
+[gitrepo "github"]
+  token = {{ range (onepassword "Git Tokens").details.sections -}}
+  {{- if eq .title "Tokens" -}}
+    {{- range .fields -}}
+      {{- if eq .t "GITREPO GITHUB" -}}
+        {{ .v }}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end }}
+
+[gitrepo "gitlab"]
+  token = {{ range (onepassword "Git Tokens").details.sections -}}
+  {{- if eq .title "Tokens" -}}
+    {{- range .fields -}}
+      {{- if eq .t "GITREPO GITLAB" -}}
+        {{ .v }}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end }}
+
+[heroku]
+  account = personal
