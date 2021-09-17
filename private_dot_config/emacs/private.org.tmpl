@@ -1,0 +1,27 @@
+* Private Emacs Config
+
+Some configuration settings I don't want the world to see.
+
+#+BEGIN_SRC emacs-lisp
+
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+
+(setq org-return-follows-link t)
+
+(setq org-agenda-custom-commands
+      '(("w" todo "WAITING" nil)
+        ("n" todo "NEXT" nil)
+        ("d" "Agenda + Next Actions" ((agenda) (todo "NEXT")))))
+
+(setq wakatime-api-key "{{- range (onepassword "Wakatime API Key").details.sections -}}
+  {{- if eq .name "" -}}
+    {{- range .fields -}}
+      {{- if eq .n "credential" -}}
+        {{ .v }}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}")
+#+END_SRC
