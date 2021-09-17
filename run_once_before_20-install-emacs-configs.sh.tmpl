@@ -1,4 +1,4 @@
-{{- if (and false (eq .chezmoi.os "darwin")) -}}
+{{- if (and true (eq .chezmoi.os "darwin")) -}}
 #!/bin/bash
 
 # set -eufo pipefail
@@ -12,35 +12,21 @@ emacs_configs_dir=~/.local/share/emacs
 
 mkdir --parents $emacs_configs_dir
 
-pushd $emacs_configs_dir
+pushd ~
 
-# my own config
-git clone git@github.com:akatov/akamacs.git
-
-# popular configs
-git clone git@github.com:syl20bnr/spacemacs.git
-git clone git@github.com:hlissner/doom-emacs.git
-git clone git@github.com:overtone/emacs-live.git
-
-# other personal configs
-
-## good example of quelpa and config with use-package
-git clone git@framagit.org:steckerhalter/steckemacs.el.git
-
-## Haskell, Ligatures
-git clone git@github.com:bodil/ohai-emacs.git
-
-## org-mode config file
-git clone git@github.com:danielmai/.emacs.d.git danielmai
-git clone git@github.com:philandstuff/dot-emacs.git philandstuff
-git clone git@github.com:seth/my-emacs-dot-d.git seth
-
-## Haskell, Coq, Nix
-git clone git@github.com:jwiegley/dot-emacs.git jwiegley
-
-## Cask
-git clone git@github.com:rejeep/emacs.git rejeep
+if [ -e ~/.akamacs ] ; then
+  echo "~/.akamacs already exists. Update it manually..."
+else
+  git clone git@github.com:akatov/akamacs.git .akamacs
+fi
 
 popd
+
+if [ -e ~/.emacs.d ] && [ ! -L ~/.emacs.d ]; then
+  echo "~/.emacs.d is not a symbolic link. Not touching it..."
+else
+  rm -rf ~/.emacs.d
+  ln -sf ~/.akamacs ~/.emacs.d
+fi
 
 {{- end }}
