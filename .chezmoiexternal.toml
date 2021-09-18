@@ -37,3 +37,11 @@
   url = "https://framagit.org/steckerhalter/steckemacs.el/-/archive/master/steckemacs.el-master.tar.gz"
   exact = true
   stripComponents = 1
+
+## ZSH
+
+[".zaw"]
+  type = "archive"
+  url = "{{ $gh }}zsh-users/zaw{{ $amt }}"
+  exact = true
+  stripComponents = 1
