@@ -45,3 +45,7 @@
   url = "{{ $gh }}zsh-users/zaw{{ $amt }}"
   exact = true
   stripComponents = 1
+
+[".local/share/zsh/completion.zsh"]
+  type = "file"
+  url = "https://raw.githubusercontent.com/twe4ked/dotfiles/master/shell/zsh/completion.zsh"
