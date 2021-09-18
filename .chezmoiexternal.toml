@@ -40,6 +40,42 @@
 
 ## ZSH
 
+[".zprezto"]
+  type = "archive"
+  url = "{{ $gh }}sorin-ionescu/prezto/archive/ba0cb8a.tar.gz"
+  exact = true
+  stripComponents = 1
+
+[".local/share/prezto/external-modules/history-substring-search"]
+  type = "archive"
+  url = "{{ $gh}}zsh-users/zsh-history-substring-search/archive/aae3388.tar.gz"
+  exact = true
+  stripComponents = 1
+
+[".local/share/prezto/external-modules/syntax-highlighting"]
+  type = "archive"
+  url = "{{ $gh}}zsh-users/zsh-syntax-highlighting/archive/ad522a0.tar.gz"
+  exact = true
+  stripComponents = 1
+
+[".local/share/prezto/external-modules/prompt/agnoster"]
+  type = "archive"
+  url = "{{ $gh}}agnoster/agnoster-zsh-theme/archive/3ad94b6.tar.gz"
+  exact = true
+  stripComponents = 1
+
+[".local/share/prezto/external-modules/prompt/powerline"]
+  type = "archive"
+  url = "{{ $gh}}davidjrice/prezto_powerline/archive/c48e4c6.tar.gz"
+  exact = true
+  stripComponents = 1
+
+[".local/share/prezto/external-modules/prompt/pure"]
+  type = "archive"
+  url = "{{ $gh}}sindresorhus/pure/archive/04fa749.tar.gz"
+  exact = true
+  stripComponents = 1
+
 [".zaw"]
   type = "archive"
   url = "{{ $gh }}zsh-users/zaw{{ $amt }}"
