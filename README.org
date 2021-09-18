@@ -1,0 +1,14 @@
+#+TITLE: akatov/dotfiles
+#+AUTHOR: Dmitri Akatov
+
+Dmitri's dotfiles, managed with [[https://github.com/twpayne/chezmoi][chezmoi]].
+
+#+BEGIN_SRC bash
+chezmoi init akatov
+#+END_SRC
+
+Secrets are stored in [[https://1password.com/][1Password]].
+
+Login for the first time with ~eval $(op signin <subdomain>.1password.com <email>~.
+
+Then use ~eval $(op signin)~.
