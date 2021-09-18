@@ -4,7 +4,7 @@
 zstyle ':prezto:module:prompt' theme 'steeef'
 
 # add custom directory to fpath
-fpath=(~/.fresh/build/prompt $fpath)
+fpath=(~/.config/zsh/prompt $fpath)
 
 # someday maybe
 # zstyle ':prezto:module:prompt' theme 'akatov'
