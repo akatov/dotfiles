@@ -10,6 +10,7 @@ for p in \
   /opt/local/bin \
   /usr/local/opt/coreutils/libexec/gnubin \
   /usr/local/opt/tcl-tk/bin \
+  /usr/local/opt/mysql-client/bin \
   $HOME/.bin \
   $HOME/.local/bin \
 
