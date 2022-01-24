@@ -15,6 +15,3 @@ node_modules/
 
 # Elixir Dialyzer
 .elixir_ls/
-
-# VS Code
-.vscode/
