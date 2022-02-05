@@ -3,26 +3,26 @@
 # .chezmoiexternal.toml hash: {{ include ".chezmoiexternal.toml" | sha256sum }}
 
 rmdir ~/.zprezto/modules/history-substring-search/external
-ln --symbolic --force \
+ln -sf \
    ~/.local/share/prezto/external-modules/history-substring-search \
    ~/.zprezto/modules/history-substring-search/external
 
 rmdir ~/.zprezto/modules/syntax-highlighting/external
-ln --symbolic --force \
+ln -sf \
    ~/.local/share/prezto/external-modules/syntax-highlighting \
    ~/.zprezto/modules/syntax-highlighting/external
 
 rmdir ~/.zprezto/modules/prompt/external/agnoster
-ln --symbolic --force \
+ln -sf \
    ~/.local/share/prezto/external-modules/prompt/agnoster \
    ~/.zprezto/modules/prompt/external/agnoster
 
 rmdir ~/.zprezto/modules/prompt/external/powerline
-ln --symbolic --force \
+ln -sf \
    ~/.local/share/prezto/external-modules/prompt/powerline \
    ~/.zprezto/modules/prompt/external/powerline
 
 rmdir ~/.zprezto/modules/prompt/external/pure
-ln --symbolic --force \
+ln -sf \
    ~/.local/share/prezto/external-modules/prompt/pure \
    ~/.zprezto/modules/prompt/external/pure
