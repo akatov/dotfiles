@@ -7,4 +7,4 @@ export HOMEBREW_GITHUB_API_TOKEN='{{- range (onepassword "Homebrew Github API To
     {{- end -}}
   {{- end -}}
 {{- end -}}'
-export PATH=/opt/homebrew/bin:$PATH
+export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:$PATH
