@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# @see https://blog.gnclmorais.com/run-copied-cli-commands-with-a-leading-dollar-sign-safer
+
+read -p "Are you sure you? [y/N]: " -n 1 -r
+echo # move to a new line
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+  exec "$@"
+fi
