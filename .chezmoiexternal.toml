@@ -85,3 +85,25 @@
 [".local/share/zsh/completion.zsh"]
   type = "file"
   url = "https://raw.githubusercontent.com/twe4ked/dotfiles/master/shell/zsh/completion.zsh"
+
+## oh-my-zsh
+
+[".oh-my-zsh"]
+  type = "archive"
+  url = "{{ $gh }}ohmyzsh/ohmyzsh{{ $amt }}"
+  exact = true
+  stripComponents = 1
+  refreshPeriod = "168h"
+
+[".oh-my-zsh/custom/plugins/zsh-syntax-highlighting"]
+    type = "archive"
+    url = "{{ $gh }}zsh-users/zsh-syntax-highlighting{{ $amt }}"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+
+[".oh-my-zsh/custom/themes/powerlevel10k"]
+    type = "archive"
+    url = "{{ $gh }}romkatv/powerlevel10k/archive/v1.15.0.tar.gz"
+    exact = true
+    stripComponents = 1

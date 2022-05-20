@@ -1,4 +1,9 @@
-source ~/.zprezto/runcoms/zshrc
+{{ template "ohmyzsh/theme" }}
+export ZSH=$HOME/.oh-my-zsh
+{{ template "ohmyzsh/plugins" }}
+source $ZSH/oh-my-zsh.sh
+
+# source ~/.zprezto/runcoms/zshrc
 {{ template "zshrc/setopt" }}
 {{ template "zshrc/private" }}
 source ~/.local/share/zsh/completion.zsh
