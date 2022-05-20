@@ -1,41 +1,9 @@
-[".local/share/sh"]
-  type = "archive"
-  url = "https://gist.github.com/jacksonp/9c2f547434b7d78d1b62/archive/master.tar.gz"
-  stripComponents = 1
-
-## Example Emacs Configs
-
-# 3 popular, 3 org-mode configs, 1 Haskell & Ligatures, 1 Haskell, Coq, Nix, 1 Cask
-
-{{- $ecd := ".local/share/emacs/" -}}
 {{- $gh  := "https://github.com/" -}}
 {{- $amt := "/archive/master.tar.gz" -}}
 
-{{- $configs := dict
-      "space"        "syl20bnr/spacemacs"
-      "doom"         "hlissner/doom-emacs"
-      "live"         "overtone/emacs-live"
-      "danielmai"    "danielmai/.emacs.d"
-      "philandstuff" "philandstuff/dot-emacs"
-      "seth"         "seth/my-emacs-dot-d"
-      "ohai"         "bodil/ohai-emacs"
-      "jwiegley"     "jwiegley/dot-emacs"
-      "rejeep"       "rejeep/emacs"
-}}
-
-{{ range $name, $path := $configs }}
-["{{ $ecd }}{{ $name }}"]
+[".local/share/sh"]
   type = "archive"
-  url ="{{ $gh }}{{ $path }}{{ $amt }}"
-  exact = true
-  stripComponents = 1
-{{ end }}
-
-# quelpa + use-package
-["{{ $ecd }}steck"]
-  type = "archive"
-  url = "https://framagit.org/steckerhalter/steckemacs.el/-/archive/master/steckemacs.el-master.tar.gz"
-  exact = true
+  url = "https://gist.github.com/jacksonp/9c2f547434b7d78d1b62/archive/master.tar.gz"
   stripComponents = 1
 
 ## ZSH
