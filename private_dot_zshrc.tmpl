@@ -1,7 +1,6 @@
-{{ template "ohmyzsh/theme" }}
-export ZSH=$HOME/.oh-my-zsh
+{{ template "ohmyzsh/variables" }}
 {{ template "ohmyzsh/plugins" }}
-source $ZSH/oh-my-zsh.sh
+{{ template "ohmyzsh/source" }}
 
 {{ template "zshrc/setopt" }}
 {{ template "zshrc/private" }}
