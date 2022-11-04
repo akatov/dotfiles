@@ -1,5 +1,6 @@
 npm
 yarn
+shadow-cljs
 typescript
 ts-node
 mocha
