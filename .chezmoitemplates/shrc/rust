@@ -1,0 +1,1 @@
+[ -r ~/.asdf/installs/rust/1.65.0/env ] && source ~/.asdf/installs/rust/1.65.0/env
