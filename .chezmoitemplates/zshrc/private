@@ -1,5 +1,3 @@
-DOTFILES=~/.dotfiles
-
 OS=$(uname)
 
 ## TODO: find out what I'd need the following for
