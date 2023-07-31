@@ -8,6 +8,8 @@
              (expand-file-name "lisp"
                                user-emacs-directory))
 
+(require 'init-wakatime)
+
 (provide 'init)
 
 ;;; init.el ends here

@@ -8,3 +8,5 @@
   :config
   (global-wakatime-mode)
   )
+
+(provide 'init-wakatime)
