@@ -1,4 +1,20 @@
-export AWS_ACCESS_KEY='{{- (onepassword "AWS Access Key").details.password -}}'
-export AWS_SECRET_KEY='{{- (onepassword "AWS Secret Key").details.password -}}'
-export AWS_SSH_KEY_FILE='{{- (onepassword "AWS SSH Key File").details.password -}}'
-export AWS_KEYPAIR_NAME='{{- (onepassword "AWS Keypair Name").details.password -}}'
+export AWS_ACCESS_KEY='{{ range (onepassword "AWS Access Key").fields -}}
+{{   if and (eq .label "password") (eq .purpose "PASSWORD") -}}
+{{     .value -}}
+{{   end -}}
+{{ end -}}'
+export AWS_SECRET_KEY='{{ range (onepassword "AWS Secret Key").fields -}}
+{{   if and (eq .label "password") (eq .purpose "PASSWORD") -}}
+{{     .value -}}
+{{   end -}}
+{{ end -}}'
+export AWS_SSH_KEY_FILE='{{ range (onepassword "AWS SSH Key File").fields -}}
+{{   if and (eq .label "password") (eq .purpose "PASSWORD") -}}
+{{     .value -}}
+{{   end -}}
+{{ end -}}'
+export AWS_KEYPAIR_NAME='{{ range (onepassword "AWS Keypair Name").fields -}}
+{{   if and (eq .label "password") (eq .purpose "PASSWORD") -}}
+{{     .value -}}
+{{   end -}}
+{{ end -}}'

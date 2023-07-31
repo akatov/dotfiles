@@ -1,10 +1,6 @@
-export HOMEBREW_GITHUB_API_TOKEN='{{- range (onepassword "Homebrew Github API Token").details.sections -}}
-  {{- if eq .name "" -}}
-    {{- range .fields -}}
-      {{- if eq .n "credential" -}}
-        {{ .v }}
+export HOMEBREW_GITHUB_API_TOKEN='{{- range (onepassword "Homebrew Github API Token").fields -}}
+      {{- if eq .label "credential" -}}
+        {{ .value }}
       {{- end -}}
-    {{- end -}}
-  {{- end -}}
 {{- end -}}'
 export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:$PATH

@@ -9,6 +9,9 @@ chezmoi init akatov
 
 Secrets are stored in [[https://1password.com/][1Password]].
 
-Login for the first time with ~eval $(op signin <subdomain>.1password.com <email>~.
+Using 1password-cli version 2.0 and up log in and get a session using:
 
-Then use ~eval $(op signin)~.
+#+BEGIN_SRC sh
+op account add --address $SUBDOMAIN.1password.com --email $EMAIL
+eval $(op signin --account $SUBDOMAIN)
+#+END_SRC
