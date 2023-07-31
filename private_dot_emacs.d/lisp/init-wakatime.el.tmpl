@@ -1,0 +1,16 @@
+(use-package wakatime-mode
+  :ensure t
+  :init
+  (setq wakatime-api-key "{{- range (onepassword "Wakatime API Key").details.sections -}}
+  {{- if eq .name "" -}}
+    {{- range .fields -}}
+      {{- if eq .t "credential" -}}
+        {{ .v }}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}")
+  (setq wakatime-cli-path "/opt/homebrew/bin/wakatime-cli")
+  :config
+  (global-wakatime-mode)
+  )
