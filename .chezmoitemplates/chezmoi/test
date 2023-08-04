@@ -1,5 +1,0 @@
-{{ if eq . "emacs" }}
-;; this is an Emacs comment
-{{ else }}
-# this is another type of comment
-{{ end }}
