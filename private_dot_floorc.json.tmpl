@@ -2,16 +2,8 @@
   "auth": {
     "floobits.com": {
       "username": "akatov",
-      "api_key": "{{- range (onepassword "Floobits API Key").fields -}}
-      {{- if eq .label "credential" -}}
-        {{ .value }}
-      {{- end -}}
-{{- end -}}",
-      "secret": "{{- range (onepassword "Floobits API Key").fields -}}
-      {{- if eq .label "secret" -}}
-        {{ .value }}
-      {{- end -}}
-{{- end -}}"
+      "api_key": "{{ template "chezmoi/secret" "floobits key" }}",
+      "secret": "{{ template "chezmoi/secret" "floobits secret" }}"
     }
   }
 }

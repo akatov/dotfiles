@@ -1,9 +1,5 @@
 {
-  "apiKey": "{{- range (onepassword "Exercism API Key").fields -}}
-      {{- if eq .label "credential" -}}
-        {{ .value }}
-      {{- end -}}
-{{- end -}}",
+  "apiKey": "{{ template "chezmoi/secret" "exercism" }}",
   "dir": "/Users/akatov/src/exercism",
   "api":"http://exercism.io",
   "xapi":"http://x.exercism.io"

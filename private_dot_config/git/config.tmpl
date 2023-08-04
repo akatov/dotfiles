@@ -51,39 +51,19 @@
 
 [github]
   user  = akatov
-  token = {{ range (onepassword "Git Tokens").fields -}}
-      {{- if eq .label "GITHUB" -}}
-        {{ .value }}
-      {{- end -}}
-{{- end }}
+  token = {{ template "chezmoi/secret" "github token" }}
 
 [ghi]
-  token = {{ range (onepassword "Git Tokens").fields -}}
-      {{- if eq .label "GHI" -}}
-        {{ .value }}
-      {{- end -}}
-{{- end }}
+  token = {{ template "chezmoi/secret" "ghi token" }}
 
 [gitrepo "bitbucket"]
-  token = {{ range (onepassword "Git Tokens").fields -}}
-      {{- if eq .label "GITREPO BITBUCKET" -}}
-        {{ .value }}
-      {{- end -}}
-{{- end }}
+  token = {{ template "chezmoi/secret" "gitrepo bitbucket" }}
 
 [gitrepo "github"]
-  token = {{ range (onepassword "Git Tokens").fields -}}
-      {{- if eq .label "GITREPO GITHUB" -}}
-        {{ .value }}
-      {{- end -}}
-{{- end }}
+  token = {{ template "chezmoi/secret" "gitrepo github" }}
 
 [gitrepo "gitlab"]
-  token = {{ range (onepassword "Git Tokens").fields -}}
-      {{- if eq .label "GITREPO GITLAB" -}}
-        {{ .value }}
-      {{- end -}}
-{{- end }}
+  token = {{ template "chezmoi/secret" "gitrepo gitlab" }}
 
 [heroku]
   account = personal

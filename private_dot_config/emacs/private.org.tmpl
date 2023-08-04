@@ -15,9 +15,6 @@ Some configuration settings I don't want the world to see.
         ("n" todo "NEXT" nil)
         ("d" "Agenda + Next Actions" ((agenda) (todo "NEXT")))))
 
-(setq wakatime-api-key "{{- range (onepassword "Wakatime API Key").fields -}}
-  {{- if eq .label "credential" -}}
-    {{ .value -}}
-  {{- end -}}
-{{- end -}}")
+(setq wakatime-api-key "{{ template "chezmoi/secret" "wakatime" }}")
+
 #+END_SRC
