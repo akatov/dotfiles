@@ -1,6 +1,2 @@
-export HOMEBREW_GITHUB_API_TOKEN='{{- range (onepassword "Homebrew Github API Token").fields -}}
-      {{- if eq .label "credential" -}}
-        {{ .value }}
-      {{- end -}}
-{{- end -}}'
+export HOMEBREW_GITHUB_API_TOKEN="{{ template "chezmoi/secret" "homebrew" }}"
 export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:$PATH
