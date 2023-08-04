@@ -201,9 +201,10 @@ quickly edit this file
 #+BEGIN_SRC emacs-lisp
 (defun config ()
   (interactive)
-  (switch-to-buffer
-   (find-file
-    (expand-file-name "readme.org" user-emacs-directory))))
+  (let ((dir "~/.local/share/chezmoi/.chezmoitemplates/emacs"))
+    (switch-to-buffer
+     (find-file
+      (expand-file-name "readme.org" dir)))))
 #+END_SRC
 
 ** Convenient theme functions
