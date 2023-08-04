@@ -41,10 +41,10 @@ start debugger on any errors
 *** paradox
 
 #+BEGIN_SRC emacs-lisp
-  (package-initialize)
-  (unless (package-installed-p 'paradox)
-    (package-refresh-contents)
-    (package-install 'paradox))
+(package-initialize)
+(unless (package-installed-p 'paradox)
+  (package-refresh-contents)
+  (package-install 'paradox))
 #+END_SRC
 
 *** use-package and friends
@@ -52,11 +52,11 @@ start debugger on any errors
 use use-package to configure (and install) everything else
 
 #+BEGIN_SRC emacs-lisp
-  (paradox-require 'use-package)
-  (paradox-require 'bind-key)
-  (paradox-require 'diminish)
-  (paradox-require 'add-hooks)
-  (setq package-check-signature nil)
+(paradox-require 'use-package)
+(paradox-require 'bind-key)
+(paradox-require 'diminish)
+(paradox-require 'add-hooks)
+(setq package-check-signature nil)
 #+END_SRC
 
 * Built-in Packages
@@ -245,70 +245,70 @@ quickly edit this file
 ** ace-jump-mode
 
 #+BEGIN_SRC emacs-lisp
-  (use-package ace-jump-mode
-	       :ensure t
-	       :bind (("C-;" . ace-jump-mode)
-		      ("C-c SPC" . ace-jump-mode)
-		      ("C-c C-SPC" . ace-jump-mode)))
+(use-package ace-jump-mode
+  :ensure t
+  :bind (("C-;" . ace-jump-mode)
+	 ("C-c SPC" . ace-jump-mode)
+	 ("C-c C-SPC" . ace-jump-mode)))
 #+END_SRC
 
 ** add-hooks
 
 #+BEGIN_SRC emacs-lisp
-  (use-package add-hooks
-	       :ensure t)
+(use-package add-hooks
+  :ensure t)
 #+END_SRC
 
 ** ag
 
 #+BEGIN_SRC emacs-lisp
-  (use-package ag
-	       :ensure t)
+(use-package ag
+  :ensure t)
 #+END_SRC
 
 ** alchemist
 #+BEGIN_SRC emacs-lisp
-  (use-package alchemist
-	       :ensure t)
+(use-package alchemist
+  :ensure t)
 #+END_SRC
 
 ** async
 
 #+BEGIN_SRC emacs-lisp
-  (use-package async
-	       :ensure t)
+(use-package async
+  :ensure t)
 #+END_SRC
 
 ** auto-complete
 
 #+BEGIN_SRC emacs-lisp
-  (use-package auto-complete
-	       :ensure t)
+(use-package auto-complete
+  :ensure t)
 #+END_SRC
 
 ** auto-highlight-symbol
 #+BEGIN_SRC emacs-lisp
-  (use-package auto-highlight-symbol
-	       :ensure t)
+(use-package auto-highlight-symbol
+  :ensure t)
 #+END_SRC
 
 ** cider
 
 #+BEGIN_SRC emacs-lisp
-  (use-package cider
-	       :ensure t
-	       :init
-	       (setq nrepl-hide-special-buffers t
-		     cider-repl-pop-to-buffer-on-connect nil
-		     cider-popup-stacktraces nil
-		     cider-repl-popup-stacktraces t))
+(use-package cider
+  :ensure t
+  :init
+  (setq nrepl-hide-special-buffers t
+	cider-repl-pop-to-buffer-on-connect nil
+	cider-popup-stacktraces nil
+	cider-repl-popup-stacktraces t))
 #+END_SRC
 
 ** clojure-mode
 
 #+BEGIN_SRC emacs-lisp
-  (use-package clojure-mode
-	       :ensure t)
+(use-package clojure-mode
+  :ensure t)
 #+END_SRC
 
 ** company
@@ -324,57 +324,57 @@ quickly edit this file
 ** TODO company-emoji
 
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package company-emoji
-  ;;   :if (window-system)
-  ;;   :init
-  ;;   (defun --set-emoji-font (frame)
-  ;;     "Adjust the font settings of FRAME so Emacs can display emoji properly."
-  ;;     (if (eq system-type 'darwin)
-  ;; 	;; For NS/Cocoa
-  ;; 	(set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") frame 'prepend)
-  ;;       ;; For Linux
-  ;;       (set-fontset-font t 'symbol (font-spec :family "Symbola") frame 'prepend)))
+;; (use-package company-emoji
+;;   :if (window-system)
+;;   :init
+;;   (defun --set-emoji-font (frame)
+;;     "Adjust the font settings of FRAME so Emacs can display emoji properly."
+;;     (if (eq system-type 'darwin)
+;; 	;; For NS/Cocoa
+;; 	(set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") frame 'prepend)
+;;       ;; For Linux
+;;       (set-fontset-font t 'symbol (font-spec :family "Symbola") frame 'prepend)))
 
-  ;;   ;; For when Emacs is started in GUI mode:
-  ;;   (--set-emoji-font nil)
-  ;;   ;; Hook for when a frame is created with emacsclient
-  ;;   ;; see https://www.gnu.org/software/emacs/manual/html_node/elisp/Creating-Frames.html
-  ;;   :config
-  ;;   (add-to-list 'company-backends 'company-emoji)
-  ;;   (add-hook 'after-make-frame-functions '--set-emoji-font)
-  ;;   (setq company-emoji-insert-unicode nil))
+;;   ;; For when Emacs is started in GUI mode:
+;;   (--set-emoji-font nil)
+;;   ;; Hook for when a frame is created with emacsclient
+;;   ;; see https://www.gnu.org/software/emacs/manual/html_node/elisp/Creating-Frames.html
+;;   :config
+;;   (add-to-list 'company-backends 'company-emoji)
+;;   (add-hook 'after-make-frame-functions '--set-emoji-font)
+;;   (setq company-emoji-insert-unicode nil))
 #+END_SRC
    
 ** company-quickhelp
 
 #+BEGIN_SRC emacs-lisp
-  (use-package company-quickhelp
-	       :ensure t
-	       ;; :init
-	       ;; (company-quickhelp-mode 1)
-	       )
+(use-package company-quickhelp
+  :ensure t
+  ;; :init
+  ;; (company-quickhelp-mode 1)
+  )
 #+END_SRC
 
 ** cyberpunk-theme
 
 #+BEGIN_SRC emacs-lisp
 (use-package cyberpunk-theme
-	     :if (window-system)
-	     :ensure t
-	     :init
-	     (progn
-	       (load-theme 'cyberpunk t)
-	       (set-face-attribute `mode-line nil
-				   :box nil)
-	       (set-face-attribute `mode-line-inactive nil
-				   :box nil)))
+  :if (window-system)
+  :ensure t
+  :init
+  (progn
+    (load-theme 'cyberpunk t)
+    (set-face-attribute `mode-line nil
+			:box nil)
+    (set-face-attribute `mode-line-inactive nil
+			:box nil)))
 #+END_SRC
 
 ** diminish
 
 #+BEGIN_SRC emacs-lisp
-  (use-package diminish
-	       :ensure t)
+(use-package diminish
+  :ensure t)
 #+END_SRC
 
 ** discover-my-major
@@ -395,22 +395,22 @@ quickly edit this file
 ** elixir-mode
 
 #+BEGIN_SRC emacs-lisp
-  (use-package elixir-mode
-    :ensure t)
+(use-package elixir-mode
+  :ensure t)
 #+END_SRC
 
 ** epl
 
 #+BEGIN_SRC emacs-lisp
-  (use-package epl
-    :ensure t)
+(use-package epl
+  :ensure t)
 #+END_SRC
 
 ** erlang
 
 #+BEGIN_SRC emacs-lisp
-  (use-package erlang
-    :ensure t)
+(use-package erlang
+  :ensure t)
 #+END_SRC
 
 ** eslint-fix
@@ -433,92 +433,92 @@ quickly edit this file
 In NextStep (OSX) window mode load the path settings from the shell
 
 #+BEGIN_SRC emacs-lisp
-  (use-package exec-path-from-shell
-	       :if (memq window-system '(mac ns))
-	       :ensure t
-	       :init
-	       (setq exec-path-from-shell-variables
-		     '("PATH"
-		       "MANPATH"
-		       "GOPATH"
-		       "MAVEN_OPTS"))
-	       (exec-path-from-shell-initialize))
+(use-package exec-path-from-shell
+  :if (memq window-system '(mac ns))
+  :ensure t
+  :init
+  (setq exec-path-from-shell-variables
+	'("PATH"
+	  "MANPATH"
+	  "GOPATH"
+	  "MAVEN_OPTS"))
+  (exec-path-from-shell-initialize))
 #+END_SRC
 
 ** handlebars-sgml-mode
 
 #+BEGIN_SRC emacs-lisp
 (use-package handlebars-sgml-mode
-	     :ensure t)
+  :ensure t)
 #+END_SRC
 
 ** jabber
 
- #+BEGIN_SRC emacs-lisp
-   ;; (use-package jabber
-   ;;              ;; :ensure t
-   ;;              )
- #+END_SRC
+#+BEGIN_SRC emacs-lisp
+;; (use-package jabber
+;;              ;; :ensure t
+;;              )
+#+END_SRC
 
 ** js-comint
 
 #+BEGIN_SRC emacs-lisp
-  (use-package js-comint
-	       :ensure t
-	       :init
-	       (add-hook 'js2-mode-hook
-			 (lambda ()
-			   (local-set-key (kbd "C-x C-e") 'js-send-last-sexp)
-			   (local-set-key (kbd "C-c b") 'js-send-buffer))))
+(use-package js-comint
+  :ensure t
+  :init
+  (add-hook 'js2-mode-hook
+	    (lambda ()
+	      (local-set-key (kbd "C-x C-e") 'js-send-last-sexp)
+	      (local-set-key (kbd "C-c b") 'js-send-buffer))))
 #+END_SRC
 
 ** js2-highlight-vars
 
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package js2-highlight-vars
-  ;;   :init
-  ;;   (add-hook 'js2-mode-hook 'js2-highlight-vars-mode))
+;; (use-package js2-highlight-vars
+;;   :init
+;;   (add-hook 'js2-mode-hook 'js2-highlight-vars-mode))
 #+END_SRC
 
 ** js2-mode
 
 #+BEGIN_SRC emacs-lisp
-  (use-package js2-mode
-	       :ensure t
-	       :init
-	       (setq inferior-js-program-command "node")
-	       (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-	       (add-to-list 'auto-mode-alist '("\\.json\\'" . js2-mode)))
+(use-package js2-mode
+  :ensure t
+  :init
+  (setq inferior-js-program-command "node")
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+  (add-to-list 'auto-mode-alist '("\\.json\\'" . js2-mode)))
 #+END_SRC
 
 ** less-css-mode
 
 #+BEGIN_SRC emacs-lisp
 (use-package less-css-mode
-	     :ensure t)
+  :ensure t)
 #+END_SRC
 
 ** lua-mode
 
 #+BEGIN_SRC emacs-lisp
-  (use-package lua-mode
-	       :ensure t)
+(use-package lua-mode
+  :ensure t)
 #+END_SRC
 
 ** magit
 
 #+BEGIN_SRC emacs-lisp
-  (use-package magit
-	       :ensure t
-	       :init
-	       (bind-key "C-x g" 'magit-status))
+(use-package magit
+  :ensure t
+  :init
+  (bind-key "C-x g" 'magit-status))
 #+END_SRC
 
 ** magit-popup
 
 #+BEGIN_SRC emacs-lisp
-  (use-package magit-popup
-	       :ensure t)
+(use-package magit-popup
+  :ensure t)
 #+END_SRC
 
 ** markdown-mode
@@ -534,38 +534,38 @@ In NextStep (OSX) window mode load the path settings from the shell
 
 #+BEGIN_SRC emacs-lisp :tangle no
 (use-package monokai-theme
-	     :if (window-system)
-	     :ensure t
-	     :init
-	     (setq monokai-use-variable-pitch nil))
+  :if (window-system)
+  :ensure t
+  :init
+  (setq monokai-use-variable-pitch nil))
 #+end_src
 
 ** neotree
 
 #+BEGIN_SRC emacs-lisp
 (use-package neotree
-	     :ensure t
-	     :init
-	     (bind-key [f8] 'neotree-toggle))
+  :ensure t
+  :init
+  (bind-key [f8] 'neotree-toggle))
 #+END_SRC
 
 ** ob-restclient
-   #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package ob-restclient
   :ensure t)
-   #+END_SRC
+#+END_SRC
 ** ob-http
 
 #+BEGIN_SRC emacs-lisp
-  (use-package ob-http
-	       :ensure t)
+(use-package ob-http
+  :ensure t)
 #+END_SRC
 
 ** org
 
 #+BEGIN_SRC emacs-lisp
 (use-package org
-             :ensure t)
+  :ensure t)
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
@@ -577,52 +577,52 @@ In NextStep (OSX) window mode load the path settings from the shell
 ** org-babel
 
 #+BEGIN_SRC emacs-lisp
-  ;; todo: find a better location for this
-  (setq org-ditaa-jar-path
-	"/usr/local/Cellar/ditaa/0.10/libexec/ditaa0_10.jar")
-  (setq org-plantuml-jar-path
-	"/usr/local/Cellar/plantuml/1.2017.14/libexec/plantuml.jar")
+;; todo: find a better location for this
+(setq org-ditaa-jar-path
+      "/usr/local/Cellar/ditaa/0.10/libexec/ditaa0_10.jar")
+(setq org-plantuml-jar-path
+      "/usr/local/Cellar/plantuml/1.2017.14/libexec/plantuml.jar")
 
-  (org-babel-do-load-languages 'org-babel-load-languages
-			       '((emacs-lisp . t)
-				 (plantuml . t)
-				 (python . t)
-				 (ditaa . t)
-				 (clojure . t)
-				 (shell . t)
-				 (http . t)))
+(org-babel-do-load-languages 'org-babel-load-languages
+			     '((emacs-lisp . t)
+			       (plantuml   . t)
+			       (python     . t)
+			       (ditaa      . t)
+			       (clojure    . t)
+			       (shell      . t)
+			       (http       . t)))
 
-  ;; Use cider as the clojure execution backend
-  (setq org-babel-clojure-backend 'cider)
+;; Use cider as the clojure execution backend
+(setq org-babel-clojure-backend 'cider)
 
-  ;; Let's have pretty source code blocks
-  (setq org-edit-src-content-indentation 0
-	org-src-tab-acts-natively t
-	org-src-fontify-natively t
-	org-confirm-babel-evaluate nil)
+;; Let's have pretty source code blocks
+(setq org-edit-src-content-indentation 0
+      org-src-tab-acts-natively        t
+      org-src-fontify-natively         t
+      org-confirm-babel-evaluate       nil)
 #+END_SRC
 
 ** org-plus-contrib
 
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package org-plus-contrib
-  ;; 	     :ensure t)
+;; (use-package org-plus-contrib
+;; 	     :ensure t)
 #+END_SRC
 
 ** origami
 
 #+BEGIN_SRC emacs-lisp
-  (use-package origami
-	       :ensure t
-	       ;; TODO: keybindings
-	       )
+(use-package origami
+  :ensure t
+  ;; TODO: keybindings
+  )
 #+END_SRC
 
 ** ox-reveal
 
 #+BEGIN_SRC emacs-lisp
-  (use-package ox-reveal
-	       :ensure t)
+(use-package ox-reveal
+  :ensure t)
 #+END_SRC
 
 ** TODO org-drill
@@ -714,14 +714,14 @@ In NextStep (OSX) window mode load the path settings from the shell
 ** prettier-js
 
 #+BEGIN_SRC emacs-lisp
-  (use-package prettier-js
-	       :ensure t
-	       :init
-	       ;; (add-hook 'js2-mode-hook 'prettier-js-mode)
-	       (setq prettier-js-args '("--print-width" "70"
-					"--tab-width" "2"
-					"--single-quote"
-					"--trailing-comma" "es5")))
+(use-package prettier-js
+  :ensure t
+  :init
+  ;; (add-hook 'js2-mode-hook 'prettier-js-mode)
+  (setq prettier-js-args '("--print-width" "70"
+			   "--tab-width" "2"
+			   "--single-quote"
+			   "--trailing-comma" "es5")))
 #+END_SRC
 
 ** queue
@@ -767,21 +767,21 @@ In NextStep (OSX) window mode load the path settings from the shell
 
 #+BEGIN_SRC emacs-lisp
 (use-package solarized-theme
-	     :defer 10
-	     :init
-	     (setq solarized-use-variable-pitch nil)
-	     :ensure t)
+  :defer 10
+  :init
+  (setq solarized-use-variable-pitch nil)
+  :ensure t)
 #+END_SRC
 
 ** TODO tagedit
 
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package tagedit
-  ;; 	     :ensure t
-  ;; 	     :init
-  ;; 	     (tagedit-add-paredit-like-keybindings)
-  ;; 	     (add-hook 'html-mode-hook (lambda () (tagedit-mode 1)))
-  ;; 	     (add-hook 'handlebars-mode-hook (lambda () (tagedit-mode 1))))
+;; (use-package tagedit
+;; 	     :ensure t
+;; 	     :init
+;; 	     (tagedit-add-paredit-like-keybindings)
+;; 	     (add-hook 'html-mode-hook (lambda () (tagedit-mode 1)))
+;; 	     (add-hook 'handlebars-mode-hook (lambda () (tagedit-mode 1))))
 #+END_SRC
 
 ** TODO toml-mode
@@ -800,17 +800,17 @@ In NextStep (OSX) window mode load the path settings from the shell
 
 #+BEGIN_SRC emacs-lisp :tangle no
 (use-package waher-theme
-	     :if (window-system)
-	     :ensure t
-	     :init
-	     (load-theme 'waher))
+  :if (window-system)
+  :ensure t
+  :init
+  (load-theme 'waher))
 #+end_src
 
 ** yaml-mode
 
 #+BEGIN_SRC emacs-lisp
 (use-package yaml-mode
-	     :ensure t)
+  :ensure t)
 #+END_SRC
 
 ** tron legacy emacs theme
