@@ -117,7 +117,7 @@ Just answer `y` or `n`.
 Keep custom settings in a [[file:custom.el][separate]] custom file.
 
 #+BEGIN_SRC emacs-lisp
-(setq custom-file "~/.emacs.d/custom.el")
+(setq custom-file "~/.config/emacs/custom.el")
 (load custom-file 'noerror)
 #+END_SRC
 
@@ -130,7 +130,7 @@ Place backup files in emacs's temp directory
 
 #+BEGIN_SRC emacs-lisp
 (setq backup-directory-alist
-      '(("." . "~/.emacs.d/temp")))
+      '(("." . "~/.config/emacs/temp")))
 #+END_SRC
 
 ** Lock Files
@@ -201,7 +201,7 @@ quickly edit this file
 #+BEGIN_SRC emacs-lisp
 (defun config ()
   (interactive)
-  (let ((dir "~/.emacs.d"))
+  (let ((dir "~/.config/emacs"))
     (switch-to-buffer
      (find-file
       (expand-file-name "readme.org" dir)))))
