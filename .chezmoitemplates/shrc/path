@@ -11,6 +11,7 @@ for p in \
   /usr/local/opt/coreutils/libexec/gnubin \
   /usr/local/opt/tcl-tk/bin \
   /usr/local/opt/mysql-client/bin \
+  /opt/homebrew/opt/libpq/bin \
   $HOME/.bin \
   $HOME/.local/bin \
 
