@@ -1,8 +1,6 @@
-* Private Emacs Config
+;; * Private Emacs Config
 
-Some configuration settings I don't want the world to see.
-
-#+BEGIN_SRC emacs-lisp
+;; Some configuration settings I don't want the world to see.
 
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
@@ -17,4 +15,4 @@ Some configuration settings I don't want the world to see.
 
 (setq wakatime-api-key "{{ template "chezmoi/secret" "wakatime" }}")
 
-#+END_SRC
+(provide 'init-private)
