@@ -28,23 +28,55 @@ start debugger on any errors
 
 ** Package Management
 
+*** elpaca
+
+#+BEGIN_SRC emacs-lisp
+;; Install use-package support
+(elpaca elpaca-use-package
+  ;; Enable :elpaca use-package keyword.
+  (elpaca-use-package-mode)
+  ;; Assume :elpaca t unless otherwise specified.
+  (setq elpaca-use-package-by-default t))
+
+;; Block until current queue processed.
+(elpaca-wait)
+
+;;When installing a package which modifies a form used at the top-level
+;;(e.g. a package which adds a use-package key word),
+;;use `elpaca-wait' to block until that package has been installed/configured.
+;;For example:
+;;(use-package general :demand t)
+;;(elpaca-wait)
+
+;; Expands to: (elpaca evil (use-package evil :demand t))
+;;;;;;;;;;(use-package evil :demand t)
+
+;;Turns off elpaca-use-package-mode current declartion
+;;Note this will cause the declaration to be interpreted immediately (not deferred).
+;;Useful for configuring built-in emacs features.
+;;;;;;;;;;(use-package emacs :elpaca nil :config (setq ring-bell-function #'ignore))
+
+;; Don't install anything. Defer execution of BODY
+;;;;;;;;;;(elpaca nil (message "deferred"))
+#+END_SRC
+
 *** package sources
 
 #+BEGIN_SRC emacs-lisp
 ;; @see https://www.reddit.com/r/emacs/comments/cdei4p/failed_to_download_gnu_archive_bad_request/
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("org"   . "http://orgmode.org/elpa/")    t)
+;;(require 'package)
+;;(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;;(add-to-list 'package-archives '("org"   . "http://orgmode.org/elpa/")    t)
 #+END_SRC
 
 *** paradox
 
 #+BEGIN_SRC emacs-lisp
-(package-initialize)
-(unless (package-installed-p 'paradox)
-  (package-refresh-contents)
-  (package-install 'paradox))
+;; (package-initialize)
+;; (unless (package-installed-p 'paradox)
+;;   (package-refresh-contents)
+;;   (package-install 'paradox))
 #+END_SRC
 
 *** use-package and friends
@@ -52,11 +84,11 @@ start debugger on any errors
 use use-package to configure (and install) everything else
 
 #+BEGIN_SRC emacs-lisp
-(paradox-require 'use-package)
-(paradox-require 'bind-key)
-(paradox-require 'diminish)
-(paradox-require 'add-hooks)
-(setq package-check-signature nil)
+;; (paradox-require 'use-package)
+;; (paradox-require 'bind-key)
+;; (paradox-require 'diminish)
+;; (paradox-require 'add-hooks)
+;; (setq package-check-signature nil)
 #+END_SRC
 
 * Built-in Packages
@@ -64,27 +96,34 @@ use use-package to configure (and install) everything else
 
 #+BEGIN_SRC emacs-lisp
 (use-package dired
-  :config (setq dired-dwim-target t))
+  :elpaca nil
+  :config
+  (setq dired-dwim-target t))
 #+END_SRC
 
 ** hl-line
 
 #+BEGIN_SRC emacs-lisp
-  (use-package hl-line
-	       :config (set-face-background 'hl-line "#073642"))
+(use-package hl-line
+  :elpaca nil
+  :config
+  (set-face-background 'hl-line "#073642"))
 #+END_SRC
 
 ** js
 
 #+BEGIN_SRC emacs-lisp
 (use-package js
-  :config (setq js-indent-level 2))
+  :elpaca nil
+  :config
+  (setq js-indent-level 2))
 #+END_SRC
 
 ** subword
 
 #+BEGIN_SRC emacs-lisp
 (use-package subword
+  :elpaca nil
   :hook ((haskell-mode
 	  coffee-mode
 	  js-mode
@@ -117,12 +156,12 @@ Just answer `y` or `n`.
 Keep custom settings in a [[file:custom.el][separate]] custom file.
 
 #+BEGIN_SRC emacs-lisp
-(setq custom-file "~/.config/emacs/custom.el")
-(load custom-file 'noerror)
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(add-hook 'elpaca-after-init-hook (lambda () (load custom-file 'noerror)))
 #+END_SRC
 
 I try to keep the custom file empty, and instead put all the customizations in
-this file. Hence the custom file is gitignored.
+this file.
 
 ** Backup Files
 
@@ -237,7 +276,7 @@ quickly edit this file
 
 #+BEGIN_SRC emacs-lisp
 (use-package fira-code-mode
-  :ensure t
+  :demand t
   :hook (js-mode js2-mode typescript-mode))
 #+END_SRC
 
@@ -247,7 +286,7 @@ quickly edit this file
 
 #+BEGIN_SRC emacs-lisp
 (use-package ace-jump-mode
-  :ensure t
+  :demand t
   :bind (("C-;" . ace-jump-mode)
 	 ("C-c SPC" . ace-jump-mode)
 	 ("C-c C-SPC" . ace-jump-mode)))
@@ -257,47 +296,47 @@ quickly edit this file
 
 #+BEGIN_SRC emacs-lisp
 (use-package add-hooks
-  :ensure t)
+  :demand t)
 #+END_SRC
 
 ** ag
 
 #+BEGIN_SRC emacs-lisp
 (use-package ag
-  :ensure t)
+  :demand t)
 #+END_SRC
 
 ** alchemist
 #+BEGIN_SRC emacs-lisp
 (use-package alchemist
-  :ensure t)
+  :demand t)
 #+END_SRC
 
 ** async
 
 #+BEGIN_SRC emacs-lisp
 (use-package async
-  :ensure t)
+  :demand t)
 #+END_SRC
 
 ** auto-complete
 
 #+BEGIN_SRC emacs-lisp
 (use-package auto-complete
-  :ensure t)
+  :demand t)
 #+END_SRC
 
 ** auto-highlight-symbol
 #+BEGIN_SRC emacs-lisp
 (use-package auto-highlight-symbol
-  :ensure t)
+  :demand t)
 #+END_SRC
 
 ** cider
 
 #+BEGIN_SRC emacs-lisp
 (use-package cider
-  :ensure t
+  :demand t
   :init
   (setq nrepl-hide-special-buffers t
 	cider-repl-pop-to-buffer-on-connect nil
@@ -309,14 +348,14 @@ quickly edit this file
 
 #+BEGIN_SRC emacs-lisp
 (use-package clojure-mode
-  :ensure t)
+  :demand t)
 #+END_SRC
 
 ** company
 
 #+BEGIN_SRC emacs-lisp
 (use-package company
-  :ensure t
+  :demand t
   ;; :init
   ;; (global-company-mode)
   )
@@ -350,7 +389,7 @@ quickly edit this file
 
 #+BEGIN_SRC emacs-lisp
 (use-package company-quickhelp
-  :ensure t
+  :demand t
   ;; :init
   ;; (company-quickhelp-mode 1)
   )
@@ -361,7 +400,7 @@ quickly edit this file
 #+BEGIN_SRC emacs-lisp
 (use-package cyberpunk-theme
   :if (window-system)
-  :ensure t
+  :demand t
   :init
   (progn
     (load-theme 'cyberpunk t)
@@ -375,7 +414,7 @@ quickly edit this file
 
 #+BEGIN_SRC emacs-lisp
 (use-package diminish
-  :ensure t)
+  :demand t)
 #+END_SRC
 
 ** discover-my-major
@@ -390,14 +429,14 @@ quickly edit this file
 
 #+BEGIN_SRC emacs-lisp
 (use-package edts
-  :ensure t)
+  :demand t)
 #+END_SRC
 
 ** elixir-mode
 
 #+BEGIN_SRC emacs-lisp
 (use-package elixir-mode
-  :ensure t)
+  :demand t)
 #+END_SRC
 
 ** TODO elpy
@@ -409,14 +448,14 @@ quickly edit this file
 
 #+BEGIN_SRC emacs-lisp
 (use-package epl
-  :ensure t)
+  :demand t)
 #+END_SRC
 
 ** erlang
 
 #+BEGIN_SRC emacs-lisp
 (use-package erlang
-  :ensure t)
+  :demand t)
 #+END_SRC
 
 ** eslint-fix
@@ -441,7 +480,7 @@ In NextStep (OSX) window mode load the path settings from the shell
 #+BEGIN_SRC emacs-lisp
 (use-package exec-path-from-shell
   :if (memq window-system '(mac ns))
-  :ensure t
+  :demand t
   :init
   (setq exec-path-from-shell-variables
 	'("PATH"
@@ -455,14 +494,14 @@ In NextStep (OSX) window mode load the path settings from the shell
 
 #+BEGIN_SRC emacs-lisp
 (use-package handlebars-sgml-mode
-  :ensure t)
+  :demand t)
 #+END_SRC
 
 ** jabber
 
 #+BEGIN_SRC emacs-lisp
 ;; (use-package jabber
-;;              ;; :ensure t
+;;              ;; :demand t
 ;;              )
 #+END_SRC
 
@@ -470,7 +509,7 @@ In NextStep (OSX) window mode load the path settings from the shell
 
 #+BEGIN_SRC emacs-lisp
 (use-package js-comint
-  :ensure t
+  :demand t
   :init
   (add-hook 'js2-mode-hook
 	    (lambda ()
@@ -490,7 +529,7 @@ In NextStep (OSX) window mode load the path settings from the shell
 
 #+BEGIN_SRC emacs-lisp
 (use-package js2-mode
-  :ensure t
+  :demand t
   :init
   (setq inferior-js-program-command "node")
   (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
@@ -501,21 +540,21 @@ In NextStep (OSX) window mode load the path settings from the shell
 
 #+BEGIN_SRC emacs-lisp
 (use-package less-css-mode
-  :ensure t)
+  :demand t)
 #+END_SRC
 
 ** lua-mode
 
 #+BEGIN_SRC emacs-lisp
 (use-package lua-mode
-  :ensure t)
+  :demand t)
 #+END_SRC
 
 ** magit
 
 #+BEGIN_SRC emacs-lisp
 (use-package magit
-  :ensure t
+  :demand t
   :init
   (bind-key "C-x g" 'magit-status))
 #+END_SRC
@@ -524,14 +563,14 @@ In NextStep (OSX) window mode load the path settings from the shell
 
 #+BEGIN_SRC emacs-lisp
 (use-package magit-popup
-  :ensure t)
+  :demand t)
 #+END_SRC
 
 ** markdown-mode
 
 #+BEGIN_SRC emacs-lisp
 (use-package markdown-mode
-  :ensure t
+  :demand t
   :init
   (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode)))
 #+END_SRC
@@ -541,7 +580,7 @@ In NextStep (OSX) window mode load the path settings from the shell
 #+BEGIN_SRC emacs-lisp :tangle no
 (use-package monokai-theme
   :if (window-system)
-  :ensure t
+  :demand t
   :init
   (setq monokai-use-variable-pitch nil))
 #+end_src
@@ -550,7 +589,7 @@ In NextStep (OSX) window mode load the path settings from the shell
 
 #+BEGIN_SRC emacs-lisp
 (use-package neotree
-  :ensure t
+  :demand t
   :init
   (bind-key [f8] 'neotree-toggle))
 #+END_SRC
@@ -558,27 +597,27 @@ In NextStep (OSX) window mode load the path settings from the shell
 ** ob-restclient
 #+BEGIN_SRC emacs-lisp
 (use-package ob-restclient
-  :ensure t)
+  :demand t)
 #+END_SRC
 ** ob-http
 
 #+BEGIN_SRC emacs-lisp
 (use-package ob-http
-  :ensure t)
+  :demand t)
 #+END_SRC
 
 ** TODO ob-sql-mode
 
 #+BEGIN_SRC emacs-lisp
 (use-package ob-sql-mode
-  :ensure t)
+  :demand t)
 #+END_SRC
 
 ** org
 
 #+BEGIN_SRC emacs-lisp
 (use-package org
-  :ensure t)
+  :demand t)
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
@@ -596,15 +635,15 @@ In NextStep (OSX) window mode load the path settings from the shell
 (setq org-plantuml-jar-path
       "/usr/local/Cellar/plantuml/1.2017.14/libexec/plantuml.jar")
 
-(org-babel-do-load-languages 'org-babel-load-languages
-			     '((emacs-lisp . t)
-			       (plantuml   . t)
-			       (python     . t)
-			       (ditaa      . t)
-			       (clojure    . t)
-			       (shell      . t)
-			       (http       . t)
-			       (sql        . t)))
+;; (org-babel-do-load-languages 'org-babel-load-languages
+;; 			     '((emacs-lisp . t)
+;; 			       (plantuml   . t)
+;; 			       (python     . t)
+;; 			       (ditaa      . t)
+;; 			       (clojure    . t)
+;; 			       (shell      . t)
+;; 			       (http       . t)
+;; 			       (sql        . t)))
 
 ;; Use cider as the clojure execution backend
 (setq org-babel-clojure-backend 'cider)
@@ -620,14 +659,14 @@ In NextStep (OSX) window mode load the path settings from the shell
 
 #+BEGIN_SRC emacs-lisp
 ;; (use-package org-plus-contrib
-;; 	     :ensure t)
+;; 	     :demand t)
 #+END_SRC
 
 ** origami
 
 #+BEGIN_SRC emacs-lisp
 (use-package origami
-  :ensure t
+  :demand t
   ;; TODO: keybindings
   )
 #+END_SRC
@@ -636,7 +675,7 @@ In NextStep (OSX) window mode load the path settings from the shell
 
 #+BEGIN_SRC emacs-lisp
 (use-package ox-reveal
-  :ensure t)
+  :demand t)
 #+END_SRC
 
 ** TODO org-drill
@@ -649,7 +688,7 @@ In NextStep (OSX) window mode load the path settings from the shell
 
 #+BEGIN_SRC emacs-lisp
 ;; (use-package paredit
-;; 	     :ensure t
+;; 	     :demand t
 ;; 	     :init
 
 ;; 	     (autoload 'enable-paredit-mode "paredit"
@@ -729,7 +768,7 @@ In NextStep (OSX) window mode load the path settings from the shell
 
 #+BEGIN_SRC emacs-lisp
 (use-package prettier-js
-  :ensure t
+  :demand t
   :init
   ;; (add-hook 'js2-mode-hook 'prettier-js-mode)
   (setq prettier-js-args '("--print-width" "70"
@@ -746,7 +785,7 @@ In NextStep (OSX) window mode load the path settings from the shell
 
 #+BEGIN_SRC emacs-lisp
 (use-package sl
-  :ensure t)
+  :demand t)
 #+END_SRC
 
 ** slack
@@ -759,7 +798,7 @@ In NextStep (OSX) window mode load the path settings from the shell
 
 #+BEGIN_SRC emacs-lisp
 (use-package smartparens
-  :ensure t
+  :demand t
   :init
   (add-hooks-pair '(cider-repl-mode
 		    clojure-mode
@@ -785,14 +824,14 @@ In NextStep (OSX) window mode load the path settings from the shell
   :defer 10
   :init
   (setq solarized-use-variable-pitch nil)
-  :ensure t)
+  :demand t)
 #+END_SRC
 
 ** TODO tagedit
 
 #+BEGIN_SRC emacs-lisp
 ;; (use-package tagedit
-;; 	     :ensure t
+;; 	     :demand t
 ;; 	     :init
 ;; 	     (tagedit-add-paredit-like-keybindings)
 ;; 	     (add-hook 'html-mode-hook (lambda () (tagedit-mode 1)))
@@ -807,7 +846,7 @@ In NextStep (OSX) window mode load the path settings from the shell
 
 #+BEGIN_SRC emacs-lisp
 (use-package typescript-mode
-  :ensure t
+  :demand t
   :config (setq typescript-indent-level 2))
 #+END_SRC
 
@@ -816,7 +855,7 @@ In NextStep (OSX) window mode load the path settings from the shell
 #+BEGIN_SRC emacs-lisp :tangle no
 (use-package waher-theme
   :if (window-system)
-  :ensure t
+  :demand t
   :init
   (load-theme 'waher))
 #+end_src
@@ -825,28 +864,27 @@ In NextStep (OSX) window mode load the path settings from the shell
 
 #+BEGIN_SRC emacs-lisp :tangle no
 (use-package weblorg
-  :ensure t)
+  :demand t)
 #+END_SRC
 ** yaml-mode
 
 #+BEGIN_SRC emacs-lisp
 (use-package yaml-mode
-  :ensure t)
+  :demand t)
 #+END_SRC
 
 ** tron legacy emacs theme
 
 #+BEGIN_SRC emacs-lisp
-(use-package quelpa-use-package
-  :ensure t)
+;; (use-package quelpa-use-package
+;;   :demand t)
 
-(use-package tron-legacy-theme
-  :quelpa (tron-legacy-theme :fetcher github :repo "ianpan870102/tron-legacy-emacs-theme")
-  ;; :init (load-theme 'tron-legacy)
-  )
+;; (use-package tron-legacy-theme
+;;   :quelpa (tron-legacy-theme :fetcher github :repo "ianpan870102/tron-legacy-emacs-theme")
+;;   ;; :init (load-theme 'tron-legacy)
+;;   )
 #+END_SRC
 
 ** TODO combobulate
 
 ** TODO elpaca
-
