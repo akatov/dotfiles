@@ -67,6 +67,13 @@
 ;; Block until current queue processed.
 (elpaca-wait)
 
+;; private config
+
+(add-to-list 'load-path
+             (expand-file-name "lisp"
+                               user-emacs-directory))
+(require 'init-private)
+
 ;; *** package sources
 
 ;; @see https://www.reddit.com/r/emacs/comments/cdei4p/failed_to_download_gnu_archive_bad_request/
@@ -434,8 +441,13 @@
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
 (setq org-use-speed-commands t)
-(setq org-return-follows-link nil)
+(setq org-return-follows-link t)
 (setq org-src-preserve-indentation t)
+(setq org-agenda-custom-commands
+      '(("w" todo "WAITING" nil)
+        ("n" todo "NEXT" nil)
+        ("d" "Agenda + Next Actions" ((agenda) (todo "NEXT")))))
+
 
 ;; todo: find a better location for this
 (setq org-ditaa-jar-path
@@ -624,6 +636,15 @@
   :init
   (load-theme 'waher))
 
+(use-package wakatime-mode
+  :ensure t
+  :init
+  (custom-set-variables
+   ;; see init-private
+   '(wakatime-cli-path "/opt/homebrew/bin/wakatime-cli"))
+  :config
+  (global-wakatime-mode))
+
 (use-package weblorg
   :demand t)
 
@@ -641,19 +662,6 @@
 ;; ** TODO combobulate
 
 ;; --------------------------------------------------
-
-(add-to-list 'load-path
-             (expand-file-name "lisp"
-                               user-emacs-directory))
-
-(require 'init-wakatime)
-
-;; * Private config
-
-;; Some configuration settings I don't want the world to see.
-;; I keep them in a separate private repo.
-
-(require 'init-private)
 
 (provide 'init)
 
