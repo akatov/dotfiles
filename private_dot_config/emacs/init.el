@@ -580,6 +580,9 @@
 			"--single-quote"
 			"--trailing-comma" "es5"))))
 
+(use-package python-mode
+  :ensure t)
+
 ;; ** queue
 
 ;; ** TODO shut-up
