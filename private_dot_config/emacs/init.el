@@ -51,7 +51,8 @@
 ;; * Startup
 ;; ** debug on error
 ;; start debugger on any errors
-(setq debug-on-error t)
+(custom-set-variables
+ '(debug-on-error t))
 
 ;; ** Package Management
 ;; *** elpaca
@@ -60,51 +61,32 @@
   ;; Enable :elpaca use-package keyword.
   (elpaca-use-package-mode)
   ;; Assume :elpaca t unless otherwise specified.
-  (setq elpaca-use-package-by-default t))
+  (custom-set-variables
+   '(elpaca-use-package-by-default t)))
 
 ;; Block until current queue processed.
 (elpaca-wait)
 
-;;When installing a package which modifies a form used at the top-level
-;;(e.g. a package which adds a use-package key word),
-;;use `elpaca-wait' to block until that package has been installed/configured.
-;;For example:
-;;(use-package general :demand t)
-;;(elpaca-wait)
-
-;; Expands to: (elpaca evil (use-package evil :demand t))
-;;;;;;;;;;(use-package evil :demand t)
-
-;;Turns off elpaca-use-package-mode current declartion
-;;Note this will cause the declaration to be interpreted immediately (not deferred).
-;;Useful for configuring built-in emacs features.
-;;;;;;;;;;(use-package emacs :elpaca nil :config (setq ring-bell-function #'ignore))
-
-;; Don't install anything. Defer execution of BODY
-;;;;;;;;;;(elpaca nil (message "deferred"))
-
 ;; *** package sources
 
 ;; @see https://www.reddit.com/r/emacs/comments/cdei4p/failed_to_download_gnu_archive_bad_request/
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
+(use-package gnutls
+  :elpaca nil
+  :config
+  (custom-set-variables
+   '(gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")))
 ;;(require 'package)
 ;;(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 ;;(add-to-list 'package-archives '("org"   . "http://orgmode.org/elpa/")    t)
-
-;; *** use-package and friends
-
-;; (paradox-require 'use-package)
-;; (paradox-require 'bind-key)
-;; (paradox-require 'diminish)
-;; (paradox-require 'add-hooks)
-;; (setq package-check-signature nil)
 
 ;; * Built-in Packages
 
 (use-package dired
   :elpaca nil
   :config
-  (setq dired-dwim-target t))
+  (custom-set-variables
+   '(dired-dwim-target t)))
 
 (use-package hl-line
   :elpaca nil
@@ -114,7 +96,8 @@
 (use-package js
   :elpaca nil
   :config
-  (setq js-indent-level 2))
+  (custom-set-variables
+   '(js-indent-level 2)))
 
 (use-package subword
   :elpaca nil
@@ -126,7 +109,7 @@
 
 ;; * Default Config
 
-;; ** Frame
+;; ** TODO Frame - put this inside use-package
 
 (when window-system
   (menu-bar-mode -1)
@@ -134,17 +117,22 @@
   (scroll-bar-mode -1)
   (tooltip-mode -1))
 
-;; ** General
+;; ** TODO General - put this inside use-package
 
 ;; just answer `y' or `n'.
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; ** Custom File
+;; ** TODO Custom File - can we put add-hook inside use-package
 
 ;; keep custom settings in a separate custom file
 
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(use-package cus-edit
+  :elpaca nil
+  :config
+  (let)
+  (custom-set-variables
+   (list 'custom-file (expand-file-name "custom.el" user-emacs-directory))))
 (add-hook 'elpaca-after-init-hook (lambda () (load custom-file 'noerror)))
 
 ;; try to keep that file empty, and instead put all the customizations in this file.
@@ -154,16 +142,23 @@
 
 ;; Place backup files in emacs's temp directory
 
-(setq backup-directory-alist
-      '(("." . "~/.config/emacs/temp")))
+(use-package files
+  :elpaca nil
+  :config
+  (custom-set-variables
+   '(backup-directory-alist '(("." . "~/.config/emacs/temp")))))
 
 ;; ** Lock Files
 
 ;; Lock files will interfere with some auto-build tools
 
-(setq create-lockfiles nil)
+(use-package emacs
+  :elpaca nil
+  :config
+  (custom-set-variables
+   '(create-lockfiles nil)))
 
-;; ** General Customizations
+;; ** TODO General Customizations - put this inside use-package
 
 ;; These are the customizations that may have lived in the custom file,
 ;; and don't have anything to do with any specific mode refered to
@@ -183,7 +178,7 @@
 	((meta shift) . 13)
 	((meta shift control) . 1.0)))
 
-;; ** Global Keybindings
+;; ** TODO Global Keybindings - put this inside use-package
 
 ;; Some global keybindings I like to use...
 
@@ -210,7 +205,7 @@
   (let ((dir "~/.config/emacs"))
     (switch-to-buffer
      (find-file
-      (expand-file-name "readme.org" dir)))))
+      (expand-file-name "init.el" dir)))))
 
 ;; ** Convenient theme functions
 
@@ -269,10 +264,11 @@
 (use-package cider
   :demand t
   :init
-  (setq nrepl-hide-special-buffers t
-	cider-repl-pop-to-buffer-on-connect nil
-	cider-popup-stacktraces nil
-	cider-repl-popup-stacktraces t))
+  (custom-set-variables
+   '(nrepl-hide-special-buffers t)
+   '(cider-repl-pop-to-buffer-on-connect nil)
+   '(cider-popup-stacktraces nil)
+   '(cider-repl-popup-stacktraces t)))
 
 (use-package clojure-mode
   :demand t)
@@ -313,6 +309,9 @@
   :if (window-system)
   :demand t
   :init
+  (add-to-list
+   'custom-safe-themes
+   "77fac25c0276f636e3914636c45f714c2fd688fe1b1d40259be7ce84b8b5ab1e")
   (progn
     (load-theme 'cyberpunk t)
     (set-face-attribute `mode-line nil
@@ -374,6 +373,8 @@
 ;;              ;; :demand t
 ;;              )
 
+;; TODO - use :hooks
+
 (use-package js-comint
   :demand t
   :init
@@ -388,10 +389,10 @@
 
 (use-package js2-mode
   :demand t
+  :mode (("\\.js\\'" . js2-mode)
+	 ("\\.json\\'" . js2-mode))
   :init
-  (setq inferior-js-program-command "node")
-  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-  (add-to-list 'auto-mode-alist '("\\.json\\'" . js2-mode)))
+  (setq inferior-js-program-command "node"))
 
 (use-package less-css-mode
   :demand t)
@@ -409,8 +410,7 @@
 
 (use-package markdown-mode
   :demand t
-  :init
-  (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode)))
+  :mode (("\\.md\\'" . markdown-mode)))
 
 (use-package neotree
   :demand t
@@ -425,6 +425,8 @@
 
 (use-package ob-sql-mode
   :demand t)
+
+;; TODO put this in use-package
 
 (use-package org
   :demand t)
@@ -560,10 +562,11 @@
   :demand t
   :init
   ;; (add-hook 'js2-mode-hook 'prettier-js-mode)
-  (setq prettier-js-args '("--print-width" "70"
-			   "--tab-width" "2"
-			   "--single-quote"
-			   "--trailing-comma" "es5")))
+  (custom-set-variables
+   '(prettier-js-args '("--print-width" "70"
+			"--tab-width" "2"
+			"--single-quote"
+			"--trailing-comma" "es5"))))
 
 ;; ** queue
 
@@ -594,10 +597,11 @@
 	    (sp-use-paredit-bindings)))
 
 (use-package solarized-theme
+  :demand t
   :defer 10
-  :init
-  (setq solarized-use-variable-pitch nil)
-  :demand t)
+  :config
+  (custom-set-variables
+   '(solarized-use-variable-pitch nil)))
 
 ;; (use-package tagedit
 ;; 	     :demand t
@@ -622,7 +626,6 @@
 
 (use-package weblorg
   :demand t)
-
 
 (use-package yaml-mode
   :demand t)
@@ -655,3 +658,5 @@
 (provide 'init)
 
 ;;; init.el ends here
+
+;; TODO - why using :custom keyword results in setq rather than custom-set-variables
