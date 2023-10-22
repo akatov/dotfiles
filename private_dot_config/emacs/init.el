@@ -23,6 +23,8 @@
 (require 'init-elixir)
 (require 'init-python)
 
+(require 'init-combobulate)
+
 ;; * Built-in Packages
 
 (use-package dired
