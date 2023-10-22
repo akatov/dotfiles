@@ -16,6 +16,9 @@
 (require 'init-window)
 (require 'init-movement)
 
+(require 'init-treesitter)
+
+(require 'init-javascript)
 (require 'init-clojure)
 (require 'init-elixir)
 (require 'init-python)
@@ -178,8 +181,9 @@
 
 (use-package discover-my-major
   :ensure t
-  :bind (("M-h M-m" . discover-my-major)
-         ("M-h M-M" . discover-my-mode)))
+  :bind
+  (("M-h M-m" . discover-my-major)
+   ("M-h M-M" . discover-my-mode)))
 
 (use-package edts
   :ensure t)
@@ -222,25 +226,6 @@
 
 ;; TODO - use :hooks
 
-(use-package js-comint
-  :ensure t
-  :bind
-  (:map
-   js-comint-mode-map
-   ("C-x C-e" . js-send-last-sexp)
-   ("C-c b"   . js-send-buffer)))
-
-;; (use-package js2-highlight-vars
-;;   :init
-;;   (add-hook 'js2-mode-hook 'js2-highlight-vars-mode))
-
-(use-package js2-mode
-  :ensure t
-  :mode (("\\.js\\'" . js2-mode)
-	 ("\\.json\\'" . js2-mode))
-  :custom
-  (inferior-js-program-command "node"))
-
 (use-package less-css-mode
   :ensure t)
 
@@ -249,15 +234,15 @@
 
 (use-package magit
   :ensure t
-  :init
-  (bind-key "C-x g" 'magit-status))
+  :bind
+  ("C-x g" . magit-status))
 
 (use-package magit-popup
   :ensure t)
 
 (use-package markdown-mode
   :ensure t
-  :mode (("\\.md\\'" . markdown-mode)))
+  :mode "\\.md\\'")
 
 (use-package neotree
   :ensure t
@@ -408,16 +393,6 @@
 
 ;; ** TODO popup
 
-(use-package prettier-js
-  :ensure t
-  ;; :init
-  ;; (add-hook 'js2-mode-hook 'prettier-js-mode)
-  :custom
-  (prettier-js-args '("--print-width" "70"
-		      "--tab-width" "2"
-		      "--single-quote"
-		      "--trailing-comma" "es5")))
-
 
 (defun aka/init-lsp-mode ()
   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
@@ -479,11 +454,6 @@
 
 ;; ** TODO ts-comint
 
-(use-package typescript-mode
-  :ensure t
-  :custom
-  (typescript-indent-level 2))
-
 (use-package wakatime-mode
   :ensure t
   :custom
@@ -505,4 +475,3 @@
 ;; ** TODO combobulate
 
 (provide 'init)
-

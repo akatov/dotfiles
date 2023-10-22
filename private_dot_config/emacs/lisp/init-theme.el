@@ -44,9 +44,13 @@
   :init
   (load-theme 'waher))
 
-;; (use-package tron-legacy-theme
-;;   :quelpa (tron-legacy-theme :fetcher github :repo "ianpan870102/tron-legacy-emacs-theme")
-;;   ;; :init (load-theme 'tron-legacy)
-;;   )
+(use-package tron-legacy-theme
+  :if (window-system)
+  :ensure t
+  :init
+  (add-to-list
+   'custom-safe-themes
+   "821c37a78c8ddf7d0e70f0a7ca44d96255da54e613aa82ff861fe5942d3f1efc")
+  (load-theme 'tron-legacy))
 
 (provide 'init-theme)
