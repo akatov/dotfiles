@@ -6,7 +6,7 @@ Dmitri's dotfiles, managed with [[https://github.com/twpayne/chezmoi][chezmoi]].
 Install
 
 #+BEGIN_SRC bash
-sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply $GITHUB_USERNAME
+sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply akatov
 #+END_SRC
 
 or if you already have chezmoi
