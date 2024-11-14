@@ -3,16 +3,21 @@
 
 Dmitri's dotfiles, managed with [[https://github.com/twpayne/chezmoi][chezmoi]].
 
-Install
+Installation:
 
 #+BEGIN_SRC bash
-sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply akatov
-#+END_SRC
+  # install homebrew
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-or if you already have chezmoi
+  # install 1password
+  brew install 1password 1password-cli
 
-#+BEGIN_SRC bash
-chezmoi init akatov
+  # install chezmoi and set up
+  sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply akatov
+
+  # or separately
+  brew install chezmoi
+  chezmoi init akatov
 #+END_SRC
 
 Secrets are stored in [[https://1password.com/][1Password]].
