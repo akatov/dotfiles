@@ -1,13 +1,4 @@
-expo-cli
-firebase-cli
-mocha
 npm
 pnpm
-purescript
-react-native
-shadow-cljs
-spago
-ts-node
-typescript
-vercel
+tsx
 yarn
