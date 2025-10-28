@@ -1,0 +1,40 @@
+{{/* boolean feature tags */}}
+{{- $ephemeral := false -}}{{/* true if this machine is ephemeral, e.g. a cloud or VM instance */}}
+{{- $headless  := false -}}{{/* true if this machine does not have a screen and keyboard */}}
+{{- $personal  := false -}}{{/* true if this machine should have personal secrets */}}
+{{- $work      := false -}}{{/* true if this machine should have work secrets */}}
+{{- "" -}}
+
+{{/* detect GitHub codespaces, VSCode remote containers, Docker containers, Multipass VMs, and Vagrant boxes */}}
+{{- if or (env "CODESPACES") (env "REMOTE_CONTAINERS_IPC") (eq .chezmoi.username "root" "ubuntu" "vagrant" "vscode") -}}
+{{-   $ephemeral = true -}}
+{{-   $headless  = true -}}
+{{- end -}}
+
+{{/* ask which secrets should be available */}}
+{{- if stdinIsATTY -}}
+{{-   $personal = promptBoolOnce . "personal" "personal" -}}
+{{-   $work     = promptBoolOnce . "work"     "work" -}}
+{{- else -}}
+{{-   $headless = true -}}
+{{- end -}}
+
+{{/* hostname on darwin */}}
+{{- $hostname := .chezmoi.hostname -}}
+{{- if eq .chezmoi.os "darwin" -}}
+{{-   $hostname := output "scutil" "--get" "LocalHostName" | trim -}}
+{{- end -}}
+
+{{/* OS ID on linux */}}
+{{- $osID := .chezmoi.os -}}
+{{- if (and (eq .chezmoi.os "linux") (hasKey .chezmoi.osRelease "id")) -}}
+{{-   $osID = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
+{{- end -}}
+
+[data]
+  ephemeral = {{ $ephemeral }}
+  headless  = {{ $headless }}
+  personal  = {{ $personal }}
+  work      = {{ $work }}
+  hostname  = {{ $hostname | quote }}
+  osid      = {{ $osID | quote }}
