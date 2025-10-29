@@ -1,0 +1,7 @@
+# @see https://docs.qlty.sh/cli/quickstart
+if [ -d "$HOME/.qlty" ]; then
+  export QLTY_INSTALL="$HOME/.qlty"
+  export PATH="$QLTY_INSTALL/bin:$PATH"
+  # shellcheck source=/dev/null
+  source <(qlty completions --shell "$([ -n "$ZSH_NAME" ] && echo "zsh" || echo "bash")")
+fi
