@@ -26,8 +26,8 @@
 {{ template "shrc/rust" }}
 {{ template "shrc/sdkman" }}
 {{ template "shrc/tmux" }}
-{{ template "shrc/homebrew" }}
+{{ template "shrc/homebrew" . }}
 {{ template "shrc/asdf" }}
-{{ template "shrc/aws" }}
+{{ template "shrc/aws" . }}
 
 source ~/.local/share/sh/explain.sh

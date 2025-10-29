@@ -51,19 +51,23 @@
 
 [github]
   user  = akatov
-  token = {{ template "chezmoi/secret" "github token" }}
+{{ if .personal }}
+  token = {{ template "chezmoi/secret" (set . "secret" "github token") }}
+{{ end }}
 
+{{ if .personal }}
 [ghi]
-  token = {{ template "chezmoi/secret" "ghi token" }}
+  token = {{ template "chezmoi/secret" (set . "secret" "ghi token") }}
 
 [gitrepo "bitbucket"]
-  token = {{ template "chezmoi/secret" "gitrepo bitbucket" }}
+  token = {{ template "chezmoi/secret" (set . "secret" "gitrepo bitbucket") }}
 
 [gitrepo "github"]
-  token = {{ template "chezmoi/secret" "gitrepo github" }}
+  token = {{ template "chezmoi/secret" (set . "secret" "gitrepo github") }}
 
 [gitrepo "gitlab"]
-  token = {{ template "chezmoi/secret" "gitrepo gitlab" }}
+  token = {{ template "chezmoi/secret" (set . "secret" "gitrepo gitlab") }}
+{{ end }}
 
 [heroku]
   account = personal

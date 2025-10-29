@@ -1,9 +1,11 @@
+{{- if .personal -}}
 {
   "auth": {
     "floobits.com": {
       "username": "akatov",
-      "api_key": "{{ template "chezmoi/secret" "floobits key" }}",
-      "secret": "{{ template "chezmoi/secret" "floobits secret" }}"
+      "api_key": "{{ template "chezmoi/secret" (set . "secret" "floobits key") }}",
+      "secret": "{{ template "chezmoi/secret" (set . "secret" "floobits secret") }}"
     }
   }
 }
+{{ end }}

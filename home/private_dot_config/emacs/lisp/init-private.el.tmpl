@@ -1,4 +1,6 @@
+{{- if .personal -}}
 (custom-set-variables
- '(wakatime-api-key "{{ template "chezmoi/secret" "wakatime" }}"))
+ '(wakatime-api-key "{{ template "chezmoi/secret" (set . "secret" "wakatime") }}"))
+{{- end }}
 
 (provide 'init-private)
