@@ -1,0 +1,42 @@
+.local/share/oh-my-zsh-custom/themes/powerlevel10k/**/*.zwc
+
+{{ if ne .chezmoi.os "darwin" }}
+.chezmoiscripts/darwin/**
+.config/aerospace
+.config/homebrew
+.config/karabiner
+.hammerspoon
+{{ end }}
+
+{{ if ne .chezmoi.os "linux" }}
+.chezmoiscripts/linux/**
+.hushlogin
+.local/bin/nvim
+.local/share/fonts
+{{ end }}
+
+{{ if eq .chezmoi.os "windows" }}
+.bash_aliases
+.config/ghostty
+.config/git/cookies
+.config/psql
+.config/readline
+.config/tmux
+.gnupg
+.gnupg/**
+.inputrc
+.oh-my-zsh
+.oh-my-zsh/**
+.p10k.zsh
+.tmux.conf
+.zlogin
+.zprofile
+.zshenv
+.zshrc
+{{ else }}
+.chezmoiscripts/windows/**
+Documents
+{{ end }}
+
+{{ if not .personal }}
+{{ end }}
