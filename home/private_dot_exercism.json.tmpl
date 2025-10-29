@@ -1,8 +1,0 @@
-{{- if .personal -}}
-{
-  "apiKey": "{{ template "chezmoi/secret" (set . "secret" "exercism") }}",
-  "dir": "/Users/akatov/src/exercism",
-  "api":"http://exercism.io",
-  "xapi":"http://x.exercism.io"
-}
-{{ end }}

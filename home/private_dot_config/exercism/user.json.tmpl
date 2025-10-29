@@ -1,0 +1,5 @@
+{{- if .personal -}}{
+  "apibaseurl": "https://api.exercism.io/v1",
+  "token": "{{ template "chezmoi/secret" (set . "secret" "exercism") }}",
+  "workspace": "/Users/akatov/areas/exercism"
+}{{ end }}
