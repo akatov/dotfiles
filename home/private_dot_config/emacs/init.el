@@ -25,6 +25,8 @@
 
 (require 'init-combobulate)
 
+(require 'init-org)
+
 ;; * Built-in Packages
 
 (use-package dired
@@ -87,21 +89,34 @@
 	((meta shift) . 13)
 	((meta shift control) . 1.0)))
 
-;; ** TODO Global Keybindings - put this inside use-package
+;; Global Keybindings
 
-;; Some global keybindings I like to use...
+(use-package simple
+  :elpaca nil
+  :bind
+  (("C-h" . delete-backward-char))) ; like in the terminal
 
-(bind-keys ("M-g h" . windmove-left)
-           ("M-g j" . windmove-down)
-           ("M-g k" . windmove-up)
-           ("M-g l" . windmove-right)
-           ("M-g M-h" . windmove-left)
-           ("M-g M-j" . windmove-down)
-           ("M-g M-k" . windmove-up)
-           ("M-g M-l" . windmove-right)
-           ("C-h" . delete-backward-char) ; like in the terminal
-           ("M-h" . help-command)) ; rebind the help command
-(bind-key "<s-return>" 'toggle-frame-fullscreen)
+(use-package help
+  :elpaca nil
+  :bind
+  (("M-o" . help-command))) ; M-h is used in org-mode, M-n and M-p are used in Cider Repl
+
+(use-package window
+  :elpaca nil
+  :bind
+  (("M-g h" . windmove-left)
+   ("M-g j" . windmove-down)
+   ("M-g k" . windmove-up)
+   ("M-g l" . windmove-right)
+   ("M-g M-h" . windmove-left)
+   ("M-g M-j" . windmove-down)
+   ("M-g M-k" . windmove-up)
+   ("M-g M-l" . windmove-right)))
+
+(use-package frame
+  :elpaca nil
+  :bind
+  (("<s-return>" . toggle-frame-fullscreen)))
 
 ;; * Custom Config
 
@@ -184,8 +199,8 @@
 (use-package discover-my-major
   :ensure t
   :bind
-  (("M-h M-m" . discover-my-major)
-   ("M-h M-M" . discover-my-mode)))
+  (("M-o M-m" . discover-my-major)
+   ("M-o M-M" . discover-my-mode)))
 
 (use-package edts
   :ensure t)
@@ -251,71 +266,10 @@
   :init
   (bind-key [f8] 'neotree-toggle))
 
-(use-package ob-restclient
-  :ensure t)
-
-(use-package ob-http
-  :ensure t)
-
-(use-package ob-sql-mode
-  :ensure t)
-
-;; TODO put this in use-package
-
-(use-package org
-  :ensure t)
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
-(setq org-log-done t)
-(setq org-use-speed-commands t)
-(setq org-return-follows-link t)
-(setq org-src-preserve-indentation t)
-(setq org-agenda-custom-commands
-      '(("w" todo "WAITING" nil)
-        ("n" todo "NEXT" nil)
-        ("d" "Agenda + Next Actions" ((agenda) (todo "NEXT")))))
-
-
-;; todo: find a better location for this
-(setq org-ditaa-jar-path
-      "/usr/local/Cellar/ditaa/0.10/libexec/ditaa0_10.jar")
-(setq org-plantuml-jar-path
-      "/usr/local/Cellar/plantuml/1.2017.14/libexec/plantuml.jar")
-
-
-;; ** org-babel
-
-;; (org-babel-do-load-languages 'org-babel-load-languages
-;; 			     '((emacs-lisp . t)
-;; 			       (plantuml   . t)
-;; 			       (python     . t)
-;; 			       (ditaa      . t)
-;; 			       (clojure    . t)
-;; 			       (shell      . t)
-;; 			       (http       . t)
-;; 			       (sql        . t)))
-
-;; Use cider as the clojure execution backend
-(setq org-babel-clojure-backend 'cider)
-
-;; Let's have pretty source code blocks
-(setq org-edit-src-content-indentation 0
-      org-src-tab-acts-natively        t
-      org-src-fontify-natively         t
-      org-confirm-babel-evaluate       nil)
-
-;; (use-package org-plus-contrib
-;; 	     :ensure t)
-
 (use-package origami
   :ensure t
   ;; TODO: keybindings
   )
-
-(use-package ox-reveal
-  :ensure t)
-
-;; ** TODO org-drill
 
 ;; ** TODO package-build
 
@@ -464,9 +418,6 @@
   :config
   (global-wakatime-mode))
 
-(use-package weblorg
-  :ensure t)
-
 (use-package yaml-mode
   :ensure t)
 
@@ -475,5 +426,8 @@
 ;; ** TODO treesitter
 
 ;; ** TODO combobulate
+
+(use-package fennel-mode
+  :ensure t)
 
 (provide 'init)
