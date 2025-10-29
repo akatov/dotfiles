@@ -17,11 +17,14 @@ node_modules/
 # Elixir Dialyzer
 .elixir_ls/
 
-# direnv
-.envrc
-
 # LSP
 .lsp/
 
 # Clojure
 *.dylib
+
+# VSCode
+.joyride
+
+# Aider Chat
+.aider*
