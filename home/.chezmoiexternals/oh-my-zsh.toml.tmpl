@@ -1,24 +1,5 @@
-{{- $gh  := "https://github.com/" -}}
+{{- $gh  := "https://github.com/"    -}}
 {{- $amt := "/archive/master.tar.gz" -}}
-
-[".local/share/sh"]
-  type = "archive"
-  url = "https://gist.github.com/jacksonp/9c2f547434b7d78d1b62/archive/master.tar.gz"
-  stripComponents = 1
-
-## ZSH
-
-[".zaw"]
-  type = "archive"
-  url = "{{ $gh }}zsh-users/zaw{{ $amt }}"
-  exact = true
-  stripComponents = 1
-
-[".local/share/zsh/completion.zsh"]
-  type = "file"
-  url = "https://raw.githubusercontent.com/twe4ked/dotfiles/master/shell/zsh/completion.zsh"
-
-## oh-my-zsh
 
 [".oh-my-zsh"]
   type = "archive"
