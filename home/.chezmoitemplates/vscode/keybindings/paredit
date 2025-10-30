@@ -1,5 +1,3 @@
-// Place your key bindings in this file to override the defaults
-[
     {
         "key": "ctrl+alt+f",
         "command": "paredit.forwardSexp",
@@ -29,5 +27,4 @@
         "key": "ctrl+u ctrl+alt+k",
         "command": "paredit.killListForward",
         "when": "calva:keybindingsEnabled && editorTextFocus && editorLangId == 'clojure' && paredit:keyMap =~ /original|strict/"
-    }
-]
+    },

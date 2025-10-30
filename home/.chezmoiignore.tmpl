@@ -6,10 +6,12 @@
 .config/homebrew
 .config/karabiner
 .hammerspoon
+Library
 {{ end }}
 
 {{ if ne .chezmoi.os "linux" }}
 .chezmoiscripts/linux/**
+.config/Code
 .hushlogin
 .local/bin/nvim
 .local/share/fonts
