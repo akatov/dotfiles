@@ -28,3 +28,6 @@ node_modules/
 
 # Aider Chat
 .aider*
+
+# Claude
+**/.claude/settings.local.json
