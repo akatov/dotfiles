@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# set -eufo pipefail
+set           \
+  -o errexit  \
+  -o nounset  \
+  -o noglob   \
+  -o pipefail
+
+{{ if (and (eq .chezmoi.os "darwin") (not .ephemeral)) -}}
+
+# Add Karabiner-Elements and Divvy to Login Items
+osascript <<EOF
+tell application "System Events"
+  make login item at end with properties {path:"/Applications/Karabiner-Elements.app", hidden:false}
+  make login item at end with properties {path:"/Applications/Divvy.app", hidden:false}
+end tell
+EOF
+
+{{- end }}

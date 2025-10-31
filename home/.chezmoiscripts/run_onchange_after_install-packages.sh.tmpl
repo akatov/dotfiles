@@ -7,6 +7,7 @@ set           \
   -o noglob   \
   -o pipefail
 
+{{ if (and (eq .chezmoi.os "darwin") (not .ephemeral)) -}}
 brew bundle --file=/dev/stdin <<EOF
 {{ range .packages.darwin.brews -}}
 brew {{ . | quote }}
@@ -15,3 +16,4 @@ brew {{ . | quote }}
 cask {{ . | quote }}
 {{ end -}}
 EOF
+{{- end }}

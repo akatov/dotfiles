@@ -2,8 +2,15 @@
 
   brews = [
     'git',
+    'tmux',
   ]
 
   casks = [
+    'divvy',
+    'docker-desktop',
+    'font-fira-code',
     'google-chrome',
+    'karabiner-elements',
+    'kitty',
+    'visual-studio-code',
   ]
