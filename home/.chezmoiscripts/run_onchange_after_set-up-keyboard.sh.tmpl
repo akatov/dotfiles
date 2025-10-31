@@ -1,0 +1,95 @@
+#!/bin/bash
+
+# set -eufo pipefail
+set           \
+  -o errexit  \
+  -o nounset  \
+  -o noglob   \
+  -o pipefail
+
+{{ if (and (eq .chezmoi.os "darwin") (not .ephemeral)) -}}
+
+# Show Input menu in menu bar
+echo ""
+echo "Enabling 'Show Input menu in menu bar'..."
+defaults write com.apple.TextInputMenu visible -bool true
+
+# Restart SystemUIServer to apply changes
+killall SystemUIServer 2>/dev/null || true
+
+echo "Input menu will now be shown in menu bar."
+
+
+# Set keyboard input sources to British-PC and RussianWin
+echo ""
+echo "Configuring keyboard input sources (British-PC and RussianWin)..."
+
+# British-PC enabled input sources
+if ! defaults read com.apple.HIToolbox AppleEnabledInputSources | grep -q '"KeyboardLayout ID" = 250;' &>/dev/null; then
+  defaults write com.apple.HIToolbox AppleEnabledInputSources -array-add '
+  <dict>
+    <key>InputSourceKind</key>
+    <string>Keyboard Layout</string>
+
+    <key>KeyboardLayout ID</key>
+    <integer>250</integer>
+
+    <key>KeyboardLayout Name</key>
+    <string>British-PC</string>
+  </dict>'
+fi
+
+# British-PC selected input sources
+if ! defaults read com.apple.HIToolbox AppleSelectedInputSources | grep -q '"KeyboardLayout ID" = 250;' &>/dev/null; then
+  defaults write com.apple.HIToolbox AppleSelectedInputSources -array-add '
+  <dict>
+    <key>InputSourceKind</key>
+    <string>Keyboard Layout</string>
+
+    <key>KeyboardLayout ID</key>
+    <integer>250</integer>
+
+    <key>KeyboardLayout Name</key>
+    <string>British-PC</string>
+  </dict>'
+fi
+
+# RussianWin enabled input sources
+if ! defaults read com.apple.HIToolbox AppleEnabledInputSources | grep -q '"KeyboardLayout ID" = 19458;' &>/dev/null; then
+  defaults write com.apple.HIToolbox AppleEnabledInputSources -array-add '
+  <dict>
+    <key>InputSourceKind</key>
+    <string>Keyboard Layout</string>
+
+    <key>KeyboardLayout ID</key>
+    <integer>19458</integer>
+
+    <key>KeyboardLayout Name</key>
+    <string>RussianWin</string>
+  </dict>'
+fi
+
+# # RussianWin selected input sources
+# if ! defaults read com.apple.HIToolbox AppleSelectedInputSources | grep -q '"KeyboardLayout ID" = 19458;' &>/dev/null; then
+#   defaults write com.apple.HIToolbox AppleSelectedInputSources -array-add '
+#   <dict>
+#     <key>InputSourceKind</key>
+#     <string>Keyboard Layout</string>
+
+#     <key>KeyboardLayout ID</key>
+#     <integer>19458</integer>
+
+#     <key>KeyboardLayout Name</key>
+#     <string>RussianWin</string>
+#   </dict>'
+# fi
+
+# set default keyboard layout to British-PC
+defaults write com.apple.HIToolbox AppleCurrentKeyboardLayoutInputSourceID 'com.apple.keylayout.British-PC'
+
+# Restart the input source manager to apply changes
+killall "Input Source Manager" 2>/dev/null || true
+
+echo "Keyboard input sources configured: British-PC and RussianWin."
+
+{{- end }}
