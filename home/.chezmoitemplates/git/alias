@@ -1,0 +1,34 @@
+[alias]
+  a   = add
+  b   = branch
+  bl  = blame
+  c   = commit -v
+  ca  = commit -v -a
+  cl  = clone
+  cm  = checkout master
+  cd  = checkout develop
+  co  = checkout
+  cp  = cherry-pick
+  d   = diff --color
+  dc  = diff --color --cached
+  f   = fetch
+  g   = grep
+  h   = help
+  i   = init
+  l   = pull
+  lg  = log --stat --max-count=5
+  lgg = log --graph --max-count=5
+  lll = log --pretty=format:'%h %s (%cn)%n' --decorate --stat --graph --color
+  m   = merge
+  n   = notes
+  p   = push
+  pom = push origin master
+  rh  = reset HEAD
+  rhh = reset HEAD --hard
+  sh  = show --color
+  ss  = status -s
+  st  = status
+  up  = pull --rebase
+  bb  = repo bb
+  hub = repo hub
+  lab = repo lab
