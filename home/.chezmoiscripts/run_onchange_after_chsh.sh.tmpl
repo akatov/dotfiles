@@ -1,0 +1,12 @@
+{{ if (and (eq .chezmoi.os "linux") (not .ephemeral)) -}}
+#!/bin/bash
+
+# set -eufo pipefail
+set           \
+  -o errexit  \
+  -o nounset  \
+  -o noglob   \
+  -o pipefail
+
+chsh -s /usr/bin/zsh
+{{- end }}
