@@ -1,1 +1,7 @@
-export EDITOR="emacs -nw -Q"
+if which emacs &>/dev/null; then
+  export EDITOR="emacs -nw -Q"
+elif which zile &>/dev/null; then
+  export EDITOR="zile"
+else
+  export EDITOR="nano"
+fi
