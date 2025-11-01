@@ -92,4 +92,69 @@ killall "Input Source Manager" 2>/dev/null || true
 
 echo "Keyboard input sources configured: British-PC and RussianWin."
 
+
+# Add Karabiner-Elements to Login Items
+echo ""
+echo "Adding Karabiner-Elements to Login Items..."
+
+osascript <<EOF
+tell application "System Events"
+  make login item at end with properties {path:"/Applications/Karabiner-Elements.app", hidden:false}
+end tell
+EOF
+echo "Karabiner-Elements added to Login Items."
+
+# Enable Karabiner-Elements DriverKit extension
+echo ""
+echo "Activating Karabiner-Elements DriverKit extension..."
+
+# Check if already activated by looking for the driver
+if ! systemextensionsctl list | grep -q "org.pqrs.Karabiner-DriverKit-VirtualHIDDevice.*\[activated enabled\]"; then
+  echo ""
+  echo "Karabiner-Elements DriverKit extension is not activated."
+  echo "Starting activation process..."
+
+  # Start activation in background
+  /Applications/.Karabiner-VirtualHIDDevice-Manager.app/Contents/MacOS/Karabiner-VirtualHIDDevice-Manager activate &
+
+  echo "Opening System Settings > General > Login Items..."
+  open "x-apple.systempreferences:com.apple.LoginItems-Settings.extension"
+  echo ""
+  echo "Please approve the Karabiner-Elements DriverKit extension in System Settings,"
+  echo "then press ENTER to continue..."
+  read -r
+
+  # Wait for activation to complete
+  wait
+fi
+
+echo "Karabiner-Elements DriverKit extension is activated."
+
+# # Activate Karabiner-Elements Non-Privileged Agents
+# echo "Activating Karabiner-Elements Non-Privileged Agents..."
+# launchctl bootstrap gui/"$(id -u)" /Library/LaunchAgents/org.pqrs.karabiner.karabiner_console_user_server.plist 2>/dev/null || true
+
+# # Activate Karabiner-Elements Privileged Daemons
+# echo "Activating Karabiner-Elements Privileged Daemons..."
+# sudo launchctl bootstrap system /Library/LaunchDaemons/org.pqrs.karabiner.karabiner_grabber.plist 2>/dev/null || true
+# sudo launchctl bootstrap system /Library/LaunchDaemons/org.pqrs.karabiner.karabiner_observer.plist 2>/dev/null || true
+
+# Check and request Input Monitoring permission for karabiner_grabber
+echo ""
+echo "Checking Input Monitoring permission for Karabiner-Elements..."
+
+# The TCC database check for Input Monitoring
+while ! sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db "SELECT client FROM access WHERE service='kTCCServiceListenEvent' AND client LIKE '%karabiner_grabber%' AND auth_value=2" 2>/dev/null | grep -q karabiner_grabber; do
+  echo ""
+  echo "Karabiner-Elements requires Input Monitoring permission."
+  echo "Opening System Settings > Privacy & Security > Input Monitoring..."
+  open "x-apple.systempreferences:com.apple.preference.security?Privacy_ListenEvent"
+  echo ""
+  echo "Please enable Input Monitoring for karabiner_grabber and karabiner_observer,"
+  echo "then press ENTER to continue..."
+  read -r
+done
+
+# echo "Karabiner-Elements is fully activated."
+
 {{- end }}

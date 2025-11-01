@@ -6,10 +6,10 @@
   ]
 
   casks = [
-    'divvy',
     'docker-desktop',
     'font-fira-code',
     'google-chrome',
+    'hammerspoon',
     'karabiner-elements',
     'kitty',
     'visual-studio-code',
