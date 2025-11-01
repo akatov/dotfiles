@@ -92,6 +92,9 @@ killall "Input Source Manager" 2>/dev/null || true
 
 echo "Keyboard input sources configured: British-PC and RussianWin."
 
+brew bundle --file=/dev/stdin <<EOF
+cask "karabiner-elements"
+EOF
 
 # Add Karabiner-Elements to Login Items
 echo ""
