@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# set -eufo pipefail
+set           \
+  -o errexit  \
+  -o nounset  \
+  -o noglob   \
+  -o pipefail
+
+{{ if (not .ephemeral) -}}
+
+brew bundle --file=/dev/stdin <<EOF
+cask "visual-studio-code"
+EOF
+
+{{ range .packages.vscode.extensions -}}
+code --install-extension {{ . }}
+{{ end -}}
+
+{{- end }}
