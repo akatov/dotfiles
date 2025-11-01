@@ -9,8 +9,11 @@ set           \
 
 {{ if (and (eq .chezmoi.os "darwin") (not .ephemeral)) -}}
 
+brew bundle --file=/dev/stdin <<EOF
+cask "hammerspoon"
+EOF
 
-# Add Karabiner-Elements and Hammerspoon to Login Items
+# Add Hammerspoon to Login Items
 echo ""
 echo "Adding Hammerspoon to Login Items..."
 
