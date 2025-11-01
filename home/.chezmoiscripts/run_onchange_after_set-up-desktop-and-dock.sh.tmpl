@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# set -eufo pipefail
+set           \
+  -o errexit  \
+  -o nounset  \
+  -o noglob   \
+  -o pipefail
+
+{{ if (and (eq .chezmoi.os "darwin") (not .ephemeral)) -}}
+
+# Set Dock size to small
+echo ""
+echo "Setting Dock size to small..."
+defaults write com.apple.dock tilesize -int 32
+
+echo "Dock size set to small."
+
+# Enable "Automatically hide and show the Dock"
+echo ""
+echo "Enabling 'Automatically hide and show the Dock'..."
+defaults write com.apple.dock autohide -bool true
+
+echo "Dock auto-hide enabled."
+
+# Restart Dock to apply changes
+killall Dock 2>/dev/null || true
+
+{{ end -}}
