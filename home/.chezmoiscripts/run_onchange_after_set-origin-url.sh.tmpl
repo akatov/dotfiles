@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# set -eufo pipefail
+set           \
+  -o errexit  \
+  -o nounset  \
+  -o noglob   \
+  -o pipefail
+
+
+{{ if .personal -}}
+
+if ! ls ~/.ssh/id_ed25519 &>/dev/null; then
+  echo ""
+  echo "Generating SSH key"
+  ssh-keygen -t ed25519 -C "dmitri@akatov.com"
+fi
+echo "SSH key detected"
+echo "If necessary, add the public key to GitHub by"
+echo "running \`cat ~/.ssh/id_ed25519.pub | pbcopy\`"
+echo "and pasting into https://github.com/settings/ssh/new"
+
+git -C "${CHEZMOI_WORKING_TREE}" remote set-url origin git@github.com:akatov/dotfiles.git
+
+{{ end -}}
