@@ -1,0 +1,76 @@
+#!/bin/bash
+
+# set -eufo pipefail
+set           \
+  -o errexit  \
+  -o nounset  \
+  -o noglob   \
+  -o pipefail
+
+{{ if (and (eq .chezmoi.os "darwin") (not .ephemeral)) -}}
+
+# Disable natural scrolling
+echo ""
+echo "Disabling natural scrolling..."
+defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
+
+echo "Natural scrolling disabled."
+
+# Enable tap to click
+echo ""
+echo "Enabling tap to click..."
+defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+# defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+
+echo "Tap to click enabled."
+
+# Enable secondary click (right-click) with two fingers
+echo ""
+echo "Enabling secondary click with two fingers..."
+# defaults write com.apple.AppleMultitouchTrackpad TrackpadRightClick -bool true
+# defaults write com.apple.AppleMultitouchTrackpad TrackpadCornerSecondaryClick -int 0
+# defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRightClick -bool true
+# defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -int 0
+
+echo "Secondary click enabled (two-finger click or tap)."
+
+# Set Mission Control to swipe up with four fingers
+echo ""
+echo "Setting Mission Control to swipe up with four fingers..."
+echo "Setting App Exposé to swipe down with four fingers..."
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerVertSwipeGesture -int 0
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerVertSwipeGesture -int 0
+defaults write com.apple.AppleMultitouchTrackpad TrackpadFourFingerVertSwipeGesture -int 2
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadFourFingerVertSwipeGesture -int 2
+defaults write com.apple.dock showMissionControlGestureEnabled -bool true
+defaults write com.apple.dock showAppExposeGestureEnabled -bool true
+
+echo "Mission Control set to swipe up with four fingers."
+echo "App Exposé set to swipe down with four fingers."
+
+
+# Set swipe between full-screen applications to four fingers
+echo ""
+echo "Setting swipe between full-screen apps to four fingers..."
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerHorizSwipeGesture -int 0
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerHorizSwipeGesture -int 0
+defaults write com.apple.AppleMultitouchTrackpad TrackpadFourFingerHorizSwipeGesture -int 2
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadFourFingerHorizSwipeGesture -int 2
+
+echo "Swipe between full-screen apps set to four fingers."
+
+# Enable trackpad dragging
+echo ""
+echo "Enabling trackpad dragging..."
+
+# Enable dragging with three finger drag
+# defaults write com.apple.AppleMultitouchTrackpad Dragging -bool false
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -bool true
+# defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Dragging -bool false
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool true
+
+echo "Trackpad dragging enabled (three-finger drag)."
+
+{{- end }}
