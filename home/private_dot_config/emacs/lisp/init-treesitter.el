@@ -9,7 +9,7 @@
     (setq forward-sentence-function #'forward-sentence-default-function)))
 
 (use-package treesit
-  :elpaca nil
+  :ensure nil
   :init
   (setq
    treesit-language-source-alist

@@ -1,5 +1,5 @@
 (use-package combobulate
-  :elpaca (:host github :repo "mickeynp/combobulate")
+  :ensure (:host github :repo "mickeynp/combobulate")
   :after (treesit)
   :preface
   ;; You can customize Combobulate's key prefix here.

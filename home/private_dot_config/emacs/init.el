@@ -30,22 +30,22 @@
 ;; * Built-in Packages
 
 (use-package dired
-  :elpaca nil
+  :ensure nil
   :custom
   (dired-dwim-target t))
 
 (use-package hl-line
-  :elpaca nil
+  :ensure nil
   :config
   (set-face-background 'hl-line "#073642"))
 
 (use-package js
-  :elpaca nil
+  :ensure nil
   :custom
   (js-indent-level 2))
 
 (use-package subword
-  :elpaca nil
+  :ensure nil
   :hook ((haskell-mode
 	  coffee-mode
 	  js-mode
@@ -92,17 +92,17 @@
 ;; Global Keybindings
 
 (use-package simple
-  :elpaca nil
+  :ensure nil
   :bind
   (("C-h" . delete-backward-char))) ; like in the terminal
 
 (use-package help
-  :elpaca nil
+  :ensure nil
   :bind
   (("M-o" . help-command))) ; M-h is used in org-mode, M-n and M-p are used in Cider Repl
 
 (use-package window
-  :elpaca nil
+  :ensure nil
   :bind
   (("M-g h" . windmove-left)
    ("M-g j" . windmove-down)
@@ -114,7 +114,7 @@
    ("M-g M-l" . windmove-right)))
 
 (use-package frame
-  :elpaca nil
+  :ensure nil
   :bind
   (("<s-return>" . toggle-frame-fullscreen)))
 
@@ -249,6 +249,9 @@
 (use-package lua-mode
   :ensure t)
 
+(use-package transient ; needed by magit
+  :ensure t)
+
 (use-package magit
   :ensure t
   :bind
@@ -263,13 +266,13 @@
 
 (use-package neotree
   :ensure t
-  :init
-  (bind-key [f8] 'neotree-toggle))
+  :bind
+  ("<f8>" . neotree-toggle))
 
-(use-package origami
-  :ensure t
-  ;; TODO: keybindings
-  )
+;; (use-package origami
+;;   :ensure t
+;;   ;; TODO: keybindings
+;;   )
 
 ;; ** TODO package-build
 
@@ -412,11 +415,12 @@
 
 (use-package wakatime-mode
   :ensure t
-  :custom
-  ;; see init-private
-  (wakatime-cli-path "/opt/homebrew/bin/wakatime-cli")
-  :config
-  (global-wakatime-mode))
+  ;; :custom
+  ;; ;; see init-private
+  ;; (wakatime-cli-path "/opt/homebrew/bin/wakatime-cli")
+  ;; :config
+  ;; (global-wakatime-mode)
+  )
 
 (use-package yaml-mode
   :ensure t)
