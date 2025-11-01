@@ -87,10 +87,141 @@ fi
 # set default keyboard layout to British-PC
 defaults write com.apple.HIToolbox AppleCurrentKeyboardLayoutInputSourceID 'com.apple.keylayout.British-PC'
 
+echo "Keyboard input sources configured: British-PC and RussianWin."
+
+echo ""
+echo "Setting keyboard shortcuts..."
+# "Select the previous input source" - Ctrl+Space - Disable
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 60 "
+<dict>
+  <key>enabled</key>
+  <false/>
+  <key>value</key>
+  <dict>
+    <key>parameters</key>
+    <array>
+      <integer>32</integer>
+      <integer>49</integer>
+      <integer>262144</integer>
+    </array>
+    <key>type</key>
+    <string>standard</string>
+  </dict>
+</dict>"
+# "Select the next source in Input menu" - Cmd+Opt+Space
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 61 "
+<dict>
+  <key>enabled</key>
+  <true/>
+  <key>value</key>
+  <dict>
+    <key>parameters</key>
+    <array>
+      <integer>32</integer>
+      <integer>49</integer>
+      <integer>1572864</integer>
+    </array>
+    <key>type</key>
+    <string>standard</string>
+  </dict>
+</dict>"
+# "Show Finder search window" - Cmd+Opt+Space - Disable
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 "
+<dict>
+  <key>enabled</key>
+  <false/>
+  <key>value</key>
+  <dict>
+    <key>parameters</key>
+    <array>
+      <integer>32</integer>
+      <integer>49</integer>
+      <integer>1572864</integer>
+    </array>
+    <key>type</key>
+    <string>standard</string>
+  </dict>
+</dict>"
+# "Mission Control" - Ctrl+Up - Disable
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 32 "
+<dict>
+  <key>enabled</key>
+  <false/>
+  <key>value</key>
+  <dict>
+    <key>parameters</key>
+    <array>
+      <integer>65535</integer>
+      <integer>126</integer>
+      <integer>8650752</integer>
+    </array>
+    <key>type</key>
+    <string>standard</string>
+  </dict>
+</dict>"
+# "Application windows" - Ctrl+Down - Disable
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 33 "
+<dict>
+  <key>enabled</key>
+  <false/>
+  <key>value</key>
+  <dict>
+    <key>parameters</key>
+    <array>
+      <integer>65535</integer>
+      <integer>125</integer>
+      <integer>8650752</integer>
+    </array>
+    <key>type</key>
+    <string>standard</string>
+  </dict>
+</dict>"
+# "Move left a space" - Ctrl+Left - Disable
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 79 "
+<dict>
+  <key>enabled</key>
+  <false/>
+  <key>value</key>
+  <dict>
+    <key>parameters</key>
+    <array>
+      <integer>65535</integer>
+      <integer>123</integer>
+      <integer>8650752</integer>
+    </array>
+    <key>type</key>
+    <string>standard</string>
+  </dict>
+</dict>"
+# "Move right a space" - Ctrl+Right - Disable
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 81 "
+<dict>
+  <key>enabled</key>
+  <false/>
+  <key>value</key>
+  <dict>
+    <key>parameters</key>
+    <array>
+      <integer>65535</integer>
+      <integer>124</integer>
+      <integer>8650752</integer>
+    </array>
+    <key>type</key>
+    <string>standard</string>
+  </dict>
+</dict>"
+
+echo "Keyboard shortcuts set."
+
+# Enable "Use F1, F2, etc. keys as standard function keys"
+echo ""
+echo "Enabling 'Use F1, F2, etc. keys as standard function keys'..."
+defaults write NSGlobalDomain com.apple.keyboard.fnState -bool true
+
+echo "Function keys configured as standard function keys."
+
 # Restart the input source manager to apply changes
 killall "Input Source Manager" 2>/dev/null || true
-
-echo "Keyboard input sources configured: British-PC and RussianWin."
 
 brew bundle --file=/dev/stdin <<EOF
 cask "karabiner-elements"
