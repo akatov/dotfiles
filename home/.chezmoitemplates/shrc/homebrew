@@ -1,4 +1,4 @@
 {{- if .personal -}}
-export HOMEBREW_GITHUB_API_TOKEN="{{ template "chezmoi/secret" (set . "secret" "homebrew") }}"
+export HOMEBREW_GITHUB_API_TOKEN="{{ template "_secret" (set . "secret" "homebrew") }}"
 {{ end }}
 export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:$PATH

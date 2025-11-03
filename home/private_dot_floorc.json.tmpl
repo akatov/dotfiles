@@ -3,8 +3,8 @@
   "auth": {
     "floobits.com": {
       "username": "akatov",
-      "api_key": "{{ template "chezmoi/secret" (set . "secret" "floobits key") }}",
-      "secret": "{{ template "chezmoi/secret" (set . "secret" "floobits secret") }}"
+      "api_key": "{{ template "_secret" (set . "secret" "floobits key") }}",
+      "secret": "{{ template "_secret" (set . "secret" "floobits secret") }}"
     }
   }
 }

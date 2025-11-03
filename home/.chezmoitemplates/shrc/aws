@@ -1,6 +1,6 @@
 {{- if .personal -}}
-export AWS_ACCESS_KEY="{{ template "chezmoi/secret" (set . "secret" "aws access key") }}"
-export AWS_SECRET_KEY="{{ template "chezmoi/secret" (set . "secret" "aws secret key") }}"
-export AWS_SSH_KEY_FILE="{{ template "chezmoi/secret" (set . "secret" "aws ssh key file") }}"
-export AWS_KEYPAIR_NAME="{{ template "chezmoi/secret" (set . "secret" "aws keypair name") }}"
+export AWS_ACCESS_KEY="{{ template "_secret" (set . "secret" "aws access key") }}"
+export AWS_SECRET_KEY="{{ template "_secret" (set . "secret" "aws secret key") }}"
+export AWS_SSH_KEY_FILE="{{ template "_secret" (set . "secret" "aws ssh key file") }}"
+export AWS_KEYPAIR_NAME="{{ template "_secret" (set . "secret" "aws keypair name") }}"
 {{- end -}}
