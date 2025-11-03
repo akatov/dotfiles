@@ -1,0 +1,6 @@
+{{- if eq . "ZSH" -}}
+.oh-my-zsh
+{{- else if eq . "ZSH_CUSTOM" -}}
+.local/share/oh-my-zsh-custom
+{{- else -}}
+{{- end -}}

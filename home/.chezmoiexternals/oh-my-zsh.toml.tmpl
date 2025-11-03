@@ -1,21 +1,21 @@
 {{- $gh  := "https://github.com/"    -}}
 {{- $amt := "/archive/master.tar.gz" -}}
 
-[".oh-my-zsh"]
+["{{ template "zshrc/ohmyzsh/_data" "ZSH"}}"]
   type = "archive"
   url = "{{ $gh }}ohmyzsh/ohmyzsh{{ $amt }}"
   exact = true
   stripComponents = 1
   refreshPeriod = "168h"
 
-[".local/share/oh-my-zsh-custom/plugins/zsh-syntax-highlighting"]
+["{{ template "zshrc/ohmyzsh/_data" "ZSH_CUSTOM" }}/plugins/zsh-syntax-highlighting"]
     type = "archive"
     url = "{{ $gh }}zsh-users/zsh-syntax-highlighting{{ $amt }}"
     exact = true
     stripComponents = 1
     refreshPeriod = "168h"
 
-[".local/share/oh-my-zsh-custom/themes/powerlevel10k"]
+["{{ template "zshrc/ohmyzsh/_data" "ZSH_CUSTOM" }}/themes/powerlevel10k"]
     type = "archive"
     url = "{{ $gh }}romkatv/powerlevel10k/archive/v1.16.1.tar.gz"
     exact = true

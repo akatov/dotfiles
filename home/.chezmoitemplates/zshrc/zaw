@@ -1,1 +1,1 @@
-source ~/.zaw/zaw.zsh
+source ~/{{ template "zshrc/_data" "ZAW" }}/zaw.zsh

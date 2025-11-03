@@ -1,0 +1,6 @@
+{{- if eq . "ZAW" -}}
+.zaw
+{{- else if eq . "COMPLETION.ZSH" -}}
+.local/share/zsh/completion.zsh
+{{- else -}}
+{{- end -}}

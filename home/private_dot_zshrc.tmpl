@@ -6,7 +6,7 @@
 
 {{ template "zshrc/setopt" }}
 {{ template "zshrc/private" }}
-source ~/.local/share/zsh/completion.zsh
+source ~/{{ template "zshrc/_data" "COMPLETION.ZSH" }}
 source ~/.shrc
 {{ template "zshrc/dedup-path" }}
 {{ template "zshrc/zaw" }}

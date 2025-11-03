@@ -1,7 +1,7 @@
 {{- $gist := "https://gist.github.com/" -}}
 {{- $amt  := "/archive/master.tar.gz"   -}}
 
-[".local/share/sh"]
+["{{ template "shrc/_data" "SHARE" }}"]
   type = "archive"
   url = "{{ $gist }}jacksonp/9c2f547434b7d78d1b62/{{ $amt }}"
   stripComponents = 1

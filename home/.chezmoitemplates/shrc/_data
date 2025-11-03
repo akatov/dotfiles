@@ -1,0 +1,4 @@
+{{- if eq . "SHARE" -}}
+.local/share/sh
+{{- else -}}
+{{- end -}}
