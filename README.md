@@ -4,22 +4,23 @@ Dmitri's dotfiles, managed with [chezmoi](https://www.chezmoi.io/).
 
 ## Installation
 
+Install Homebrew:
+
 ```bash
-# install homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
 Then do one of the following:
 
+install chezmoi into `~/.local/bin` and auto-init
+
 ```bash
-# install chezmoi into ~/.local/bin and auto-init
 sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply akatov
 ```
 
-or
+or install chezmoi using homebrew and init manually
 
 ```bash
-# install chezmoi using homebrew and init manually
 brew install chezmoi
 chezmoi init akatov
 ```
