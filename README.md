@@ -10,15 +10,23 @@ Install Homebrew:
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
+Optionally install 1Password:
+
+```bash
+brew install 1password
+```
+
+then login and turn on CLI integration (Developer > CLI).
+
 Then do one of the following:
 
-install chezmoi into `~/.local/bin` and auto-init
+install chezmoi into `~/.local/bin` and auto-init:
 
 ```bash
 sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply akatov
 ```
 
-or install chezmoi using homebrew and init manually
+or install chezmoi using homebrew and init manually:
 
 ```bash
 brew install chezmoi
