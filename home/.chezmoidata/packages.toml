@@ -24,6 +24,7 @@
     'eamodio.gitlens',
     'editorconfig.editorconfig',
     'formulahendry.auto-rename-tag',
+    'github.codespaces',
     'humao.rest-client',
     'irongeek.vscode-env',
     'ms-azuretools.vscode-containers',
