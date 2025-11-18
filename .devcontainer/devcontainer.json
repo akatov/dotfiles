@@ -1,0 +1,18 @@
+{
+  "name": "akatov/dotfiles",
+
+  "build": { "dockerfile": "Dockerfile" },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dprint.dprint",
+        "tamasfe.even-better-toml"
+      ]
+    }
+  },
+
+  "features": {
+    "ghcr.io/devcontainer-community/devcontainer-features/chezmoi.io": {}
+  }
+}

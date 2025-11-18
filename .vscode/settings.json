@@ -1,0 +1,34 @@
+{
+  "dprint.verbose": true,
+  "dprint.experimentalLsp": true,
+
+  "editor.defaultFormatter": "dprint.dprint",
+  "[javascript]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "dprint.dprint"
+  },
+  "[typescript]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "dprint.dprint"
+  },
+  "[typescriptreact]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "dprint.dprint"
+  },
+  "[json]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "dprint.dprint"
+  },
+  "[markdown]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "dprint.dprint"
+  },
+  "[toml]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "dprint.dprint"
+  },
+  "[yaml]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "dprint.dprint"
+  }
+}
