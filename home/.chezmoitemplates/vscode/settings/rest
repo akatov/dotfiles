@@ -1,0 +1,196 @@
+  "http.proxy": "",
+  "http.proxyAuthorization": null,
+  "http.proxyStrictSSL": false,
+  "diffEditor.ignoreTrimWhitespace": true,
+  "editor.fontFamily": "Fira Code",
+  "editor.fontLigatures": true,
+  "elixirLS.mixEnv": "dev",
+  "githubIssues.queries": [
+    {
+      "label": "My Issues",
+      "query": "default"
+    },
+    {
+      "label": "Created Issues",
+      "query": "author:${user} state:open repo:${owner}/${repository} sort:created-desc"
+    }
+  ],
+  "editor.formatOnPaste": true,
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.renderWhitespace": "none",
+  "remote.SSH.defaultExtensions": ["gitpod.gitpod-remote-ssh"],
+  "remote.SSH.configFile": "/var/folders/n8/7syj8skj00d7pyx4b395__n80000gn/T/gitpod_ssh_config-5430-Rpjnsz20SnqP",
+  "redhat.telemetry.enabled": false,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "calva.customREPLCommandSnippets": [],
+  "terminal.external.osxExec": "Hyper.app",
+  "terminal.integrated.autoReplies": {},
+  "terminal.integrated.fontFamily": "MesloLGS NF",
+  "terminal.integrated.automationProfile.windows": {},
+  "terminal.integrated.macOptionIsMeta": true,
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "svelte.enable-ts-plugin": true,
+  "svelte.plugin.svelte.note-new-transformation": false,
+  "rust-analyzer.inlayHints.chainingHints.enable": false,
+  "rust-analyzer.debug.openDebugPane": true,
+  "indentRainbow.excludedLanguages": ["plaintext"],
+  "editor.inlayHints.enabled": "offUnlessPressed",
+  "calva.paredit.defaultKeyMap": "original",
+  "calva.prettyPrintingOptions": {
+    "printEngine": "pprint",
+    "enabled": true,
+    "width": 120,
+    "maxLength": 50
+  },
+  "debug.allowBreakpointsEverywhere": true,
+  "calva.highlight.bracketColors": [
+    ["#000", "#ccc"],
+    "#0098e6",
+    "#e16d6d",
+    "#3fa455",
+    "#c968e6",
+    "#999",
+    "#ce7e00"
+  ],
+  "C_Cpp.default.customConfigurationVariables": {},
+  "editor.minimap.enabled": false,
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "Cargo.toml": "Cargo.lock",
+    "*.ts": "${capture}.typegen.ts",
+    "*.tsx": "${capture}.typegen.ts",
+    "*.mts": "${capture}.typegen.ts",
+    "*.cts": "${capture}.typegen.ts"
+  },
+  "http.proxySupport": "off",
+  "debug.javascript.autoAttachFilter": "always",
+  "github.copilot.enable": {
+    "*": false,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false
+  },
+  "workbench.tree.enableStickyScroll": true,
+  "editor.stickyScroll.enabled": true,
+  "editor.stickyScroll.maxLineCount": 10,
+  "notebook.stickyScroll.enabled": true,
+  "terminal.integrated.stickyScroll.enabled": false,
+  "githubPullRequests.pullBranch": "never",
+  "editor.accessibilitySupport": "off",
+  "prisma.showPrismaDataPlatformNotification": false,
+  "github.copilot.editor.enableAutoCompletions": true,
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // "workbench.editor.customLabels.enabled": true,
+  // "workbench.editor.customLabels.patterns": {
+
+  // },
+  "workbench.settings.applyToAllProfiles": [],
+  "docker.commands.attach": "${containerCommand} exec -it ${containerId} ${shellCommand}",
+  "prettifySymbolsMode.substitutions": [
+    {
+      "language": "typescript",
+      "substitutions": [
+        {
+          "ugly": "yield\\s*\\*",
+          // "pre": "",
+          // "post": "",
+          // "pretty": "¥",
+          // "pretty": "𝕪¥",
+          // "pretty": "🆈",
+          // "pretty": "🅨"
+          // "pretty": "Ⓨ",
+          "pretty": "ⓨ"
+          // "pretty": "🅈",
+          // "style": { "border": "1pt solid purple" }
+        },
+        {
+          "ugly": "function\\s*\\*",
+          "pretty": "ƛ"
+          // "pretty": "🅵"
+          // "pretty": "🅕"
+          // "pretty": "🄵"
+          // "pretty": "Ⓕ"
+          // "pretty": "ⓕ"
+          // "style": { "border": "1pt solid purple" }
+        },
+        {
+          "ugly": "function",
+          "pretty": "λ"
+          // "style": { "border": "1pt solid purple" }
+        }
+        // {
+        //   "ugly": "Effect\\.",
+        //   "pretty": "𝔼."
+        //   // "style": { "border": "1pt solid purple" }
+        // },
+        // {
+        //   "ugly": "\\.pipe",
+        //   "pretty": ".▹"
+        //   // "style": { "border": "1pt solid purple" }
+        // }
+      ]
+    },
+    {
+      "language": "fsharp",
+      "substitutions": [
+        {
+          "ugly": "fun",
+          "pretty": "λ",
+          "scope": "keyword.other.function-definition.fsharp"
+        },
+        { "ugly": "->", "pre": "[^->]", "post": "[^->]", "pretty": "⟶" },
+        {
+          "ugly": ".+",
+          "scope": "variable.parameter.fsharp",
+          "pre": "^",
+          "post": "$",
+          "style": { "border": "1pt solid green" }
+        }
+      ]
+    }
+  ],
+  "containers.commands.attach": "${containerCommand} exec -it ${containerId} ${shellCommand}",
+  "dprint.verbose": true,
+  "dprint.experimentalLsp": false,
+  "docker.extension.enableComposeLanguageServer": false,
+  "[dockercompose]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced",
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": false,
+      "strings": true
+    },
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[github-actions-workflow]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "editor.unicodeHighlight.ambiguousCharacters": false,
+  "claudeCode.environmentVariables": [],
+
+  "remote.autoForwardPortsSource": "hybrid",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "remote.localPortHost": "allInterfaces",
+  "claudeCode.preferredLocation": "panel",
+  "chat.mcp.serverSampling": {},
+  "chat.mcp.discovery.enabled": {
+    "cursor-global": true
+  }  
+
+  // "dotfiles.repository": "akatov/dotfiles",
+  // "dotfiles.targetPath": "~/.local/share/chezmoi",
+  // "dotfiles.installCommand": "install.sh",
