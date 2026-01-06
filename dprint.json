@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/dprint/dprint/refs/heads/main/website/src/assets/schemas/v0.json",
   "typescript": {
   },
   "json": {
