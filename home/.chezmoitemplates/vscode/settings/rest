@@ -189,8 +189,4 @@
   "chat.mcp.serverSampling": {},
   "chat.mcp.discovery.enabled": {
     "cursor-global": true
-  }  
-
-  // "dotfiles.repository": "akatov/dotfiles",
-  // "dotfiles.targetPath": "~/.local/share/chezmoi",
-  // "dotfiles.installCommand": "install.sh",
+  },
