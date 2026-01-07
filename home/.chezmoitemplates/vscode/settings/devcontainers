@@ -2,7 +2,8 @@
     "albert.tabout",
   ],
   "dev.containers.defaultFeatures": {
-    "ghcr.io/devcontainer-community/devcontainer-features/chezmoi.io": {}
+    "ghcr.io/devcontainer-community/devcontainer-features/chezmoi.io": {},
+    "ghcr.io/jajera/features/ag": {},
   },
   "dotfiles.repository": "akatov/dotfiles",
   "dotfiles.targetPath": "~/.local/share/chezmoi",
