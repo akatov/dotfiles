@@ -2,62 +2,288 @@
     {
       "language": "typescript",
       "substitutions": [
+        // typescript
         {
-          "ugly": "yield\\s*\\*",
-          // "pre": "",
-          // "post": "",
-          // "pretty": "¥",
-          // "pretty": "𝕪¥",
-          // "pretty": "🆈",
-          // "pretty": "🅨"
-          // "pretty": "Ⓨ",
-          "pretty": "ⓨ"
-          // "pretty": "🅈",
-          // "style": { "border": "1pt solid purple" }
-        },
-        {
-          "ugly": "function\\s*\\*",
-          "pretty": "ƛ"
-          // "pretty": "🅵"
-          // "pretty": "🅕"
-          // "pretty": "🄵"
-          // "pretty": "Ⓕ"
-          // "pretty": "ⓕ"
-          // "style": { "border": "1pt solid purple" }
-        },
-        {
+          "pre": "\\b",
           "ugly": "function",
-          "pretty": "λ"
-          // "style": { "border": "1pt solid purple" }
-        }
-        // {
-        //   "ugly": "Effect\\.",
-        //   "pretty": "𝔼."
-        //   // "style": { "border": "1pt solid purple" }
-        // },
+          "post": "\\b",
+          "pretty": "𝒻",
+          "style": { "color": "#569CD6" }
+        },
+        {
+          "pre": "\\b",
+          "ugly": "yield",
+          "post": "\\b",
+          "pretty": "𝓎",
+          "style": { "color": "#C586C0" }
+        },
+        {
+          "pre": "\\b",
+          "ugly": "return",
+          "post": "\\b",
+          "pretty": "𝓇",
+          "style": { "color": "#C586C0" }
+        },
+
+        // effect
         // {
         //   "ugly": "\\.pipe",
-        //   "pretty": ".▹"
-        //   // "style": { "border": "1pt solid purple" }
-        // }
-      ]
-    },
-    {
-      "language": "fsharp",
-      "substitutions": [
+        //   "post": "\\(",
+        //   "pretty": "▹"
+        // },
         {
-          "ugly": "fun",
-          "pretty": "λ",
-          "scope": "keyword.other.function-definition.fsharp"
+          "pre": "\\b",
+          "ugly": "Array",
+          "post": "\\.\\b",
+          "pretty": "𝔸",
+          "style": { "color": "#9CDCFE" }
         },
-        { "ugly": "->", "pre": "[^->]", "post": "[^->]", "pretty": "⟶" },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "Brand",
+        //   "post": "\\.\\b",
+        //   "pretty": "Brand"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "Cause",
+        //   "post": "\\.\\b",
+        //   "pretty": "Cause"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "Config",
+        //   "post": "\\.\\b",
+        //   "pretty": "Config"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "Context",
+        //   "post": "\\.\\b",
+        //   "pretty": "Context"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "Data",
+        //   "post": "\\.\\b",
+        //   "pretty": "Data"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "DateTime",
+        //   "post": "\\.\\b",
+        //   "pretty": "DateTime"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "Duration",
+        //   "post": "\\.\\b",
+        //   "pretty": "Duration"
+        // },
         {
-          "ugly": ".+",
-          "scope": "variable.parameter.fsharp",
-          "pre": "^",
-          "post": "$",
-          "style": { "border": "1pt solid green" }
+          "pre": "\\b",
+          "ugly": "Effect",
+          "post": "\\.\\b",
+          "pretty": "𝔼",
+          "style": { "color": "#9CDCFE" }
+        },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "Either",
+        //   "post": "\\.\\b",
+        //   "pretty": "Either"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "Exit",
+        //   "post": "\\.\\b",
+        //   "pretty": "Exit"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "HashMap",
+        //   "post": "\\.\\b",
+        //   "pretty": "ℍash𝕄ap"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "Iterable",
+        //   "post": "\\.\\b",
+        //   "pretty": "𝕀terable"
+        // },
+        {
+          "pre": "\\b",
+          "ugly": "Layer",
+          "post": "\\.\\b",
+          "pretty": "𝕃",
+          "style": { "color": "#9CDCFE" }
+        },
+        {
+          "pre": "\\b",
+          "ugly": "Match",
+          "post": "\\.\\b",
+          "pretty": "𝕄",
+          "style": { "color": "#9CDCFE" }
+        },
+        {
+          "pre": "\\b",
+          "ugly": "Number",
+          "post": "\\.\\b",
+          "pretty": "ℕ",
+          "style": { "color": "#9CDCFE" }
+        },
+        {
+          "pre": "\\b",
+          "ugly": "Option",
+          "post": "\\.\\b",
+          "pretty": "𝕆",
+          "style": { "color": "#9CDCFE" }
+        },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "Order",
+        //   "post": "\\.\\b",
+        //   "pretty": "Order"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "Predicate",
+        //   "post": "\\.\\b",
+        //   "pretty": "ℙredicate"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "PubSub",
+        //   "post": "\\.\\b",
+        //   "pretty": "PubSub"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "Queue",
+        //   "post": "\\.\\b",
+        //   "pretty": "Queue"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "Random",
+        //   "post": "\\.\\b",
+        //   "pretty": "Random"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "Record",
+        //   "post": "\\.\\b",
+        //   "pretty": "Record"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "Redacted",
+        //   "post": "\\.\\b",
+        //   "pretty": "Redacted"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "Ref",
+        //   "post": "\\.\\b",
+        //   "pretty": "Ref"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "RegExp",
+        //   "post": "\\.\\b",
+        //   "pretty": "RegExp"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "Runtime",
+        //   "post": "\\.\\b",
+        //   "pretty": "Runtime"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "Schedule",
+        //   "post": "\\.\\b",
+        //   "pretty": "Schedule"
+        // },
+        {
+          "pre": "\\b",
+          "ugly": "Schema",
+          "post": "\\.\\b",
+          "pretty": "𝕊",
+          "style": { "color": "#9CDCFE" }
+        },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "Stream",
+        //   "post": "\\.\\b",
+        //   "pretty": "Stream"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "String",
+        //   "post": "\\.\\b",
+        //   "pretty": "String"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "Struct",
+        //   "post": "\\.\\b",
+        //   "pretty": "Struct"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "Tuple",
+        //   "post": "\\.\\b",
+        //   "pretty": "Tuple"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "Types",
+        //   "post": "\\.\\b",
+        //   "pretty": "Types"
+        // },
+
+        // @effect-atom
+        {
+          "pre": "\\b",
+          "ugly": "Atom",
+          "post": "\\.\\b",
+          "pretty": "𝕬",
+          "style": { "color": "#9CDCFE" }
+        },
+        {
+          "pre": "\\b",
+          "ugly": "Result",
+          "post": "\\.\\b",
+          "pretty": "𝕽",
+          "style": { "color": "#9CDCFE" }
         }
+        // @effect/rpc
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "Rpc",
+        //   "post": "\\.\\b",
+        //   "pretty": "Rpc"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "RpcGroup",
+        //   "post": "\\.\\b",
+        //   "pretty": "RpcGroup"
+        // },
+        // @effect/platform
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "FileSystem",
+        //   "post": "\\.\\b",
+        //   "pretty": "FileSystem"
+        // },
+        // {
+        //   "pre": "\\b",
+        //   "ugly": "Path",
+        //   "post": "\\.\\b",
+        //   "pretty": "Path"
+        // },
       ]
     }
   ],
