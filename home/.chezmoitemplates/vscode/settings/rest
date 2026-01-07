@@ -98,69 +98,6 @@
   // },
   "workbench.settings.applyToAllProfiles": [],
   "docker.commands.attach": "${containerCommand} exec -it ${containerId} ${shellCommand}",
-  "prettifySymbolsMode.substitutions": [
-    {
-      "language": "typescript",
-      "substitutions": [
-        {
-          "ugly": "yield\\s*\\*",
-          // "pre": "",
-          // "post": "",
-          // "pretty": "¥",
-          // "pretty": "𝕪¥",
-          // "pretty": "🆈",
-          // "pretty": "🅨"
-          // "pretty": "Ⓨ",
-          "pretty": "ⓨ"
-          // "pretty": "🅈",
-          // "style": { "border": "1pt solid purple" }
-        },
-        {
-          "ugly": "function\\s*\\*",
-          "pretty": "ƛ"
-          // "pretty": "🅵"
-          // "pretty": "🅕"
-          // "pretty": "🄵"
-          // "pretty": "Ⓕ"
-          // "pretty": "ⓕ"
-          // "style": { "border": "1pt solid purple" }
-        },
-        {
-          "ugly": "function",
-          "pretty": "λ"
-          // "style": { "border": "1pt solid purple" }
-        }
-        // {
-        //   "ugly": "Effect\\.",
-        //   "pretty": "𝔼."
-        //   // "style": { "border": "1pt solid purple" }
-        // },
-        // {
-        //   "ugly": "\\.pipe",
-        //   "pretty": ".▹"
-        //   // "style": { "border": "1pt solid purple" }
-        // }
-      ]
-    },
-    {
-      "language": "fsharp",
-      "substitutions": [
-        {
-          "ugly": "fun",
-          "pretty": "λ",
-          "scope": "keyword.other.function-definition.fsharp"
-        },
-        { "ugly": "->", "pre": "[^->]", "post": "[^->]", "pretty": "⟶" },
-        {
-          "ugly": ".+",
-          "scope": "variable.parameter.fsharp",
-          "pre": "^",
-          "post": "$",
-          "style": { "border": "1pt solid green" }
-        }
-      ]
-    }
-  ],
   "containers.commands.attach": "${containerCommand} exec -it ${containerId} ${shellCommand}",
   "dprint.verbose": true,
   "dprint.experimentalLsp": false,

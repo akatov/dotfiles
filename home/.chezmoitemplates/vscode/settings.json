@@ -1,3 +1,5 @@
 {
 {{ template "vscode/settings/rest" }}
+{{ template "vscode/settings/devcontainers" }}
+{{ template "vscode/settings/prettify-symbols" }}
 }
