@@ -12,7 +12,7 @@
 .DS_Store
 
 # NodeJS
-node_modules/
+# node_modules/
 
 # Elixir Dialyzer
 .elixir_ls/
