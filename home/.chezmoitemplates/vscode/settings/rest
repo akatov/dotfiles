@@ -135,3 +135,5 @@
   "chat.mcp.discovery.enabled": {
     "cursor-global": true
   },
+
+  "terminal.integrated.defaultProfile.linux": "zsh",
