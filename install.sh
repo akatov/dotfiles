@@ -15,9 +15,9 @@ chezmoi="$bin_dir/chezmoi"
 if [ "$(command -v chezmoi)" ]; then
   chezmoi=chezmoi
 elif [ "$(command -v curl)" ]; then
-  sh -c "$(curl --fail --silent --show-error --location https://git.io/chezmoi)" -- -b "$bin_dir"
+  sh -c "$(curl --fail --silent --show-error --location get.chezmoi.io/lb)" -- -b "$bin_dir"
 elif [ "$(command -v wget)" ]; then
-  sh -c "$(wget --quiet --output-document=- https://git.io/chezmoi)" -- -b "$bin_dir"
+  sh -c "$(wget --quiet --output-document=- get.chezmoi.io/lb)" -- -b "$bin_dir"
 else
   echo "To install chezmoi, you must have curl or wget installed." >&2
   exit 1
