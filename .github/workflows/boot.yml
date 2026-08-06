@@ -1,0 +1,93 @@
+# Boots the dotfiles in a range of Linux distros to exercise the OS branching in
+# .chezmoi.toml.tmpl and .chezmoiignore.tmpl.
+#
+# Scope, deliberately: this proves the source tree RENDERS and APPLIES cleanly.
+# It does not prove the .chezmoiscripts run -- those are gated on darwin or on
+# `not .ephemeral`, and CI is detected as ephemeral, so they no-op here. That
+# gating is why Alpine passes despite the scripts being bash + GNU flags.
+#
+# Externals (oh-my-zsh, powerlevel10k, zaw, the gist) are excluded: they fetch
+# from the network on every cold apply, so including them would mean hitting
+# GitHub uncached on every run and inheriting its rate limits. `encrypted` is
+# excluded because CI has no age/gpg key.
+name: boot
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  boot:
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    container: ${{ matrix.image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: debian
+            image: debian:trixie-slim
+            install: apt-get update -qq && apt-get install -y -qq --no-install-recommends curl ca-certificates git zsh
+          - name: ubuntu
+            image: ubuntu:24.04
+            install: apt-get update -qq && apt-get install -y -qq --no-install-recommends curl ca-certificates git zsh
+          - name: fedora
+            image: fedora:41
+            install: dnf install -y -q curl ca-certificates git zsh
+          # musl + busybox. The dotfiles' scripts assume bash and GNU long flags,
+          # so bash is installed explicitly rather than relying on the default sh.
+          - name: alpine
+            image: alpine:3.20
+            install: apk add --no-cache curl ca-certificates git bash zsh
+
+    steps:
+      - name: Install prerequisites
+        run: ${{ matrix.install }}
+
+      # actions/checkout needs a reasonably modern git; the distro package is
+      # installed above so the checkout does not silently fall back to a tarball
+      # download (which would skip .git and break chezmoi's repo detection).
+      - uses: actions/checkout@v4
+
+      - name: Install chezmoi
+        run: sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- -b /usr/local/bin
+
+      - name: Report versions
+        run: |
+          chezmoi --version
+          echo "sh -> $(readlink -f /bin/sh)"
+
+      # --source points at the checkout. stdin is closed so stdinIsATTY is false
+      # and .chezmoi.toml.tmpl takes its headless branch instead of prompting for
+      # the personal/work booleans.
+      - name: Apply dotfiles
+        run: chezmoi init --apply --source="${GITHUB_WORKSPACE}" --exclude=externals,encrypted < /dev/null
+
+      # The generated config is the visible record of which template branches
+      # fired. Asserting on it catches a silent flip in the ephemeral/headless
+      # detection, which would otherwise still exit 0.
+      - name: Assert template branching
+        run: |
+          config=~/.config/chezmoi/chezmoi.toml
+          cat "$config"
+          grep -q 'ephemeral = true' "$config" || { echo "::error::expected ephemeral = true in CI"; exit 1; }
+          grep -q 'headless  = true' "$config" || { echo "::error::expected headless = true with no TTY"; exit 1; }
+          grep -q 'personal  = false' "$config" || { echo "::error::expected personal = false; 1Password templates would be evaluated"; exit 1; }
+          grep -q 'osid      = "linux-${{ matrix.name }}"' "$config" || { echo "::error::osid did not match ${{ matrix.name }}"; exit 1; }
+
+      # Exit 0 from apply only means chezmoi wrote the files; it says nothing
+      # about whether the rendered shell config is valid. A template bug can
+      # easily emit syntactically broken shell that applies fine and then breaks
+      # the next login.
+      - name: Syntax-check rendered shell config
+        run: |
+          for f in ~/.shrc ~/.zprofile; do
+            [ -f "$f" ] && { bash -n "$f" && echo "ok: $f"; }
+          done
+          [ -f ~/.zshrc ] && { zsh -n ~/.zshrc && echo "ok: ~/.zshrc"; }
+          exit 0
+
+      - name: Show applied files
+        run: ls -a ~
