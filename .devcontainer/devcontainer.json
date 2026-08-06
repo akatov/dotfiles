@@ -10,9 +10,5 @@
         "tamasfe.even-better-toml"
       ]
     }
-  },
-
-  "features": {
-    "ghcr.io/devcontainer-community/devcontainer-features/chezmoi.io": {}
   }
 }
