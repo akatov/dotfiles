@@ -3,4 +3,3 @@
   ],
   "dotfiles.repository": "akatov/dotfiles",
   "dotfiles.targetPath": "~/.local/share/chezmoi",
-  "dotfiles.installCommand": "~/.local/share/chezmoi/install.sh",
