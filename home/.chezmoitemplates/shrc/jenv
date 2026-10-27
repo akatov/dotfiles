@@ -1,4 +1,0 @@
-if [ -r ~/.jenv ]; then
-  export PATH="$HOME/.jenv/bin:$PATH"
-  which jenv >/dev/null && eval "$(jenv init -)"
-fi

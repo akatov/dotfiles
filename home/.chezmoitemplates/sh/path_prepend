@@ -1,0 +1,6 @@
+if [ -d "{{ . }}" ]; then
+  case ":$PATH:" in
+    *":{{ . }}:"*) ;;
+    *) PATH="{{ . }}:$PATH" ;;
+  esac
+fi
