@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t -*-
 (defun switch-theme (theme)
   "Disables any currently active themes and loads THEME."
   ;; This interactive call is taken from `load-theme'

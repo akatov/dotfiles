@@ -1,4 +1,5 @@
-{{- if .personal -}}
+;;; -*- lexical-binding: t -*-
+{{ if .personal -}}
 (custom-set-variables
  '(wakatime-api-key "{{ template "_secret" (set . "secret" "wakatime") }}"))
 {{- end }}

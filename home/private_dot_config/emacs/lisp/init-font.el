@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t -*-
 (use-package fira-code-mode
   :ensure t
   :if (window-system)

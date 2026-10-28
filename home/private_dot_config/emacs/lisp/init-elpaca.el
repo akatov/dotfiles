@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t -*-
 ;; @see https://github.com/progfolio/elpaca#installer
 
 (defvar elpaca-installer-version 0.12)

@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t -*-
 (custom-set-variables
  '(debug-on-error t))
 
@@ -242,9 +243,6 @@
 ;;              )
 
 ;; TODO - use :hooks
-
-(use-package less-css-mode
-  :ensure t)
 
 (use-package lua-mode
   :ensure t)

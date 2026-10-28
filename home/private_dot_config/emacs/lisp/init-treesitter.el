@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t -*-
 ;; @see https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
 
 (defun aka/remove-treesit-sexp-changes ()

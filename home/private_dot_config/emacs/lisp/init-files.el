@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t -*-
 ;; ** TODO Custom File - can we put add-hook inside use-package
 
 ;; keep custom settings in a separate custom file

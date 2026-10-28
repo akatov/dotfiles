@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t -*-
 ;; Install use-package support
 (elpaca elpaca-use-package
   ;; Enable use-package :ensure support for Elpaca.
