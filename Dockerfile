@@ -8,16 +8,37 @@ ARG DPRINT_VERSION=0.55.2
 # Keep in sync with .chezmoiversion.
 ARG CHEZMOI_VERSION=2.72.0
 
-# Base image pinned by multi-arch index digest (tag 1-22-bookworm as of 2026-08-06).
-# The index digest keeps the image multi-arch; a per-platform digest would break
-# amd64 CI or arm64 laptops depending on which one was picked.
-FROM mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm@sha256:7c2e711a4f7b02f32d2da16192d5e05aa7c95279be4ce889cff5df316f251c1d
+# Base image pinned by multi-arch index digest (tag trixie-slim, Debian 13.7, as
+# of 2026-10-29). The index digest keeps the image multi-arch; a per-platform
+# digest would break amd64 CI or arm64 laptops depending on which one was picked.
+ARG BASE_IMAGE=debian:trixie-slim@sha256:f6b08b09a05725f9431502d3b5714f5c4576e82c1a84fa1debe0c24a7e0c3ec4
 
-# git and curl are already in the base image; unzip is what dprint's installer
-# actually requires and is the one genuinely missing piece.
+FROM ${BASE_IMAGE}
+
+# pipefail: a `curl | sh` below would otherwise pass on a failed download (the
+# pipeline's status is sh's).
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+# Basics the devcontainer base image used to provide. procps is needed by the
+# VS Code server; openssh-client and gnupg let VS Code's forwarded ssh/gpg
+# agents work; unzip is what dprint's installer requires; zsh matches the shell
+# the dotfiles' CI (boot.yml) exercises.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends unzip \
+    && apt-get -y install --no-install-recommends \
+      ca-certificates curl git gnupg less locales openssh-client procps sudo \
+      unzip xz-utils zsh \
     && rm -rf /var/lib/apt/lists/*
+
+RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen
+ENV LANG=en_US.UTF-8
+
+# Non-root user with passwordless sudo, named and numbered like the one in the
+# other devcontainers (uid/gid 1000 matches the usual host user, so files in
+# the bind-mounted workspace keep sane ownership).
+RUN groupadd --gid 1000 agent \
+    && useradd --uid 1000 --gid 1000 --create-home --shell /bin/bash agent \
+    && echo "agent ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/agent \
+    && chmod 0440 /etc/sudoers.d/agent
 
 # dprint: the installer takes the version as a positional argument; with none it
 # resolves to /latest/ and the image silently drifts.
@@ -39,3 +60,5 @@ RUN ARCH=$(dpkg --print-architecture) \
     && install /tmp/chezmoi /usr/local/bin/chezmoi \
     && rm /tmp/chezmoi /tmp/chezmoi.tar.gz \
     && chezmoi --version
+
+USER agent
