@@ -1,7 +1,7 @@
 {
   "name": "akatov/dotfiles",
 
-  "build": { "dockerfile": "Dockerfile" },
+  "build": { "dockerfile": "../Dockerfile", "context": ".." },
 
   "customizations": {
     "vscode": {
