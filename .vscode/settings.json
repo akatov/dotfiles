@@ -1,4 +1,15 @@
 {
+  // Many files here share a name (alias, _data, sh, README.md, settings.json
+  // under different .chezmoitemplates dirs), so tabs show the parent dir too.
+  "workbench.editor.customLabels.patterns": {
+    "/*.*": "${filename}.${extname}",
+    "/*": "${filename}",
+    "*/*.*": "/${filename}.${extname}",
+    "*/*": "/${filename}",
+    "**/*/*.*": "${dirname}/${filename}.${extname}",
+    "**/*/*": "${dirname}/${filename}"
+  },
+
   "dprint.verbose": true,
   "dprint.experimentalLsp": true,
 
@@ -19,6 +30,11 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "dprint.dprint"
   },
+  // devcontainer.json and the VS Code settings files are JSON with comments.
+  "[jsonc]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "dprint.dprint"
+  },
   "[markdown]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "dprint.dprint"
@@ -30,5 +46,12 @@
   "[yaml]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "dprint.dprint"
-  }
+  },
+
+  // Docker DX (docker.docker) scans the Dockerfile's base image with Docker
+  // Scout. The critical/high squiggle isn't actionable: the pinned
+  // debian:trixie-slim digest is bumped by hand, and what remains are CVEs
+  // Debian hasn't fixed in stable. Keep the hover summary, drop the squiggle.
+  "docker.lsp.experimental.scout.criticalHighVulnerabilities": false,
+  "docker.lsp.experimental.scout.vulnerabilities": true
 }
