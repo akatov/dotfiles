@@ -13,6 +13,12 @@
     "source=vscode-server-${devcontainerId},target=/home/agent/.vscode-server,type=volume"
   ],
 
+  "containerEnv": {
+    // Claude Code keeps ~/.claude.json (onboarding, trusted folders, MCP
+    // servers) outside ~/.claude by default. This moves it onto the volume.
+    "CLAUDE_CONFIG_DIR": "/home/agent/.claude"
+  },
+
   "remoteEnv": {
     // The Dev Containers X11 forward sets DISPLAY=:0 at a socket nothing
     // answers. Blank means "no display", so a GUI Emacs fails fast instead.
