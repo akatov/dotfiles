@@ -60,6 +60,9 @@ RUN curl -fsSL "https://github.com/tree-sitter/tree-sitter/archive/refs/tags/v${
 # container doesn't spend its first minutes native-compiling Emacs itself.
 ARG EMACS_VERSION
 ARG EMACS_SHA256
+# The cd is scoped to this one RUN (the directory is deleted at its end), so a
+# WORKDIR, which would persist for the stage, is the wrong tool here.
+# hadolint ignore=DL3003
 RUN curl -fsSL "https://ftp.gnu.org/gnu/emacs/emacs-${EMACS_VERSION}.tar.xz" -o /tmp/emacs.tar.xz \
     && echo "${EMACS_SHA256}  /tmp/emacs.tar.xz" | sha256sum -c - \
     && tar -xJf /tmp/emacs.tar.xz -C /tmp \
@@ -210,7 +213,9 @@ RUN ARCH=$(dpkg --print-architecture) \
     && rm /tmp/qlty \
     && qlty --version
 
-USER agent
+# The agent account created above, by uid (hadolint DL3066). runc resolves it
+# through the same passwd entry, so $HOME is /home/agent either way.
+USER 1000
 
 # Mount points for the named volumes in devcontainer.json. Created here, as the
 # agent user, because Docker seeds an empty volume from the image's directory
