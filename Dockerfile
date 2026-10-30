@@ -140,3 +140,8 @@ RUN ARCH=$(dpkg --print-architecture) \
     && chezmoi --version
 
 USER agent
+
+# Mount points for the named volumes in devcontainer.json. Created here, as the
+# agent user, because Docker seeds an empty volume from the image's directory
+# (ownership included); a missing directory would come up root-owned.
+RUN mkdir -p /home/agent/.claude /home/agent/.vscode-server

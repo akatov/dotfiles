@@ -1,7 +1,17 @@
 {
-  "name": "akatov/dotfiles",
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/refs/heads/main/schemas/devContainer.schema.json",
+  "name": "akatov/dotfiles (${localWorkspaceFolderBasename})",
 
   "build": { "dockerfile": "../Dockerfile", "context": ".." },
+
+  "mounts": [
+    // Named volumes keep state across rebuilds. The Dockerfile creates both
+    // targets as the agent user; otherwise Docker would create them root-owned.
+    // Claude Code's login, memory and session history:
+    "source=claude-${devcontainerId},target=/home/agent/.claude,type=volume",
+    // The VS Code server: installed extensions and machine settings.
+    "source=vscode-server-${devcontainerId},target=/home/agent/.vscode-server,type=volume"
+  ],
 
   "customizations": {
     "vscode": {
