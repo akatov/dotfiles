@@ -43,11 +43,11 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends \
-      ca-certificates curl xz-utils build-essential pkg-config \
-      libgtk-3-dev libgccjit-14-dev libgnutls28-dev libncurses-dev libxml2-dev \
-      libharfbuzz-dev libjpeg-dev libpng-dev libgif-dev libtiff-dev librsvg2-dev \
-      libwebp-dev libsqlite3-dev libxpm-dev libgmp-dev libacl1-dev libdbus-1-dev \
-      liblcms2-dev \
+      build-essential ca-certificates curl libacl1-dev libdbus-1-dev \
+      libgccjit-14-dev libgif-dev libgmp-dev libgnutls28-dev libgtk-3-dev \
+      libharfbuzz-dev libjpeg-dev liblcms2-dev libncurses-dev libpng-dev \
+      librsvg2-dev libsqlite3-dev libtiff-dev libwebp-dev libxml2-dev \
+      libxpm-dev pkg-config xz-utils \
     && rm -rf /var/lib/apt/lists/*
 
 # Installed twice: into /usr/local so Emacs' configure finds it, and into
@@ -116,11 +116,11 @@ RUN groupadd --gid 1000 agent \
 # the -dev package ships.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends \
-      libgtk-3-0t64 libcairo2 libharfbuzz0b libgccjit-14-dev libgnutls30t64 \
-      libncurses6 libxml2 libjpeg62-turbo libpng16-16t64 libgif7 libtiff6 \
-      librsvg2-2 libwebp7 libwebpdemux2 libsqlite3-0 libxpm4 libgmp10 libacl1 \
-      libdbus-1-3 liblcms2-2 libsm6 libice6 \
-      xvfb xauth x11-apps imagemagick fonts-firacode \
+      fonts-firacode imagemagick libacl1 libcairo2 libdbus-1-3 \
+      libgccjit-14-dev libgif7 libgmp10 libgnutls30t64 libgtk-3-0t64 \
+      libharfbuzz0b libice6 libjpeg62-turbo liblcms2-2 libncurses6 \
+      libpng16-16t64 librsvg2-2 libsm6 libsqlite3-0 libtiff6 libwebp7 \
+      libwebpdemux2 libxml2 libxpm4 x11-apps xauth xvfb \
     && rm -rf /var/lib/apt/lists/*
 
 # Fails the build if a runtime library is missing, or if native compilation or

@@ -53,6 +53,22 @@ test_patterns = [
   "**/spec_*.*",
 ]
 
+# The Dockerfile keeps one tool per RUN on purpose, so bumping one tool
+# re-downloads only that tool and the layers below it.
+[[triage]]
+match.rules = ["radarlint-iac:docker:S7031"]
+match.file_patterns = ["Dockerfile"]
+set.ignored = true
+
+# The Dockerfile downloads with curl inside RUN on purpose: most release
+# names need the architecture mapped (amd64 -> x86_64), tarballs need
+# extracting, and download, install and self-check share one layer. ADD can
+# do none of that.
+[[triage]]
+match.rules = ["radarlint-iac:docker:S7026"]
+match.file_patterns = ["Dockerfile"]
+set.ignored = true
+
 [smells]
 mode = "comment"
 
