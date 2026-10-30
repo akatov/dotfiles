@@ -1,3 +1,3 @@
 prompt = function() {
-    return db.serverStatus().host + "(" + db + ")> ";
-}
+  return db.serverStatus().host + "(" + db + ")> ";
+};
