@@ -1,36 +1,35 @@
 [packages.darwin]
+brews = [
+  'ag',
+  'bat',
+  'git',
+  'tig',
+  'tmux',
+  'zile',
+]
 
-  brews = [
-    'ag',
-    'bat',
-    'git',
-    'tig',
-    'tmux',
-    'zile',
-  ]
-
-  casks = [
-    'docker-desktop',
-    'font-fira-code',
-    'google-chrome',
-    'kitty',
-  ]
+casks = [
+  'docker-desktop',
+  'font-fira-code',
+  'google-chrome',
+  'kitty',
+]
 
 [packages.vscode]
-  extensions = [
-    'bierner.markdown-mermaid',
-    'dnicolson.binary-plist',
-    'docker.docker',
-    'eamodio.gitlens',
-    'editorconfig.editorconfig',
-    'formulahendry.auto-rename-tag',
-    'github.codespaces',
-    'humao.rest-client',
-    'irongeek.vscode-env',
-    'ms-azuretools.vscode-containers',
-    'ms-azuretools.vscode-docker',
-    'ms-vscode-remote.remote-containers',
-    'ms-vsliveshare.vsliveshare',
-    'tamasfe.even-better-toml',
-    'tuttieee.emacs-mcx',
-  ]
+extensions = [
+  'bierner.markdown-mermaid',
+  'dnicolson.binary-plist',
+  'docker.docker',
+  'eamodio.gitlens',
+  'editorconfig.editorconfig',
+  'formulahendry.auto-rename-tag',
+  'github.codespaces',
+  'humao.rest-client',
+  'irongeek.vscode-env',
+  'ms-azuretools.vscode-containers',
+  'ms-azuretools.vscode-docker',
+  'ms-vscode-remote.remote-containers',
+  'ms-vsliveshare.vsliveshare',
+  'tamasfe.even-better-toml',
+  'tuttieee.emacs-mcx',
+]
