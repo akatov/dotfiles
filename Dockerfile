@@ -4,7 +4,7 @@
 # Re-declare each one right before the RUN that uses it: changing an ARG
 # invalidates the cache from the first RUN after its declaration, so a
 # chezmoi bump still won't re-download dprint.
-ARG DPRINT_VERSION=0.55.2
+ARG DPRINT_VERSION=0.64.3
 # Keep in sync with .chezmoiversion.
 ARG CHEZMOI_VERSION=2.72.0
 # Match the Emacs on the host Mac. The checksum is of the release tarball,
