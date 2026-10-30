@@ -22,6 +22,11 @@ ARG HADOLINT_VERSION=2.15.1
 ARG ACTIONLINT_VERSION=1.7.12
 ARG SHELLCHECK_VERSION=0.11.0
 ARG YQ_VERSION=4.54.1
+# Debian's jq is unpinned, so it comes from a release like the rest.
+ARG JQ_VERSION=1.8.2
+# uv runs the tests (pyproject.toml). The interpreter it installs is pinned in
+# .python-version, which the image reads directly, so there's no ARG for it.
+ARG UV_VERSION=0.13.6
 
 # Base image pinned by multi-arch index digest (tag trixie-slim, Debian 13.7, as
 # of 2026-10-29). The index digest keeps the image multi-arch; a per-platform
@@ -132,11 +137,11 @@ RUN ldconfig \
 # What the dotfiles reference: packages.toml installs tmux, tig, bat, zile and
 # ag on the Mac, and the shell config has an EDITOR fallback to zile and a tmux
 # TERM tweak, so the container gets the same. Plus the usual shell conveniences
-# and jq (yq isn't in Debian; see below). Debian renames bat and fd to avoid
-# name clashes, so the usual names are symlinked.
+# (jq and yq are pinned release downloads below). Debian renames bat and fd to
+# avoid name clashes, so the usual names are symlinked.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends \
-      bash-completion bat fd-find fzf jq nano psmisc ripgrep rsync \
+      bash-completion bat fd-find fzf nano psmisc ripgrep rsync \
       silversearcher-ag tig tmux zile \
     && rm -rf /var/lib/apt/lists/* \
     && ln -s /usr/bin/batcat /usr/local/bin/bat \
@@ -202,6 +207,15 @@ RUN ARCH=$(dpkg --print-architecture) \
     && rm /tmp/yq \
     && yq --version
 
+# jq. Debian has it, but unpinned.
+ARG JQ_VERSION
+RUN ARCH=$(dpkg --print-architecture) \
+    && curl -fsSL "https://github.com/jqlang/jq/releases/download/jq-${JQ_VERSION}/jq-linux-${ARCH}" \
+      -o /tmp/jq \
+    && install /tmp/jq /usr/local/bin/jq \
+    && rm /tmp/jq \
+    && jq --version
+
 # qlty, the front end for the linters above (config: .qlty/qlty.toml). Not in
 # Debian. The tarball nests the binary one directory deep.
 ARG QLTY_VERSION
@@ -213,6 +227,17 @@ RUN ARCH=$(dpkg --print-architecture) \
     && rm /tmp/qlty \
     && qlty --version
 
+# uv, which runs the tests (pyproject.toml) and owns their interpreter. The
+# interpreter directory belongs to agent, so uv can add versions later without
+# sudo. UV_LINK_MODE=copy: the venv sits on the bind-mounted workspace and the
+# cache in ~/.cache, different filesystems, so hardlinks would fail anyway.
+ARG UV_VERSION
+RUN curl -fsSL "https://astral.sh/uv/${UV_VERSION}/install.sh" \
+      | env UV_INSTALL_DIR=/usr/local/bin UV_NO_MODIFY_PATH=1 sh \
+    && uv --version \
+    && mkdir -p /opt/uv/python && chown 1000:1000 /opt/uv/python
+ENV UV_PYTHON_INSTALL_DIR=/opt/uv/python UV_LINK_MODE=copy
+
 # The agent account created above, by uid (hadolint DL3066). runc resolves it
 # through the same passwd entry, so $HOME is /home/agent either way.
 USER 1000
@@ -221,6 +246,14 @@ USER 1000
 # agent user, because Docker seeds an empty volume from the image's directory
 # (ownership included); a missing directory would come up root-owned.
 RUN mkdir -p /home/agent/.claude /home/agent/.vscode-server
+
+# The tests' interpreter, at the .python-version pin, so the first `uv run`
+# doesn't download it. --chown: /tmp is sticky, and agent must delete the file.
+COPY --chown=1000:1000 .python-version /tmp/python-version
+RUN v=$(cat /tmp/python-version) \
+    && uv python install "$v" \
+    && uv python find "$v" \
+    && rm /tmp/python-version
 
 # claude, the CLI. Unpinned on purpose, unlike every other tool here: it
 # releases near-daily and updates itself in the background. The layer caches
