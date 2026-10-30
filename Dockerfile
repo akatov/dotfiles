@@ -216,3 +216,14 @@ USER agent
 # agent user, because Docker seeds an empty volume from the image's directory
 # (ownership included); a missing directory would come up root-owned.
 RUN mkdir -p /home/agent/.claude /home/agent/.vscode-server
+
+# claude, the CLI. Unpinned on purpose, unlike every other tool here: it
+# releases near-daily and updates itself in the background. The layer caches
+# until one above it changes, so the baseline drifts; that only costs a brief
+# self-update after a rebuild. Its state (login, memory, sessions) lives in the
+# ~/.claude volume, not in the image. Installs into $HOME, so it runs as agent,
+# and lands in ~/.local/bin; ENV rather than the installer's profile snippet,
+# so a non-login shell gets it too.
+RUN curl -fsSL https://claude.ai/install.sh | bash \
+    && claude --version
+ENV PATH="/home/agent/.local/bin:${PATH}"
