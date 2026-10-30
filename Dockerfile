@@ -262,6 +262,6 @@ RUN v=$(cat /tmp/python-version) \
 # ~/.claude volume, not in the image. Installs into $HOME, so it runs as agent,
 # and lands in ~/.local/bin; ENV rather than the installer's profile snippet,
 # so a non-login shell gets it too.
+ENV PATH="/home/agent/.local/bin:${PATH}"
 RUN curl -fsSL https://claude.ai/install.sh | bash \
     && claude --version
-ENV PATH="/home/agent/.local/bin:${PATH}"
