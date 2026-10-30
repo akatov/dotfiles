@@ -28,7 +28,7 @@ run = "uv run pytest"
 run = [
   "dprint check",
   "actionlint",
-  "hadolint Dockerfile",
+  "hadolint --config .qlty/configs/.hadolint.yaml Dockerfile",
   "shellcheck install.sh",
   "uv run zizmor .github",
 ]

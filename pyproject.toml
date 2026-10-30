@@ -13,7 +13,9 @@ dev = [
   # Reads the JSON-with-comments files (devcontainer.json, .vscode/*.json).
   "json5>=0.17",
   "pytest>=9",
-  # GitHub Actions auditor, run by CI on .github (config: .github/zizmor.yml).
+  # Reads ci.yml.
+  "pyyaml>=6",
+  # GitHub Actions auditor, run on .github by CI's lint job.
   "zizmor>=1.31",
 ]
 

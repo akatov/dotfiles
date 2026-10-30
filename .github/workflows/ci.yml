@@ -1,0 +1,180 @@
+# Every check in one workflow, so one run view shows the whole job graph.
+# Jobs: `boot` applies the dotfiles in a range of distros, `lint` runs the
+# linters at the mise.toml pins, `test` runs pytest, and `checks-pass` is the
+# one job branch protection can require; test/test_ci.py keeps it needing all
+# the others.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# A push to a pull request cancels the run still going for its previous head.
+# Pushes to main group by commit and are never cancelled.
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  # Boots the dotfiles in a range of Linux distros to exercise the OS branching
+  # in .chezmoi.toml.tmpl and .chezmoiignore.tmpl.
+  #
+  # Scope, deliberately: this proves the source tree RENDERS and APPLIES
+  # cleanly. It does not prove the .chezmoiscripts run -- those are gated on
+  # darwin or on `not .ephemeral`, and CI is detected as ephemeral, so they
+  # no-op here. That gating is why Alpine passes despite the scripts being bash
+  # + GNU flags.
+  #
+  # Externals (oh-my-zsh, powerlevel10k, zaw, the gist) are excluded: they
+  # fetch from the network on every cold apply, so including them would mean
+  # hitting GitHub uncached on every run and inheriting its rate limits.
+  # `encrypted` is excluded because CI has no age/gpg key.
+  boot:
+    name: Boot / ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    container: ${{ matrix.image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: debian
+            image: debian:trixie-slim
+            install: apt-get update -qq && apt-get install -y -qq --no-install-recommends curl ca-certificates git zsh
+          - name: ubuntu
+            image: ubuntu:24.04
+            install: apt-get update -qq && apt-get install -y -qq --no-install-recommends curl ca-certificates git zsh
+          - name: fedora
+            image: fedora:41
+            install: dnf install -y -q curl ca-certificates git zsh
+          # musl + busybox. The dotfiles' scripts assume bash and GNU long
+          # flags, so bash is installed explicitly rather than relying on the
+          # default sh.
+          - name: alpine
+            image: alpine:3.20
+            install: apk add --no-cache curl ca-certificates git bash zsh
+
+    steps:
+      - name: Install prerequisites
+        run: ${{ matrix.install }}
+
+      # actions/checkout needs a reasonably modern git; the distro package is
+      # installed above so the checkout does not silently fall back to a
+      # tarball download (which would skip .git and break chezmoi's repo
+      # detection).
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install chezmoi
+        run: sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- -b /usr/local/bin
+
+      - name: Report versions
+        run: |
+          chezmoi --version
+          echo "sh -> $(readlink -f /bin/sh)"
+
+      # --source points at the checkout. stdin is closed so stdinIsATTY is
+      # false and .chezmoi.toml.tmpl takes its headless branch instead of
+      # prompting for the personal/work booleans.
+      - name: Apply dotfiles
+        run: chezmoi init --apply --source="${GITHUB_WORKSPACE}" --exclude=externals,encrypted < /dev/null
+
+      # The generated config is the visible record of which template branches
+      # fired. Asserting on it catches a silent flip in the ephemeral/headless
+      # detection, which would otherwise still exit 0.
+      - name: Assert template branching
+        run: |
+          config=~/.config/chezmoi/chezmoi.toml
+          cat "$config"
+          grep -q 'ephemeral = true' "$config" || { echo "::error::expected ephemeral = true in CI"; exit 1; }
+          grep -q 'headless  = true' "$config" || { echo "::error::expected headless = true with no TTY"; exit 1; }
+          grep -q 'personal  = false' "$config" || { echo "::error::expected personal = false; 1Password templates would be evaluated"; exit 1; }
+          grep -q "osid      = \"linux-${DISTRO}\"" "$config" || { echo "::error::osid did not match ${DISTRO}"; exit 1; }
+        env:
+          DISTRO: ${{ matrix.name }}
+
+      # Exit 0 from apply only means chezmoi wrote the files; it says nothing
+      # about whether the rendered shell config is valid. A template bug can
+      # easily emit syntactically broken shell that applies fine and then
+      # breaks the next login.
+      - name: Syntax-check rendered shell config
+        run: |
+          for f in ~/.shrc ~/.zprofile; do
+            [ -f "$f" ] && { bash -n "$f" && echo "ok: $f"; }
+          done
+          [ -f ~/.zshrc ] && { zsh -n ~/.zshrc && echo "ok: ~/.zshrc"; }
+          exit 0
+
+      - name: Show applied files
+        run: ls -a ~
+
+  # The linters, installed by mise-action at the mise.toml pins: the same
+  # versions the devcontainer bakes in (test/test_versions.py), so CI, the
+  # container and the host never disagree. Every tool is its own step, run
+  # whatever the steps before it concluded, so one run reports every failing
+  # linter; each also waits for the install to have succeeded, so a failed
+  # install reads as one failure rather than as every tool failing after it.
+  # `mise run lint` is the same list, for a local run.
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - id: setup
+        uses: jdx/mise-action@6be3c7ed4c21d4f76b208d351d95aac273ebb76d # v5.2.4
+        with:
+          install_args: actionlint dprint hadolint shellcheck uv
+      - name: dprint
+        if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
+        run: dprint check
+      # shellcheck is installed alongside: actionlint runs it on every `run:`
+      # script when it is on PATH, as it is in the devcontainer.
+      - name: actionlint
+        if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
+        run: actionlint
+      - name: hadolint
+        if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
+        run: hadolint --config .qlty/configs/.hadolint.yaml Dockerfile
+      # Only install.sh: the other shell files are chezmoi templates, which
+      # shellcheck can't parse. The boot job syntax-checks their rendered form.
+      - name: shellcheck
+        if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
+        run: shellcheck install.sh
+      # GitHub Actions auditor, a PyPI tool, so it comes through uv. The
+      # token turns on its online audits (impostor commits, known-vulnerable
+      # actions); read-only, per the workflow's permissions.
+      - name: zizmor
+        if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
+        run: uv run zizmor .github
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+  test:
+    name: Test / pytest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: jdx/mise-action@6be3c7ed4c21d4f76b208d351d95aac273ebb76d # v5.2.4
+        with:
+          install_args: uv
+      - run: uv run pytest
+
+  # The one status check for branch protection to require, by its name. A
+  # skipped need passes; a failed or cancelled one fails it.
+  checks-pass:
+    name: All Checks Pass
+    if: always()
+    needs: [boot, lint, test]
+    runs-on: ubuntu-latest
+    steps:
+      - if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: exit 1
