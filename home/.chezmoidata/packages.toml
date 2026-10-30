@@ -30,6 +30,6 @@ extensions = [
   'ms-azuretools.vscode-docker',
   'ms-vscode-remote.remote-containers',
   'ms-vsliveshare.vsliveshare',
-  'tamasfe.even-better-toml',
+  'tombi-toml.tombi',
   'tuttieee.emacs-mcx',
 ]
