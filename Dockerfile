@@ -118,6 +118,19 @@ RUN ldconfig \
          (unless (>= (treesit-library-abi-version) 15) (error "tree-sitter ABI < 15")) \
          (native-compile (lambda (x) x)))'
 
+# What the dotfiles reference: packages.toml installs tmux, tig, bat, zile and
+# ag on the Mac, and the shell config has an EDITOR fallback to zile and a tmux
+# TERM tweak, so the container gets the same. Plus the usual shell conveniences
+# and jq (yq isn't in Debian; see below). Debian renames bat and fd to avoid
+# name clashes, so the usual names are symlinked.
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get -y install --no-install-recommends \
+      bash-completion bat fd-find fzf jq nano psmisc ripgrep rsync \
+      silversearcher-ag tig tmux zile \
+    && rm -rf /var/lib/apt/lists/* \
+    && ln -s /usr/bin/batcat /usr/local/bin/bat \
+    && ln -s /usr/bin/fdfind /usr/local/bin/fd
+
 # dprint: the installer takes the version as a positional argument; with none it
 # resolves to /latest/ and the image silently drifts.
 ARG DPRINT_VERSION
