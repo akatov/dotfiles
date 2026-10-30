@@ -13,6 +13,13 @@
     "source=vscode-server-${devcontainerId},target=/home/agent/.vscode-server,type=volume"
   ],
 
+  "remoteEnv": {
+    // The Dev Containers X11 forward sets DISPLAY=:0 at a socket nothing
+    // answers. Blank means "no display", so a GUI Emacs fails fast instead.
+    // Headless runs go through xvfb-run, which sets its own DISPLAY.
+    "DISPLAY": ""
+  },
+
   "customizations": {
     "vscode": {
       "extensions": [
