@@ -1,5 +1,13 @@
 {
   "$schema": "https://raw.githubusercontent.com/dprint/dprint/refs/heads/main/website/src/assets/schemas/v0.json",
+  // JSON with chezmoi template syntax ({{ }}) inside, so no JSON parser can
+  // read them. The other files in .chezmoitemplates/vscode are plain JSON,
+  // shared between the Mac and Linux config paths, and are formatted.
+  "excludes": [
+    "home/.chezmoitemplates/vscode/keybindings.json",
+    "home/.chezmoitemplates/vscode/settings.json",
+    "home/.chezmoitemplates/vscode/snippets/typescript.json"
+  ],
   "typescript": {
   },
   "json": {
