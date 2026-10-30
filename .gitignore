@@ -1,0 +1,4 @@
+# uv and pytest (pyproject.toml)
+.venv/
+.pytest_cache/
+__pycache__/

@@ -1,0 +1,24 @@
+# The repo's own tests (test/), run with `uv run pytest` or `mise run test`.
+# Not a package: nothing here is imported by anything else, so uv neither
+# builds nor installs it (package = false). The interpreter is pinned in
+# .python-version, which the Dockerfile also reads; this file only states
+# the range the tests accept.
+[project]
+name = "dotfiles-tests"
+version = "0"
+requires-python = ">=3.14"
+
+[dependency-groups]
+dev = [
+  # Reads the JSON-with-comments files (devcontainer.json, .vscode/*.json).
+  "json5>=0.17",
+  "pytest>=9",
+  # GitHub Actions auditor, run by CI on .github (config: .github/zizmor.yml).
+  "zizmor>=1.31",
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["test"]
