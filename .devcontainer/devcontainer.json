@@ -25,6 +25,7 @@
       "extensions": [
         "docker.docker",
         "dprint.dprint",
+        "qlty.qlty-vscode",
         "redhat.vscode-yaml",
         "timonwong.shellcheck",
         "tombi-toml.tombi"
