@@ -14,6 +14,14 @@ ARG EMACS_SHA256=1da5790d9580c81932b5bf700633114468da7b3412d69faa767daebf974f458
 # trixie ships tree-sitter 0.22.6, which only loads grammar ABI 13-14; current
 # grammars (javascript, python, ...) are generated for ABI 15 (tree-sitter 0.25+).
 ARG TREE_SITTER_VERSION=0.27.1
+# The linters .qlty/qlty.toml enables. qlty downloads its own copies into
+# ~/.qlty at run time (lost on rebuild); these standalone ones are for running
+# directly, e.g. `hadolint Dockerfile`.
+ARG QLTY_VERSION=0.665.0
+ARG HADOLINT_VERSION=2.15.1
+ARG ACTIONLINT_VERSION=1.7.12
+ARG SHELLCHECK_VERSION=0.11.0
+ARG YQ_VERSION=4.54.1
 
 # Base image pinned by multi-arch index digest (tag trixie-slim, Debian 13.7, as
 # of 2026-10-29). The index digest keeps the image multi-arch; a per-platform
@@ -139,10 +147,10 @@ RUN curl -fsSL https://dprint.dev/install.sh | DPRINT_INSTALL="/usr/local" sh -s
 
 # chezmoi: installed here rather than via the devcontainer feature. The feature
 # defaults to version "latest" and its install script may run apt-get update,
-# so its layer both drifts and costs ~30s on every rebuild. Placed last so a
-# bump doesn't re-download dprint. Each command self-verifies by running the
-# binary -- `which` would only prove a file landed, not that it matches the
-# platform.
+# so its layer both drifts and costs ~30s on every rebuild. Each command
+# self-verifies by running the binary -- `which` would only prove a file landed,
+# not that it matches the platform. One tool per layer, so a bump re-downloads
+# only that tool and the ones below it.
 ARG CHEZMOI_VERSION
 RUN ARCH=$(dpkg --print-architecture) \
     && curl -fsSL "https://github.com/twpayne/chezmoi/releases/download/v${CHEZMOI_VERSION}/chezmoi_${CHEZMOI_VERSION}_linux_${ARCH}.tar.gz" \
@@ -151,6 +159,56 @@ RUN ARCH=$(dpkg --print-architecture) \
     && install /tmp/chezmoi /usr/local/bin/chezmoi \
     && rm /tmp/chezmoi /tmp/chezmoi.tar.gz \
     && chezmoi --version
+
+# shellcheck: trixie ships 0.10.0, the release is newer. The tarball nests the
+# binary one directory deep.
+ARG SHELLCHECK_VERSION
+RUN ARCH=$(dpkg --print-architecture) \
+    && case "$ARCH" in amd64) SC_ARCH=x86_64;; arm64) SC_ARCH=aarch64;; esac \
+    && curl -fsSL "https://github.com/koalaman/shellcheck/releases/download/v${SHELLCHECK_VERSION}/shellcheck-v${SHELLCHECK_VERSION}.linux.${SC_ARCH}.tar.xz" \
+      | tar -xJ -C /tmp --strip-components=1 "shellcheck-v${SHELLCHECK_VERSION}/shellcheck" \
+    && install /tmp/shellcheck /usr/local/bin/shellcheck \
+    && rm /tmp/shellcheck \
+    && shellcheck --version
+
+# hadolint, for the Dockerfile. Not in Debian.
+ARG HADOLINT_VERSION
+RUN ARCH=$(dpkg --print-architecture) \
+    && case "$ARCH" in amd64) HL_ARCH=x86_64;; arm64) HL_ARCH=arm64;; esac \
+    && curl -fsSL "https://github.com/hadolint/hadolint/releases/download/v${HADOLINT_VERSION}/hadolint-linux-${HL_ARCH}" \
+      -o /tmp/hadolint \
+    && install /tmp/hadolint /usr/local/bin/hadolint \
+    && rm /tmp/hadolint \
+    && hadolint --version
+
+# actionlint, for .github/workflows. Not in Debian.
+ARG ACTIONLINT_VERSION
+RUN ARCH=$(dpkg --print-architecture) \
+    && curl -fsSL "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/actionlint_${ACTIONLINT_VERSION}_linux_${ARCH}.tar.gz" \
+      | tar -xz -C /tmp actionlint \
+    && install /tmp/actionlint /usr/local/bin/actionlint \
+    && rm /tmp/actionlint \
+    && actionlint --version
+
+# yq. Not in Debian.
+ARG YQ_VERSION
+RUN ARCH=$(dpkg --print-architecture) \
+    && curl -fsSL "https://github.com/mikefarah/yq/releases/download/v${YQ_VERSION}/yq_linux_${ARCH}" \
+      -o /tmp/yq \
+    && install /tmp/yq /usr/local/bin/yq \
+    && rm /tmp/yq \
+    && yq --version
+
+# qlty, the front end for the linters above (config: .qlty/qlty.toml). Not in
+# Debian. The tarball nests the binary one directory deep.
+ARG QLTY_VERSION
+RUN ARCH=$(dpkg --print-architecture) \
+    && case "$ARCH" in amd64) QLTY_ARCH=x86_64;; arm64) QLTY_ARCH=aarch64;; esac \
+    && curl -fsSL "https://github.com/qltysh/qlty/releases/download/v${QLTY_VERSION}/qlty-${QLTY_ARCH}-unknown-linux-gnu.tar.xz" \
+      | tar -xJ -C /tmp --strip-components=1 "qlty-${QLTY_ARCH}-unknown-linux-gnu/qlty" \
+    && install /tmp/qlty /usr/local/bin/qlty \
+    && rm /tmp/qlty \
+    && qlty --version
 
 USER agent
 
