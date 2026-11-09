@@ -42,24 +42,24 @@ FROM ${BASE_IMAGE} AS emacs-build
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends \
+    && apt-get --yes install --no-install-recommends \
       build-essential ca-certificates curl libacl1-dev libdbus-1-dev \
       libgccjit-14-dev libgif-dev libgmp-dev libgnutls28-dev libgtk-3-dev \
       libharfbuzz-dev libjpeg-dev liblcms2-dev libncurses-dev libpng-dev \
       librsvg2-dev libsqlite3-dev libtiff-dev libwebp-dev libxml2-dev \
       libxpm-dev pkg-config xz-utils \
-    && rm -rf /var/lib/apt/lists/*
+    && rm --recursive --force /var/lib/apt/lists/*
 
 # Installed twice: into /usr/local so Emacs' configure finds it, and into
 # /staging so it gets copied into the final image alongside Emacs.
 ARG TREE_SITTER_VERSION
-RUN curl -fsSL "https://github.com/tree-sitter/tree-sitter/archive/refs/tags/v${TREE_SITTER_VERSION}.tar.gz" \
-      | tar -xz -C /tmp \
-    && make -C "/tmp/tree-sitter-${TREE_SITTER_VERSION}" -j"$(nproc)" \
-    && make -C "/tmp/tree-sitter-${TREE_SITTER_VERSION}" install PREFIX=/usr/local \
-    && make -C "/tmp/tree-sitter-${TREE_SITTER_VERSION}" install PREFIX=/usr/local DESTDIR=/staging \
+RUN curl --fail --silent --show-error --location "https://github.com/tree-sitter/tree-sitter/archive/refs/tags/v${TREE_SITTER_VERSION}.tar.gz" \
+      | tar --extract --gzip --directory=/tmp \
+    && make --directory="/tmp/tree-sitter-${TREE_SITTER_VERSION}" --jobs="$(nproc)" \
+    && make --directory="/tmp/tree-sitter-${TREE_SITTER_VERSION}" install PREFIX=/usr/local \
+    && make --directory="/tmp/tree-sitter-${TREE_SITTER_VERSION}" install PREFIX=/usr/local DESTDIR=/staging \
     && ldconfig \
-    && rm -rf "/tmp/tree-sitter-${TREE_SITTER_VERSION}"
+    && rm --recursive --force "/tmp/tree-sitter-${TREE_SITTER_VERSION}"
 
 # --with-native-compilation=aot compiles all bundled Lisp at build time, so the
 # container doesn't spend its first minutes native-compiling Emacs itself.
@@ -68,18 +68,18 @@ ARG EMACS_SHA256
 # The cd is scoped to this one RUN (the directory is deleted at its end), so a
 # WORKDIR, which would persist for the stage, is the wrong tool here.
 # hadolint ignore=DL3003
-RUN curl -fsSL "https://ftp.gnu.org/gnu/emacs/emacs-${EMACS_VERSION}.tar.xz" -o /tmp/emacs.tar.xz \
-    && echo "${EMACS_SHA256}  /tmp/emacs.tar.xz" | sha256sum -c - \
-    && tar -xJf /tmp/emacs.tar.xz -C /tmp \
+RUN curl --fail --silent --show-error --location "https://ftp.gnu.org/gnu/emacs/emacs-${EMACS_VERSION}.tar.xz" --output /tmp/emacs.tar.xz \
+    && echo "${EMACS_SHA256}  /tmp/emacs.tar.xz" | sha256sum --check - \
+    && tar --extract --xz --file=/tmp/emacs.tar.xz --directory=/tmp \
     && cd "/tmp/emacs-${EMACS_VERSION}" \
     && ./configure --prefix=/usr/local \
       --with-x-toolkit=gtk3 --with-cairo --with-harfbuzz \
       --with-native-compilation=aot --with-tree-sitter \
       --with-gnutls --with-xml2 --with-rsvg --with-webp --with-sqlite3 \
       --without-mailutils \
-    && make -j"$(nproc)" \
+    && make --jobs="$(nproc)" \
     && make install DESTDIR=/staging \
-    && rm -rf /tmp/emacs.tar.xz "/tmp/emacs-${EMACS_VERSION}"
+    && rm --recursive --force /tmp/emacs.tar.xz "/tmp/emacs-${EMACS_VERSION}"
 
 # ---------------------------------------------------------------------------
 FROM ${BASE_IMAGE}
@@ -93,10 +93,10 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 # agents work; unzip is what dprint's installer requires; zsh matches the shell
 # the dotfiles' CI (boot.yml) exercises.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends \
+    && apt-get --yes install --no-install-recommends \
       ca-certificates curl git gnupg less locales openssh-client procps sudo \
       unzip xz-utils zsh \
-    && rm -rf /var/lib/apt/lists/*
+    && rm --recursive --force /var/lib/apt/lists/*
 
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen
 ENV LANG=en_US.UTF-8
@@ -115,13 +115,13 @@ RUN groupadd --gid 1000 agent \
 # native-compiling packages links against libgcc and the crt files that only
 # the -dev package ships.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends \
+    && apt-get --yes install --no-install-recommends \
       fonts-firacode imagemagick libacl1 libcairo2 libdbus-1-3 \
       libgccjit-14-dev libgif7 libgmp10 libgnutls30t64 libgtk-3-0t64 \
       libharfbuzz0b libice6 libjpeg62-turbo liblcms2-2 libncurses6 \
       libpng16-16t64 librsvg2-2 libsm6 libsqlite3-0 libtiff6 libwebp7 \
       libwebpdemux2 libxml2 libxpm4 x11-apps xauth xvfb \
-    && rm -rf /var/lib/apt/lists/*
+    && rm --recursive --force /var/lib/apt/lists/*
 
 # Fails the build if a runtime library is missing, or if native compilation or
 # tree-sitter (with ABI 15 support) don't actually work.
@@ -129,7 +129,7 @@ COPY --from=emacs-build /staging/usr/local/ /usr/local/
 RUN ldconfig \
     && ! ldd /usr/local/bin/emacs | grep 'not found' \
     && emacs --version \
-    && emacs -Q --batch --eval '(progn \
+    && emacs --quick --batch --eval '(progn \
          (unless (native-comp-available-p) (error "no native-comp")) \
          (unless (>= (treesit-library-abi-version) 15) (error "tree-sitter ABI < 15")) \
          (native-compile (lambda (x) x)))'
@@ -140,17 +140,17 @@ RUN ldconfig \
 # (jq and yq are pinned release downloads below). Debian renames bat and fd to
 # avoid name clashes, so the usual names are symlinked.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends \
+    && apt-get --yes install --no-install-recommends \
       bash-completion bat fd-find fzf nano psmisc ripgrep rsync \
       silversearcher-ag tig tmux zile \
-    && rm -rf /var/lib/apt/lists/* \
-    && ln -s /usr/bin/batcat /usr/local/bin/bat \
-    && ln -s /usr/bin/fdfind /usr/local/bin/fd
+    && rm --recursive --force /var/lib/apt/lists/* \
+    && ln --symbolic /usr/bin/batcat /usr/local/bin/bat \
+    && ln --symbolic /usr/bin/fdfind /usr/local/bin/fd
 
 # dprint: the installer takes the version as a positional argument; with none it
 # resolves to /latest/ and the image silently drifts.
 ARG DPRINT_VERSION
-RUN curl -fsSL https://dprint.dev/install.sh | DPRINT_INSTALL="/usr/local" sh -s -- "${DPRINT_VERSION}" \
+RUN curl --fail --silent --show-error --location https://dprint.dev/install.sh | DPRINT_INSTALL="/usr/local" sh -s -- "${DPRINT_VERSION}" \
     && dprint --version
 
 # chezmoi: installed here rather than via the devcontainer feature. The feature
@@ -161,9 +161,9 @@ RUN curl -fsSL https://dprint.dev/install.sh | DPRINT_INSTALL="/usr/local" sh -s
 # only that tool and the ones below it.
 ARG CHEZMOI_VERSION
 RUN ARCH=$(dpkg --print-architecture) \
-    && curl -fsSL "https://github.com/twpayne/chezmoi/releases/download/v${CHEZMOI_VERSION}/chezmoi_${CHEZMOI_VERSION}_linux_${ARCH}.tar.gz" \
-      -o /tmp/chezmoi.tar.gz \
-    && tar -xzf /tmp/chezmoi.tar.gz -C /tmp chezmoi \
+    && curl --fail --silent --show-error --location "https://github.com/twpayne/chezmoi/releases/download/v${CHEZMOI_VERSION}/chezmoi_${CHEZMOI_VERSION}_linux_${ARCH}.tar.gz" \
+      --output /tmp/chezmoi.tar.gz \
+    && tar --extract --gzip --file=/tmp/chezmoi.tar.gz --directory=/tmp chezmoi \
     && install /tmp/chezmoi /usr/local/bin/chezmoi \
     && rm /tmp/chezmoi /tmp/chezmoi.tar.gz \
     && chezmoi --version
@@ -173,8 +173,8 @@ RUN ARCH=$(dpkg --print-architecture) \
 ARG SHELLCHECK_VERSION
 RUN ARCH=$(dpkg --print-architecture) \
     && case "$ARCH" in amd64) SC_ARCH=x86_64;; arm64) SC_ARCH=aarch64;; esac \
-    && curl -fsSL "https://github.com/koalaman/shellcheck/releases/download/v${SHELLCHECK_VERSION}/shellcheck-v${SHELLCHECK_VERSION}.linux.${SC_ARCH}.tar.xz" \
-      | tar -xJ -C /tmp --strip-components=1 "shellcheck-v${SHELLCHECK_VERSION}/shellcheck" \
+    && curl --fail --silent --show-error --location "https://github.com/koalaman/shellcheck/releases/download/v${SHELLCHECK_VERSION}/shellcheck-v${SHELLCHECK_VERSION}.linux.${SC_ARCH}.tar.xz" \
+      | tar --extract --xz --directory=/tmp --strip-components=1 "shellcheck-v${SHELLCHECK_VERSION}/shellcheck" \
     && install /tmp/shellcheck /usr/local/bin/shellcheck \
     && rm /tmp/shellcheck \
     && shellcheck --version
@@ -183,8 +183,8 @@ RUN ARCH=$(dpkg --print-architecture) \
 ARG HADOLINT_VERSION
 RUN ARCH=$(dpkg --print-architecture) \
     && case "$ARCH" in amd64) HL_ARCH=x86_64;; arm64) HL_ARCH=arm64;; esac \
-    && curl -fsSL "https://github.com/hadolint/hadolint/releases/download/v${HADOLINT_VERSION}/hadolint-linux-${HL_ARCH}" \
-      -o /tmp/hadolint \
+    && curl --fail --silent --show-error --location "https://github.com/hadolint/hadolint/releases/download/v${HADOLINT_VERSION}/hadolint-linux-${HL_ARCH}" \
+      --output /tmp/hadolint \
     && install /tmp/hadolint /usr/local/bin/hadolint \
     && rm /tmp/hadolint \
     && hadolint --version
@@ -192,8 +192,8 @@ RUN ARCH=$(dpkg --print-architecture) \
 # actionlint, for .github/workflows. Not in Debian.
 ARG ACTIONLINT_VERSION
 RUN ARCH=$(dpkg --print-architecture) \
-    && curl -fsSL "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/actionlint_${ACTIONLINT_VERSION}_linux_${ARCH}.tar.gz" \
-      | tar -xz -C /tmp actionlint \
+    && curl --fail --silent --show-error --location "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/actionlint_${ACTIONLINT_VERSION}_linux_${ARCH}.tar.gz" \
+      | tar --extract --gzip --directory=/tmp actionlint \
     && install /tmp/actionlint /usr/local/bin/actionlint \
     && rm /tmp/actionlint \
     && actionlint --version
@@ -201,8 +201,8 @@ RUN ARCH=$(dpkg --print-architecture) \
 # yq. Not in Debian.
 ARG YQ_VERSION
 RUN ARCH=$(dpkg --print-architecture) \
-    && curl -fsSL "https://github.com/mikefarah/yq/releases/download/v${YQ_VERSION}/yq_linux_${ARCH}" \
-      -o /tmp/yq \
+    && curl --fail --silent --show-error --location "https://github.com/mikefarah/yq/releases/download/v${YQ_VERSION}/yq_linux_${ARCH}" \
+      --output /tmp/yq \
     && install /tmp/yq /usr/local/bin/yq \
     && rm /tmp/yq \
     && yq --version
@@ -210,8 +210,8 @@ RUN ARCH=$(dpkg --print-architecture) \
 # jq. Debian has it, but unpinned.
 ARG JQ_VERSION
 RUN ARCH=$(dpkg --print-architecture) \
-    && curl -fsSL "https://github.com/jqlang/jq/releases/download/jq-${JQ_VERSION}/jq-linux-${ARCH}" \
-      -o /tmp/jq \
+    && curl --fail --silent --show-error --location "https://github.com/jqlang/jq/releases/download/jq-${JQ_VERSION}/jq-linux-${ARCH}" \
+      --output /tmp/jq \
     && install /tmp/jq /usr/local/bin/jq \
     && rm /tmp/jq \
     && jq --version
@@ -221,8 +221,8 @@ RUN ARCH=$(dpkg --print-architecture) \
 ARG QLTY_VERSION
 RUN ARCH=$(dpkg --print-architecture) \
     && case "$ARCH" in amd64) QLTY_ARCH=x86_64;; arm64) QLTY_ARCH=aarch64;; esac \
-    && curl -fsSL "https://github.com/qltysh/qlty/releases/download/v${QLTY_VERSION}/qlty-${QLTY_ARCH}-unknown-linux-gnu.tar.xz" \
-      | tar -xJ -C /tmp --strip-components=1 "qlty-${QLTY_ARCH}-unknown-linux-gnu/qlty" \
+    && curl --fail --silent --show-error --location "https://github.com/qltysh/qlty/releases/download/v${QLTY_VERSION}/qlty-${QLTY_ARCH}-unknown-linux-gnu.tar.xz" \
+      | tar --extract --xz --directory=/tmp --strip-components=1 "qlty-${QLTY_ARCH}-unknown-linux-gnu/qlty" \
     && install /tmp/qlty /usr/local/bin/qlty \
     && rm /tmp/qlty \
     && qlty --version
@@ -232,10 +232,10 @@ RUN ARCH=$(dpkg --print-architecture) \
 # sudo. UV_LINK_MODE=copy: the venv sits on the bind-mounted workspace and the
 # cache in ~/.cache, different filesystems, so hardlinks would fail anyway.
 ARG UV_VERSION
-RUN curl -fsSL "https://astral.sh/uv/${UV_VERSION}/install.sh" \
+RUN curl --fail --silent --show-error --location "https://astral.sh/uv/${UV_VERSION}/install.sh" \
       | env UV_INSTALL_DIR=/usr/local/bin UV_NO_MODIFY_PATH=1 sh \
     && uv --version \
-    && mkdir -p /opt/uv/python && chown 1000:1000 /opt/uv/python
+    && mkdir --parents /opt/uv/python && chown 1000:1000 /opt/uv/python
 ENV UV_PYTHON_INSTALL_DIR=/opt/uv/python UV_LINK_MODE=copy
 
 # The agent account created above, by uid (hadolint DL3066). runc resolves it
@@ -245,7 +245,7 @@ USER 1000
 # Mount points for the named volumes in devcontainer.json. Created here, as the
 # agent user, because Docker seeds an empty volume from the image's directory
 # (ownership included); a missing directory would come up root-owned.
-RUN mkdir -p /home/agent/.claude /home/agent/.vscode-server
+RUN mkdir --parents /home/agent/.claude /home/agent/.vscode-server
 
 # The tests' interpreter, at the .python-version pin, so the first `uv run`
 # doesn't download it. --chown: /tmp is sticky, and agent must delete the file.
@@ -263,5 +263,5 @@ RUN v=$(cat /tmp/python-version) \
 # and lands in ~/.local/bin; ENV rather than the installer's profile snippet,
 # so a non-login shell gets it too.
 ENV PATH="/home/agent/.local/bin:${PATH}"
-RUN curl -fsSL https://claude.ai/install.sh | bash \
+RUN curl --fail --silent --show-error --location https://claude.ai/install.sh | bash \
     && claude --version

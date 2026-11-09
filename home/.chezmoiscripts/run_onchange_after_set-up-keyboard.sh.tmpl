@@ -25,7 +25,7 @@ echo ""
 echo "Configuring keyboard input sources (British-PC and RussianWin)..."
 
 # British-PC enabled input sources
-if ! defaults read com.apple.HIToolbox AppleEnabledInputSources | grep -q '"KeyboardLayout ID" = 250;' &>/dev/null; then
+if ! defaults read com.apple.HIToolbox AppleEnabledInputSources | grep --quiet '"KeyboardLayout ID" = 250;' &>/dev/null; then
   defaults write com.apple.HIToolbox AppleEnabledInputSources -array-add '
   <dict>
     <key>InputSourceKind</key>
@@ -40,7 +40,7 @@ if ! defaults read com.apple.HIToolbox AppleEnabledInputSources | grep -q '"Keyb
 fi
 
 # British-PC selected input sources
-if ! defaults read com.apple.HIToolbox AppleSelectedInputSources | grep -q '"KeyboardLayout ID" = 250;' &>/dev/null; then
+if ! defaults read com.apple.HIToolbox AppleSelectedInputSources | grep --quiet '"KeyboardLayout ID" = 250;' &>/dev/null; then
   defaults write com.apple.HIToolbox AppleSelectedInputSources -array-add '
   <dict>
     <key>InputSourceKind</key>
@@ -55,7 +55,7 @@ if ! defaults read com.apple.HIToolbox AppleSelectedInputSources | grep -q '"Key
 fi
 
 # RussianWin enabled input sources
-if ! defaults read com.apple.HIToolbox AppleEnabledInputSources | grep -q '"KeyboardLayout ID" = 19458;' &>/dev/null; then
+if ! defaults read com.apple.HIToolbox AppleEnabledInputSources | grep --quiet '"KeyboardLayout ID" = 19458;' &>/dev/null; then
   defaults write com.apple.HIToolbox AppleEnabledInputSources -array-add '
   <dict>
     <key>InputSourceKind</key>
@@ -70,7 +70,7 @@ if ! defaults read com.apple.HIToolbox AppleEnabledInputSources | grep -q '"Keyb
 fi
 
 # # RussianWin selected input sources
-# if ! defaults read com.apple.HIToolbox AppleSelectedInputSources | grep -q '"KeyboardLayout ID" = 19458;' &>/dev/null; then
+# if ! defaults read com.apple.HIToolbox AppleSelectedInputSources | grep --quiet '"KeyboardLayout ID" = 19458;' &>/dev/null; then
 #   defaults write com.apple.HIToolbox AppleSelectedInputSources -array-add '
 #   <dict>
 #     <key>InputSourceKind</key>
@@ -243,7 +243,7 @@ echo ""
 echo "Activating Karabiner-Elements DriverKit extension..."
 
 # Check if already activated by looking for the driver
-if ! systemextensionsctl list | grep -q "org.pqrs.Karabiner-DriverKit-VirtualHIDDevice.*\[activated enabled\]"; then
+if ! systemextensionsctl list | grep --quiet "org.pqrs.Karabiner-DriverKit-VirtualHIDDevice.*\[activated enabled\]"; then
   echo ""
   echo "Karabiner-Elements DriverKit extension is not activated."
   echo "Starting activation process..."
@@ -278,7 +278,7 @@ echo ""
 echo "Checking Input Monitoring permission for Karabiner-Elements..."
 
 # The TCC database check for Input Monitoring
-while ! sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db "SELECT client FROM access WHERE service='kTCCServiceListenEvent' AND client LIKE '%karabiner_grabber%' AND auth_value=2" 2>/dev/null | grep -q karabiner_grabber; do
+while ! sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db "SELECT client FROM access WHERE service='kTCCServiceListenEvent' AND client LIKE '%karabiner_grabber%' AND auth_value=2" 2>/dev/null | grep --quiet karabiner_grabber; do
   echo ""
   echo "Karabiner-Elements requires Input Monitoring permission."
   echo "Opening System Settings > Privacy & Security > Input Monitoring..."

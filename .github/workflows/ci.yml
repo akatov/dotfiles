@@ -44,13 +44,13 @@ jobs:
         include:
           - name: debian
             image: debian:trixie-slim
-            install: apt-get update -qq && apt-get install -y -qq --no-install-recommends curl ca-certificates git zsh
+            install: apt-get update --quiet=2 && apt-get install --yes --quiet=2 --no-install-recommends curl ca-certificates git zsh
           - name: ubuntu
             image: ubuntu:24.04
-            install: apt-get update -qq && apt-get install -y -qq --no-install-recommends curl ca-certificates git zsh
+            install: apt-get update --quiet=2 && apt-get install --yes --quiet=2 --no-install-recommends curl ca-certificates git zsh
           - name: fedora
             image: fedora:41
-            install: dnf install -y -q curl ca-certificates git zsh
+            install: dnf install --assumeyes --quiet curl ca-certificates git zsh
           # musl + busybox. The dotfiles' scripts assume bash and GNU long
           # flags, so bash is installed explicitly rather than relying on the
           # default sh.
@@ -71,7 +71,7 @@ jobs:
           persist-credentials: false
 
       - name: Install chezmoi
-        run: sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- -b /usr/local/bin
+        run: sh -c "$(curl --fail --silent --location --show-error get.chezmoi.io/lb)" -- -b /usr/local/bin
 
       - name: Report versions
         run: |

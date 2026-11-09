@@ -29,7 +29,7 @@ echo ""
 echo "Checking Accessibility permission for Hammerspoon..."
 
 # The TCC database check for Accessibility
-while ! sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db "SELECT client FROM access WHERE service='kTCCServiceAccessibility' AND client='org.hammerspoon.Hammerspoon' AND auth_value=2" 2>/dev/null | grep -q "org.hammerspoon.Hammerspoon"; do
+while ! sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db "SELECT client FROM access WHERE service='kTCCServiceAccessibility' AND client='org.hammerspoon.Hammerspoon' AND auth_value=2" 2>/dev/null | grep --quiet "org.hammerspoon.Hammerspoon"; do
   echo ""
   echo "Hammerspoon requires Accessibility permission to control your computer."
   echo "Opening System Settings > Privacy & Security > Accessibility..."
