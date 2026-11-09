@@ -3,6 +3,7 @@ brews = [
   "ag",
   "bat",
   "git",
+  "mise",
   "tig",
   "tmux",
   "zile",
