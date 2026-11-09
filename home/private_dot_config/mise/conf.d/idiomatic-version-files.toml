@@ -1,0 +1,6 @@
+# Read the version files the old per-language managers used (.nvmrc,
+# .node-version, .python-version, .ruby-version, .java-version, .sdkmanrc),
+# as asdf's legacy_version_file did. A conf.d file, so chezmoi never touches
+# config.toml, where `mise use --global` writes.
+[settings]
+idiomatic_version_file_enable_tools = ["java", "node", "python", "ruby"]
