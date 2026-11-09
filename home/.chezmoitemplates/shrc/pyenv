@@ -1,2 +1,0 @@
-# shellcheck shell=sh
-which pyenv >/dev/null && eval "$(pyenv init -)"
