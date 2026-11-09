@@ -1,1 +1,2 @@
+# shellcheck shell=sh
 which rbenv >/dev/null && eval "$(rbenv init - zsh)"

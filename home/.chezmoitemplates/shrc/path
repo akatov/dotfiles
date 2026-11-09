@@ -1,3 +1,4 @@
+# shellcheck shell=sh
 # this should be run before the other things in shell/
 
 for p in \

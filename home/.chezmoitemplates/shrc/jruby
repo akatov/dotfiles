@@ -1,1 +1,2 @@
+# shellcheck shell=sh
 export JRUBY_OPTS="--1.9 -J-Xmx8g -Xcext.enabled=true"

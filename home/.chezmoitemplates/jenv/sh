@@ -1,3 +1,4 @@
+# shellcheck shell=sh
 {{ template "sh/path_prepend" "$HOME/.jenv/bin" }}
 if command -v jenv >/dev/null 2>&1; then
   eval "$(jenv init -)"

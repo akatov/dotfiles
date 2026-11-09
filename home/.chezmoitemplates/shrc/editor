@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 if which emacs &>/dev/null; then
   export EDITOR="emacs --no-window-system --quick"
 elif which zile &>/dev/null; then

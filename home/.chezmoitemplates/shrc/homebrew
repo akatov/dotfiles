@@ -1,4 +1,5 @@
-{{- if .personal -}}
+# shellcheck shell=sh
+{{ if .personal -}}
 export HOMEBREW_GITHUB_API_TOKEN="{{ template "_secret" (set . "secret" "homebrew") }}"
 {{ end }}
 export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:$PATH

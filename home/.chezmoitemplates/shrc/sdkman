@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 if false; then # [ -s "/Users/akatov/.sdkman/bin/sdkman-init.sh" ]; then
   export SDKMAN_DIR="/Users/akatov/.sdkman"
   source "/Users/akatov/.sdkman/bin/sdkman-init.sh"

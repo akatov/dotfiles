@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # @see https://docs.qlty.sh/cli/quickstart
 if [ -d "$HOME/.qlty" ]; then
   export QLTY_INSTALL="$HOME/.qlty"

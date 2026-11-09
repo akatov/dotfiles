@@ -1,3 +1,4 @@
+# shellcheck shell=sh
 if [ -d ~/.drakon ]; then
   export PATH="$HOME/.drakon:$PATH"
 fi

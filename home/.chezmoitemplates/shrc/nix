@@ -1,3 +1,4 @@
+# shellcheck shell=sh
 # if [[ -f ~/.nix-profile/etc/profile.d/nix.sh ]]; then
 #   . /Users/akatov/.nix-profile/etc/profile.d/nix.sh
 # fi
