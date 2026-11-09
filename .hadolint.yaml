@@ -1,0 +1,6 @@
+# Read by hadolint run from the repo root (CI, `mise run lint`) and by qlty.
+ignored:
+  # Pinning apt package versions: Debian mirrors drop the old version on
+  # each security update, which breaks the build. The base image is pinned
+  # by digest instead.
+  - DL3008

@@ -141,7 +141,7 @@ jobs:
         run: actionlint
       - name: hadolint
         if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
-        run: hadolint --config .qlty/configs/.hadolint.yaml Dockerfile
+        run: hadolint Dockerfile
       # Only install.sh: the other shell files are chezmoi templates, which
       # shellcheck can't parse. The boot job syntax-checks their rendered form.
       - name: shellcheck
